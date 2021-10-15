@@ -15,9 +15,9 @@ class CreateInfluencersTable extends Migration
     {
         Schema::create('influencers', function (Blueprint $table) {
             $table->id();
-            $table->double('rating');
+            $table->double('rating')->nullable();
             $table->string('contact_email');
-            $table->double('engagement_rate');
+            $table->double('engagement_rate')->nullable();
             $table->foreignId('user_id');
             $table->timestamps();
         });
