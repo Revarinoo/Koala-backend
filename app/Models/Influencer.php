@@ -15,4 +15,12 @@ class Influencer extends Model
         'engagement_rate',
         'user_id',
     ];
+
+    public function platform(){
+        return $this->hasMany('App\Models\Platform');
+    }
+
+    public function product() {
+        return $this->hasMany('App\Models\Product');
+    }
 }

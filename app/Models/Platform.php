@@ -15,4 +15,8 @@ class Platform extends Model
         'audience_age',
         'influencer_id',
     ];
+
+    public function influencer(){
+        return $this->belongsTo('App\Models\Influencer');
+    }
 }
