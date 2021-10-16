@@ -15,4 +15,8 @@ class Product extends Model
         'influencer_id',
         'platform_id',
     ];
+
+    public function influencer(){
+        return $this->belongsTo('App\Models\Influencer');
+    }
 }
