@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterRequest;
 use App\Models\Business;
 use App\Models\Influencer;
+use App\Models\Platform;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -26,7 +27,7 @@ class RegisterController extends Controller
             $this->registerBusiness($user, $request['business_name']);
         }
         else if ($request['type_role'] == "Influencer") {
-            $this->registerInfluencer($user, $request['contact_email']);
+            $this->registerInfluencer($user, $request['platform_name'], $request['socialmedia_id']);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -46,10 +47,16 @@ class RegisterController extends Controller
         ]);
     }
 
-    function registerInfluencer(User $user, string $contactEmail) {
-        Influencer::create([
-            'contact_email'=>$contactEmail,
+    function registerInfluencer(User $user, string $platformName, string $username) {
+        $influencer = Influencer::create([
+            'contact_email'=>'',
             'user_id'=>$user->id
+        ]);
+
+        Platform::create([
+            'name'=>$platformName,
+            'socialmedia_id'=>$username,
+            'influencer_id'=>$influencer->id
         ]);
     }
 
