@@ -17,7 +17,7 @@ class InfluencerController extends Controller
             ->join('platforms', 'influencers.id', '=', 'platforms.influencer_id')
             ->join('users', 'influencers.user_id', '=', 'users.id')
             ->join('categories', 'users.id', '=', 'categories.user_id')
-            ->select('platforms.socialmedia_id', 'users.name', 'users.photo', 'categories.name as category')
+            ->select('influencers.id as influencer_id','platforms.socialmedia_id', 'users.name', 'users.photo', 'categories.name as category')
             ->get();
         return response()->json([
             'data'=>$platforms
