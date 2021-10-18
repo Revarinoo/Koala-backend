@@ -35,6 +35,9 @@ class CampaignController extends Controller
             'photo'=>$imgname
         ]);
 
-        return response()->json(['message'=>'Success!'], 201);
+        return response()->json([
+            'code'=>201,
+            'message'=>'Success'
+        ], 201);
     }
 }
