@@ -13,6 +13,7 @@ class Platform extends Model
         'name',
         'socialmedia_id',
         'audience_age',
+        'followers',
         'influencer_id',
     ];
 
