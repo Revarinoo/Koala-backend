@@ -18,7 +18,7 @@ class InfluencerController extends Controller
         $platforms = DB::table('influencers')
             ->join('platforms', 'influencers.id', '=', 'platforms.influencer_id')
             ->join('users', 'influencers.user_id', '=', 'users.id')
-            ->select('influencers.id as influencer_id','platforms.socialmedia_id', 'users.name', 'users.photo', 'users.id as user_id', 'influencers.engagement_rate')
+            ->select('influencers.id as influencer_id', 'users.location', 'users.name', 'users.photo', 'users.id as user_id', 'influencers.engagement_rate', 'influencers.rating')
             ->get();
 
         foreach ($platforms as $platform) {
@@ -26,11 +26,12 @@ class InfluencerController extends Controller
             if (($categories = $this->getCategory($platform->user_id)) != null) {
                 $obj->influencer_id = $platform->influencer_id;
                 $obj->influencer_name = $platform->name;
-                $obj->socialmedia_id = $platform->socialmedia_id;
                 $obj->influencer_photo = $platform->photo;
-                $obj->rate = $this->getMinRate($platform->influencer_id);
+                $obj->price = $this->getMinRate($platform->influencer_id);
                 $obj->engagement_rate = $platform->engagement_rate;
                 $obj->categories = $categories;
+                $obj->location = $platform->location;
+                $obj->rating = $platform->rating;
                 array_push($data, $obj);
             }
         }
@@ -59,10 +60,11 @@ class InfluencerController extends Controller
 
 class InfluencerResponse {
     public $influencer_id;
-    public $socialmedia_id;
     public $influencer_name;
     public $influencer_photo;
-    public $rate;
+    public $price;
+    public $location;
+    public $rating;
     public $categories;
     public $engagement_rate;
 }
