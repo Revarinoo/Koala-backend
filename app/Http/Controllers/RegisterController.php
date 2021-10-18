@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
-    function registerUser(RegisterRequest $request) {
+    function registerUser(Request $request) {
 
         $user = User::where('email', $request['email'])->first();
         if($user != null) {
@@ -32,11 +32,10 @@ class RegisterController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
         $responses = [
-            'user'=>$user,
-            'type_role' => $request['type_role'],
-            'access_token'=>$token
+            'code'=>201,
+            'access_token'=>$token,
+            'message'=>'Success'
         ];
-
         return response($responses, 201);
     }
 
