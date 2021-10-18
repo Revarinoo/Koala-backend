@@ -31,7 +31,6 @@ class LoginController extends Controller
                 if ( $business_owner != null){
                     $token = $user->createToken('auth_token')->plainTextToken;
                     $responses = [
-                        'user'=>$user,
                         'business_owner'=>$business_owner,
                         'token'=>$token
                     ];
@@ -44,7 +43,6 @@ class LoginController extends Controller
                 if ( $influencer != null){
                     $token = $user->createToken('auth_token')->plainTextToken;
                     $responses = [
-                        'user'=>$user,
                         'influencer'=>$influencer,
                         'token'=>$token
                     ];
