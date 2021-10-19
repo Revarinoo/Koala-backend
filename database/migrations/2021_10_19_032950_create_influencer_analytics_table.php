@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateBusinessesTable extends Migration
+class CreateInfluencerAnalyticsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateBusinessesTable extends Migration
      */
     public function up()
     {
-        Schema::create('businesses', function (Blueprint $table) {
+        Schema::create('influencer_analytics', function (Blueprint $table) {
             $table->id();
-            $table->string('business_name')->nullable();
-            $table->string('website')->nullable();
-            $table->string('instagram')->nullable();
-            $table->foreignId('user_id');
+            $table->foreignId('influencer_id');
+            $table->string('photo');
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateBusinessesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('businesses');
+        Schema::dropIfExists('influencer_analytics');
     }
 }

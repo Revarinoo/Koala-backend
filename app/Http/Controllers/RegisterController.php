@@ -24,7 +24,7 @@ class RegisterController extends Controller
             'password'=>bcrypt($request['password'])
         ]);
         if ($request['type_role'] == "Business") {
-            $this->registerBusiness($user, $request['business_name']);
+            $this->registerBusiness($user);
         }
         else if ($request['type_role'] == "Influencer") {
             $this->registerInfluencer($user, $request['platform_name'], $request['socialmedia_id']);
@@ -39,16 +39,14 @@ class RegisterController extends Controller
         return response($responses, 201);
     }
 
-    function registerBusiness(User $user, string $businessName) {
+    function registerBusiness(User $user) {
         Business::create([
-            'business_name'=>$businessName,
             'user_id'=>$user->id
         ]);
     }
 
     function registerInfluencer(User $user, string $platformName, string $username) {
         $influencer = Influencer::create([
-            'contact_email'=>'',
             'user_id'=>$user->id
         ]);
 
@@ -62,7 +60,7 @@ class RegisterController extends Controller
     function getRole(User $user) {
         $role = "";
         if (Business::where('user_id', $user->id)->first() != null) {
-            $role = $role . "Business|";
+            $role = $role . "Business";
         }
         if (Influencer::where('user_id', $user->id)->first() != null) {
             $role = $role . "Influencer";
