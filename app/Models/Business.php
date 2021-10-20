@@ -15,4 +15,8 @@ class Business extends Model
         'instagram',
         'user_id'
     ];
+
+    public function user() {
+        return $this->belongsTo('App\Models\User');
+    }
 }

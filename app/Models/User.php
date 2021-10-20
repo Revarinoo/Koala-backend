@@ -45,4 +45,12 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function business() {
+        return $this->hasOne('App\Models\Business');
+    }
+
+    public function influencer(){
+        return $this->hasOne('App\Models\Influencer');
+    }
 }
