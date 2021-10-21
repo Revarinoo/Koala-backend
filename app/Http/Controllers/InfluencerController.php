@@ -55,6 +55,39 @@ class InfluencerController extends Controller
         return $data;
     }
 
+    public function getRecommendedInfluencers(){
+        $data = array();
+        $user = auth('sanctum')->user();
+
+        $categories = $this->getCategory($user->id);
+        
+        $influencers = DB::table('influencers')
+            ->join('users', 'influencers.user_id', '=', 'users.id')
+            ->join('categories', 'influencers.user_id', '=', 'categories.user_id')
+            ->join('platforms', 'platforms.influencer_id', '=', 'influencers.id')
+            ->select('influencers.id', 'influencers.user_id','users.name', 'users.photo', 'platforms.socialmedia_id', 'users.location', 'influencers.engagement_rate')
+            ->where('categories.name', $categories[0])
+            ->orWhere('categories.name', $categories[1])
+            ->orWhere('categories.name', $categories[2])
+            ->orderBy('engagement_rate', 'desc')
+            ->distinct()
+            ->get();
+        
+        foreach ($influencers as $influencer){
+            $response = new InfluencerResponse();
+            $response->influencer_id = $influencer->id;
+            $response->influencer_name = $influencer->name;
+            $response->influencer_photo = $influencer->photo;
+            $response->price = $this->getMinRate($influencer->id);
+            $response->location = $influencer->location;
+            $response->engagement_rate = $influencer->engagement_rate;
+            $response->categories = $this->getCategory($influencer->user_id);
+            array_push($data, $response);
+        }
+        return response()->json(['rec_influencers'=>$data], 201);
+    }
+
+
 }
 
 
