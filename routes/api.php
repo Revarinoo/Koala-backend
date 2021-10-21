@@ -29,5 +29,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/recommended/influencers', [InfluencerController::class, 'getRecommendedInfluencers']);
     Route::post('/logout', [LoginController::class, 'logout']);
 });
