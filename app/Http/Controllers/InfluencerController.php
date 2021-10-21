@@ -57,9 +57,11 @@ class InfluencerController extends Controller
 
     public function getRecommendedInfluencers(Request $request){
         $data = array();
-
-        $categories = $request->categories;
-        
+        $categories = ["","",""];
+        $i=0;
+        foreach ($request->categories as $category){
+            $categories[$i++] = $category;
+        }
         $influencers = DB::table('influencers')
             ->join('users', 'influencers.user_id', '=', 'users.id')
             ->join('categories', 'influencers.user_id', '=', 'categories.user_id')
