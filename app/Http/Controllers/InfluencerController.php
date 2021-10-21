@@ -55,11 +55,10 @@ class InfluencerController extends Controller
         return $data;
     }
 
-    public function getRecommendedInfluencers(){
+    public function getRecommendedInfluencers(Request $request){
         $data = array();
-        $user = auth('sanctum')->user();
 
-        $categories = $this->getCategory($user->id);
+        $categories = $request->categories;
         
         $influencers = DB::table('influencers')
             ->join('users', 'influencers.user_id', '=', 'users.id')
@@ -71,6 +70,7 @@ class InfluencerController extends Controller
             ->orWhere('categories.name', $categories[2])
             ->orderBy('engagement_rate', 'desc')
             ->distinct()
+            ->take(5)
             ->get();
         
         foreach ($influencers as $influencer){

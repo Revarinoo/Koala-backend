@@ -75,7 +75,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'id' => 10,
-                'name' => "Boba",
+                'name' => "Dessert",
                 'user_id' => 4,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
@@ -126,7 +126,7 @@ class CategorySeeder extends Seeder
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')             
             ],
             [   'id' => 18,
-                'name' => "Boba",
+                'name' => "Dessert",
                 'user_id' => 8,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')            
@@ -166,13 +166,13 @@ class CategorySeeder extends Seeder
             ],
             [
                 'id' => 24,
-                'name' => "Boba",
+                'name' => "Dessert",
                 'user_id' => 12,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [   'id' => 25,
-                'name' => "Boba",
+                'name' => "Dessert",
                 'user_id' => 13,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')           
@@ -205,7 +205,7 @@ class CategorySeeder extends Seeder
             ],
             [
                 'id' => 30,
-                'name' => "Boba",
+                'name' => "Dessert",
                 'user_id' => 16,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
