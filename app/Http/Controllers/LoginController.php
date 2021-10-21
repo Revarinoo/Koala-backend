@@ -22,35 +22,38 @@ class LoginController extends Controller
         $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
-           
+
             $user = auth()->user();
             if ($request['type_role'] == "Business") {
-                
+
                 $business_owner = Business::where('user_id', $user->id)->first();
-                
+
                 if ( $business_owner != null){
                     $token = $user->createToken('auth_token')->plainTextToken;
                     $responses = [
-                        'business_owner'=>$business_owner,
-                        'token'=>$token
+                        'code'=>201,
+                        'access_token' => $token,
+                        'message'=>'Success'
                     ];
                     return response($responses, 201);
-                } 
+                }
             }else if ($request['type_role'] == "Influencer") {
-               
+
                 $influencer = Influencer::where('user_id', $user->id)->first();
-               
+
                 if ( $influencer != null){
                     $token = $user->createToken('auth_token')->plainTextToken;
                     $responses = [
-                        'influencer'=>$influencer,
-                        'token'=>$token
+                        'code'=>201,
+                        'access_token' => $token,
+                        'message'=>'Success'
                     ];
                     return response($responses, 201);
                 }
             }
         }
         return response()->json([
+            'code'=>401,
             'message' => 'The provided credentials do not match our records.'
         ], 401);
     }
