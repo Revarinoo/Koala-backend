@@ -25,13 +25,14 @@ Route::post('/register', [RegisterController::class, 'registerUser']);
 Route::get('/influencers', [InfluencerController::class, 'getAllInfluencer']);
 Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/create-campaign', [CampaignController::class, 'createCampaign']);
+Route::get('/recommended/influencers', [InfluencerController::class, 'getRecommendedInfluencers']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/recommended/influencers', [InfluencerController::class, 'getRecommendedInfluencers']);
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::post('/profile/update', [UserController::class, 'update']);
 });
