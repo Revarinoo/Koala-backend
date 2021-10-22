@@ -15,7 +15,9 @@ class RegisterController extends Controller
 
         $user = User::where('email', $request['email'])->first();
         if($user != null) {
-            return response()->json(['message'=>"Email already used for {$this->getRole($user)} "], 401);
+            return response()->json([
+                'code'=>401,
+                'message'=>"Email already used for {$this->getRole($user)} "], 401);
         }
 
         $user = User::create([
