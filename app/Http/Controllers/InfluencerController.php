@@ -89,7 +89,14 @@ class InfluencerController extends Controller
         return response()->json(['rec_influencers'=>$data], 201);
     }
 
-
+    public function getInfluencerDetail($influencer_id){
+        $influencer = DB::table('influencers')
+            ->join('users', 'influencers.user_id', '=', 'users.id')
+            ->join('platforms', 'influencer.id', '=', 'platforms.influencer_id')
+            ->join('orders', 'influencer.id', '=', 'order.influencer_id')
+            ->get();
+        return response()->json($influencer, 201);
+    }
 }
 
 

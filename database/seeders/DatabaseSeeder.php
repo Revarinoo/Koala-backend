@@ -20,7 +20,10 @@ class DatabaseSeeder extends Seeder
             InfluencerSeeder::class,
             CategorySeeder::class,
             PlatformSeeder::class,
-            ProductSeeder::class
+            ProductSeeder::class,
+            ContentSeeder::class,
+            ContentPhotoSeeder::class,
+            OrderSeeder::class,
         ]);
     }
 }
