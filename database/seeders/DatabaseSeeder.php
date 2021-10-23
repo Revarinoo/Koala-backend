@@ -18,12 +18,16 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             BusinessSeeder::class,
             InfluencerSeeder::class,
+            InfluencerAnalyticSeeder::class,
             CategorySeeder::class,
             PlatformSeeder::class,
             ProductSeeder::class,
             ContentSeeder::class,
             ContentPhotoSeeder::class,
+            ReportSeeder::class,
+            ReportPhotoSeeder::class,
             OrderSeeder::class,
+            OrderDetailSeeder::class
         ]);
     }
 }

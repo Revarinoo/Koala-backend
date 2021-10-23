@@ -20,7 +20,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "radityadika",
                 'audience_age' => "17-30",
-                'followers' => 17000000,
+                'followers' => 18300000,
                 'influencer_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')            
@@ -30,7 +30,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "siscakohl",
                 'audience_age' => "12-25",
-                'followers' => 7500000,
+                'followers' => 1500000,
                 'influencer_id' => 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
@@ -60,7 +60,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "hansdaniel",
                 'audience_age' => "17-30",
-                'followers' => 2200000,
+                'followers' => 367000,
                 'influencer_id' => 5,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
@@ -80,7 +80,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "magdalena",
                 'audience_age' => "22-30",
-                'followers' => 3230000,
+                'followers' => 363000,
                 'influencer_id' => 7,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
@@ -90,7 +90,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "tanboykun",
                 'audience_age' => "13-25",
-                'followers' => 235000,
+                'followers' => 942000,
                 'influencer_id' => 8,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
@@ -100,7 +100,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "titantyra",
                 'audience_age' => "17-30",
-                'followers' => 197000,
+                'followers' => 681000,
                 'influencer_id' => 9,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
@@ -109,7 +109,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "baimwong_12",
                 'audience_age' => "12-25",
-                'followers' => 2500000,
+                'followers' => 17300000,
                 'influencer_id' => 10,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
@@ -119,7 +119,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "anyageraldine_",
                 'audience_age' => "22-30",
-                'followers' => 11000000,
+                'followers' => 9200000,
                 'influencer_id' => 11,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
@@ -129,7 +129,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "citra_kirana",
                 'audience_age' => "13-25",
-                'followers' => 3300000,
+                'followers' => 14200000,
                 'influencer_id' => 12,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
@@ -139,7 +139,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "ginangelia",
                 'audience_age' => "17-30",
-                'followers' => 2200000,
+                'followers' => 261000,
                 'influencer_id' => 13,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
@@ -149,7 +149,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "tasya_farr",
                 'audience_age' => "12-25",
-                'followers' => 250000,
+                'followers' => 4700000,
                 'influencer_id' => 14,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
@@ -159,7 +159,7 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "yukikato",
                 'audience_age' => "22-30",
-                'followers' => 8800000,
+                'followers' => 7900000,
                 'influencer_id' => 15,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
