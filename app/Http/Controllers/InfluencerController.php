@@ -90,12 +90,91 @@ class InfluencerController extends Controller
     }
 
     public function getInfluencerDetail($influencer_id){
+        $data = array();
+        
         $influencer = DB::table('influencers')
             ->join('users', 'influencers.user_id', '=', 'users.id')
-            ->join('platforms', 'influencer.id', '=', 'platforms.influencer_id')
-            ->join('orders', 'influencer.id', '=', 'order.influencer_id')
+            ->where('influencers.id', $influencer_id)
+            ->select('users.name', 'users.location', 'users.photo', 'influencers.user_id')
+            ->first();
+
+        $influencer_detail = new InfluencerDetailResponse();
+        $influencer_detail->influencer_profile = $influencer;
+        $influencer_detail->categories = $this->getCategory($influencer->user_id);
+        $influencer_detail->platforms = $this->getPlatforms($influencer_id);
+        $influencer_detail->analytic_photos = $this->getInfluencerAnalytics($influencer_id);;
+        $influencer_detail->projects = $projects = $this->getProjects($influencer_id);
+
+        return response()->json($influencer_detail, 201);
+    }
+
+    public function getInfluencerAnalytics($influencer_id){
+        $analytic_photos = DB::table('influencers')
+            ->join('influencer_analytics', 'influencers.id', '=', 'influencer_analytics.influencer_id')
+            ->where('influencer_analytics.influencer_id', $influencer_id)
+            ->select('influencer_analytics.photo')
             ->get();
-        return response()->json($influencer, 201);
+
+        return $analytic_photos;  
+    }
+
+    public function getPlatforms($influencer_id){
+
+        $platforms = DB::table('platforms')
+            ->join('influencers', 'influencers.id', '=', 'platforms.influencer_id')
+            ->where('platforms.influencer_id', $influencer_id)
+            ->get();
+
+        return $platforms;
+    }
+
+    public function getProjects($influencer_id){
+        $data = array();
+        $order_details = array();
+        
+        $orders = DB::table('orders')
+            ->join('contents', 'orders.content_id', '=', 'contents.id')
+            ->join('reviews', 'orders.id', '=', 'reviews.order_id')
+            ->join('businesses', 'businesses.id', '=', 'contents.business_id')
+            ->join('users', 'users.id', '=', 'businesses.user_id')
+            ->where('orders.influencer_id', $influencer_id)
+            ->select('orders.id','users.photo', 'users.name', 'reviews.comment', 'reviews.rating', 'businesses.business_name')
+            ->get();
+
+        foreach($orders as $order){ 
+            $project = new Project(); 
+            $project->order_id = $order->id;
+            $project->business_photo = $order->photo;
+            $project->avg_impressions = $this->countAverageImpression($order->id);
+            $project->avg_reach = $this->countAverageReach($order->id);
+            $project->businessOwner_photo = $order->photo;
+            $project->businessOwner_name = $order->name;
+            $project->comment = $order->comment;
+            $project->rating = $order->rating;
+            array_push($data, $project);
+        }
+
+        return $data;
+    }
+
+    public function countAverageImpression($order_id){
+        $avg_impressions = DB::table('orders')
+        ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+        ->join('reportings', 'order_details.report_id', '=', 'reportings.id')
+        ->where('orders.id', $order_id)
+        ->groupBy('orders.id')
+        ->avg('reportings.impressions');
+        return $avg_impressions; 
+    }
+
+    public function countAverageReach($order_id){
+        $avg_reach = DB::table('orders')
+        ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+        ->join('reportings', 'order_details.report_id', '=', 'reportings.id')
+        ->where('orders.id', $order_id)
+        ->groupBy('orders.id')
+        ->avg('reportings.reach');
+        return $avg_reach; 
     }
 }
 
@@ -109,4 +188,23 @@ class InfluencerResponse {
     public $rating;
     public $categories;
     public $engagement_rate;
+}
+
+class InfluencerDetailResponse {
+    public $influencer_profile;
+    public $categories;
+    public $platforms;
+    public $analytic_photos;
+    public $projects;
+}
+
+class Project{
+    public $order_id;
+    public $business_photo;
+    public $avg_impressions;
+    public $avg_reach;
+    public $businessOwner_photo;
+    public $businessOwner_name;
+    public $comment;
+    public $rating;
 }
