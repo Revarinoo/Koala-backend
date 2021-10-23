@@ -20,20 +20,24 @@ class PlatformSeeder extends Seeder
                 'name' => "Instagram",
                 'socialmedia_id' => "radityadika",
                 'audience_age' => "17-30",
-                'followers' => 18300000,
+                'followers' => 17000000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')            
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 2,
                 'name' => "Instagram",
                 'socialmedia_id' => "siscakohl",
                 'audience_age' => "12-25",
-                'followers' => 1500000,
+                'followers' => 7500000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 3,
@@ -41,9 +45,11 @@ class PlatformSeeder extends Seeder
                 'socialmedia_id' => "asokaremadjas",
                 'audience_age' => "22-30",
                 'followers' => 63200,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 3,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 4,
@@ -51,19 +57,23 @@ class PlatformSeeder extends Seeder
                 'socialmedia_id' => "erikanatalia",
                 'audience_age' => "13-25",
                 'followers' => 23700,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 4,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 5,
                 'name' => "Instagram",
                 'socialmedia_id' => "hansdaniel",
                 'audience_age' => "17-30",
-                'followers' => 367000,
+                'followers' => 2200000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 5,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 6,
@@ -71,98 +81,118 @@ class PlatformSeeder extends Seeder
                 'socialmedia_id' => "alexfdn",
                 'audience_age' => "12-25",
                 'followers' => 8400000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 6,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 7,
                 'name' => "Instagram",
                 'socialmedia_id' => "magdalena",
                 'audience_age' => "22-30",
-                'followers' => 363000,
+                'followers' => 3230000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 7,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 8,
                 'name' => "Instagram",
                 'socialmedia_id' => "tanboykun",
                 'audience_age' => "13-25",
-                'followers' => 942000,
+                'followers' => 235000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 8,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 9,
                 'name' => "Instagram",
                 'socialmedia_id' => "titantyra",
                 'audience_age' => "17-30",
-                'followers' => 681000,
+                'followers' => 197000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 9,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],[
                 'id' => 10,
                 'name' => "Instagram",
                 'socialmedia_id' => "baimwong_12",
                 'audience_age' => "12-25",
-                'followers' => 17300000,
+                'followers' => 2500000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 10,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 11,
                 'name' => "Instagram",
                 'socialmedia_id' => "anyageraldine_",
                 'audience_age' => "22-30",
-                'followers' => 9200000,
+                'followers' => 11000000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 11,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 12,
                 'name' => "Instagram",
                 'socialmedia_id' => "citra_kirana",
                 'audience_age' => "13-25",
-                'followers' => 14200000,
+                'followers' => 3300000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 12,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 13,
                 'name' => "Instagram",
                 'socialmedia_id' => "ginangelia",
                 'audience_age' => "17-30",
-                'followers' => 261000,
+                'followers' => 2200000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 13,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 14,
                 'name' => "Instagram",
                 'socialmedia_id' => "tasya_farr",
                 'audience_age' => "12-25",
-                'followers' => 4700000,
+                'followers' => 250000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 14,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 15,
                 'name' => "Instagram",
                 'socialmedia_id' => "yukikato",
                 'audience_age' => "22-30",
-                'followers' => 7900000,
+                'followers' => 8800000,
+                'average_likes'=>1400.0,
+                'average_comments'=>80.0,
                 'influencer_id' => 15,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
         ];
         DB::table('platforms')->insert($platforms);

@@ -13,9 +13,12 @@ class RegisterController extends Controller
 {
     function registerUser(Request $request) {
 
+
         $user = User::where('email', $request['email'])->first();
         if($user != null) {
-            return response()->json(['message'=>"Email already used for {$this->getRole($user)} "], 401);
+            return response()->json([
+                'code'=>401,
+                'message'=>"Email already used for {$this->getRole($user)} "], 401);
         }
 
         $user = User::create([
@@ -27,7 +30,7 @@ class RegisterController extends Controller
             $this->registerBusiness($user);
         }
         else if ($request['type_role'] == "Influencer") {
-            $this->registerInfluencer($user, $request['platform_name'], $request['socialmedia_id']);
+            $this->registerInfluencer($user, $request);
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
@@ -45,14 +48,19 @@ class RegisterController extends Controller
         ]);
     }
 
-    function registerInfluencer(User $user, string $platformName, string $username) {
+    function registerInfluencer(User $user, Request $request) {
         $influencer = Influencer::create([
-            'user_id'=>$user->id
+            'user_id'=>$user->id,
+            'engagement_rate'=>$request['engagement_rate'],
         ]);
 
+
         Platform::create([
-            'name'=>$platformName,
-            'socialmedia_id'=>$username,
+            'name'=>$request['platform_name'],
+            'socialmedia_id'=>$request['socialmedia_id'],
+            'followers'=>$request['followers'],
+            'average_likes'=>$request['average_likes'],
+            'average_comments'=>$request['average_comments'],
             'influencer_id'=>$influencer->id
         ]);
     }
