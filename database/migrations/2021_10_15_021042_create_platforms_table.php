@@ -19,6 +19,9 @@ class CreatePlatformsTable extends Migration
             $table->string('socialmedia_id');
             $table->string('audience_age')->nullable();
             $table->integer('followers')->nullable();
+            $table->double('engagement_rate');
+            $table->double('average_likes');
+            $table->double('average_comments');
             $table->foreignId('influencer_id');
             $table->timestamps();
         });
