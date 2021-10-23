@@ -14,7 +14,6 @@ class Platform extends Model
         'socialmedia_id',
         'audience_age',
         'followers',
-        'engagement_rate',
         'average_likes',
         'average_comments',
         'influencer_id',

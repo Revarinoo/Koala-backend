@@ -51,6 +51,7 @@ class RegisterController extends Controller
     function registerInfluencer(User $user, Request $request) {
         $influencer = Influencer::create([
             'user_id'=>$user->id,
+            'engagement_rate'=>$request['engagement_rate'],
         ]);
 
 
@@ -58,7 +59,6 @@ class RegisterController extends Controller
             'name'=>$request['platform_name'],
             'socialmedia_id'=>$request['socialmedia_id'],
             'followers'=>$request['followers'],
-            'engagement_rate'=>$request['engagement_rate'],
             'average_likes'=>$request['average_likes'],
             'average_comments'=>$request['average_comments'],
             'influencer_id'=>$influencer->id
