@@ -97,15 +97,20 @@ class InfluencerController extends Controller
             ->where('influencers.id', $influencer_id)
             ->select('influencers.id', 'users.name', 'users.location', 'users.photo', 'influencers.user_id')
             ->first();
+        if($influencer != null){
+            $influencer_detail = new InfluencerDetailResponse();
+            $influencer_detail->influencer_profile = $influencer;
+            $influencer_detail->categories = $this->getCategory($influencer->user_id);
+            $influencer_detail->platforms = $this->getPlatforms($influencer_id);
+            $influencer_detail->analytic_photos = $this->getInfluencerAnalytics($influencer_id);;
+            $influencer_detail->projects = $projects = $this->getProjects($influencer_id);
 
-        $influencer_detail = new InfluencerDetailResponse();
-        $influencer_detail->influencer_profile = $influencer;
-        $influencer_detail->categories = $this->getCategory($influencer->user_id);
-        $influencer_detail->platforms = $this->getPlatforms($influencer_id);
-        $influencer_detail->analytic_photos = $this->getInfluencerAnalytics($influencer_id);;
-        $influencer_detail->projects = $projects = $this->getProjects($influencer_id);
-
-        return response()->json($influencer_detail, 201);
+            return response()->json($influencer_detail, 201);
+        }
+        return response()->json([
+            'code'=>401,
+            'message' => 'User does not exist.'
+        ], 401);
     }
 
     public function getInfluencerAnalytics($influencer_id){
