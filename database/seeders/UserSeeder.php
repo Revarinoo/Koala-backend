@@ -191,6 +191,28 @@ class UserSeeder extends Seeder
                 'photo' => "yukikato.png",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 17,
+                'name' => "Tom Jerry",
+                'email' => "tomjerry".'@gmail.com',
+                'password' => Hash::make('123456'),
+                'age' => 42,
+                'location' => "Jakarta Barat",
+                'photo' => "tomjerry.png",
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 18,
+                'name' => "David Edgy",
+                'email' => "davedgyworld".'@gmail.com',
+                'password' => Hash::make('123456'),
+                'age' => 38,
+                'location' => "Bekasi",
+                'photo' => "davidedgy.png",
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
         ];
         DB::table('users')->insert($users);

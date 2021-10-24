@@ -95,7 +95,7 @@ class InfluencerController extends Controller
         $influencer = DB::table('influencers')
             ->join('users', 'influencers.user_id', '=', 'users.id')
             ->where('influencers.id', $influencer_id)
-            ->select('users.name', 'users.location', 'users.photo', 'influencers.user_id')
+            ->select('influencers.id', 'users.name', 'users.location', 'users.photo', 'influencers.user_id')
             ->first();
 
         $influencer_detail = new InfluencerDetailResponse();
