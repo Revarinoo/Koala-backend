@@ -74,7 +74,7 @@ class InfluencerController extends Controller
             ->distinct()
             ->take(5)
             ->get();
-        
+
         foreach ($influencers as $influencer){
             $response = new InfluencerResponse();
             $response->influencer_id = $influencer->id;
@@ -89,7 +89,101 @@ class InfluencerController extends Controller
         return response()->json(['rec_influencers'=>$data], 201);
     }
 
+    public function getInfluencerDetail(){
+        $data = array();
+        if (auth()->user()->business != null) {
+            return response()->json([
+                'code'=>401,
+                'message'=>'User does not exist'
+            ]);
+        }
+        $influencer_id = auth()->user()->influencer->id;
 
+        $influencer = DB::table('influencers')
+            ->join('users', 'influencers.user_id', '=', 'users.id')
+            ->where('influencers.id', $influencer_id)
+            ->select('influencers.id', 'users.name', 'users.location', 'users.photo', 'influencers.user_id')
+            ->first();
+        if($influencer != null){
+            $influencer_detail = new InfluencerDetailResponse();
+            $influencer_detail->influencer_profile = $influencer;
+            $influencer_detail->categories = $this->getCategory($influencer->user_id);
+            $influencer_detail->platforms = $this->getPlatforms($influencer_id);
+            $influencer_detail->analytic_photos = $this->getInfluencerAnalytics($influencer_id);;
+            $influencer_detail->projects = $projects = $this->getProjects($influencer_id);
+
+            return response()->json($influencer_detail, 201);
+        }
+    }
+
+    public function getInfluencerAnalytics($influencer_id){
+        $analytic_photos = DB::table('influencers')
+            ->join('influencer_analytics', 'influencers.id', '=', 'influencer_analytics.influencer_id')
+            ->where('influencer_analytics.influencer_id', $influencer_id)
+            ->select('influencer_analytics.photo')
+            ->get();
+
+        return $analytic_photos;
+    }
+
+    public function getPlatforms($influencer_id){
+
+        $platforms = DB::table('platforms')
+            ->join('influencers', 'influencers.id', '=', 'platforms.influencer_id')
+            ->where('platforms.influencer_id', $influencer_id)
+            ->get();
+
+        return $platforms;
+    }
+
+    public function getProjects($influencer_id){
+        $data = array();
+        $order_details = array();
+
+        $orders = DB::table('orders')
+            ->join('contents', 'orders.content_id', '=', 'contents.id')
+            ->join('reviews', 'orders.id', '=', 'reviews.order_id')
+            ->join('businesses', 'businesses.id', '=', 'contents.business_id')
+            ->join('users', 'users.id', '=', 'businesses.user_id')
+            ->where('orders.influencer_id', $influencer_id)
+            ->select('orders.id','users.photo', 'users.name', 'reviews.comment', 'reviews.rating', 'businesses.business_name')
+            ->get();
+
+        foreach($orders as $order){
+            $project = new Project();
+            $project->order_id = $order->id;
+            $project->business_photo = $order->photo;
+            $project->sum_impressions = $this->countSumImpression($order->id);
+            $project->sum_reach = $this->countSumReach($order->id);
+            $project->businessOwner_photo = $order->photo;
+            $project->businessOwner_name = $order->name;
+            $project->comment = $order->comment;
+            $project->rating = $order->rating;
+            array_push($data, $project);
+        }
+
+        return $data;
+    }
+
+    public function countSumImpression($order_id){
+        $sum_impressions = DB::table('orders')
+        ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+        ->join('reportings', 'order_details.report_id', '=', 'reportings.id')
+        ->where('orders.id', $order_id)
+        ->groupBy('orders.id')
+        ->sum('reportings.impressions');
+        return $sum_impressions;
+    }
+
+    public function countSumReach($order_id){
+        $sum_reach = DB::table('orders')
+        ->join('order_details', 'orders.id', '=', 'order_details.order_id')
+        ->join('reportings', 'order_details.report_id', '=', 'reportings.id')
+        ->where('orders.id', $order_id)
+        ->groupBy('orders.id')
+        ->sum('reportings.reach');
+        return $sum_reach;
+    }
 }
 
 
@@ -102,4 +196,23 @@ class InfluencerResponse {
     public $rating;
     public $categories;
     public $engagement_rate;
+}
+
+class InfluencerDetailResponse {
+    public $influencer_profile;
+    public $categories;
+    public $platforms;
+    public $analytic_photos;
+    public $projects;
+}
+
+class Project{
+    public $order_id;
+    public $business_photo;
+    public $sum_impressions;
+    public $sum_reach;
+    public $businessOwner_photo;
+    public $businessOwner_name;
+    public $comment;
+    public $rating;
 }
