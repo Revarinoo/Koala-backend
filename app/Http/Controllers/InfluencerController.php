@@ -150,8 +150,8 @@ class InfluencerController extends Controller
             $project = new Project(); 
             $project->order_id = $order->id;
             $project->business_photo = $order->photo;
-            $project->avg_impressions = $this->countAverageImpression($order->id);
-            $project->avg_reach = $this->countAverageReach($order->id);
+            $project->sum_impressions = $this->countSumImpression($order->id);
+            $project->sum_reach = $this->countSumReach($order->id);
             $project->businessOwner_photo = $order->photo;
             $project->businessOwner_name = $order->name;
             $project->comment = $order->comment;
@@ -162,24 +162,24 @@ class InfluencerController extends Controller
         return $data;
     }
 
-    public function countAverageImpression($order_id){
-        $avg_impressions = DB::table('orders')
+    public function countSumImpression($order_id){
+        $sum_impressions = DB::table('orders')
         ->join('order_details', 'orders.id', '=', 'order_details.order_id')
         ->join('reportings', 'order_details.report_id', '=', 'reportings.id')
         ->where('orders.id', $order_id)
         ->groupBy('orders.id')
-        ->avg('reportings.impressions');
-        return $avg_impressions; 
+        ->sum('reportings.impressions');
+        return $sum_impressions; 
     }
 
-    public function countAverageReach($order_id){
-        $avg_reach = DB::table('orders')
+    public function countSumReach($order_id){
+        $sum_reach = DB::table('orders')
         ->join('order_details', 'orders.id', '=', 'order_details.order_id')
         ->join('reportings', 'order_details.report_id', '=', 'reportings.id')
         ->where('orders.id', $order_id)
         ->groupBy('orders.id')
-        ->avg('reportings.reach');
-        return $avg_reach; 
+        ->sum('reportings.reach');
+        return $sum_reach; 
     }
 }
 
@@ -206,8 +206,8 @@ class InfluencerDetailResponse {
 class Project{
     public $order_id;
     public $business_photo;
-    public $avg_impressions;
-    public $avg_reach;
+    public $sum_impressions;
+    public $sum_reach;
     public $businessOwner_photo;
     public $businessOwner_name;
     public $comment;
