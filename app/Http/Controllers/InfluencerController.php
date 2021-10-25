@@ -37,7 +37,9 @@ class InfluencerController extends Controller
         }
 
         return response()->json([
-            'data'=>$data
+            'data'=>$data,
+            'message'=>'Success',
+            'code'=>201
         ], 201);
     }
 
@@ -183,6 +185,32 @@ class InfluencerController extends Controller
         ->groupBy('orders.id')
         ->sum('reportings.reach');
         return $sum_reach;
+    }
+
+
+    public function getInfluencerByCategory($category) {
+        $data = array();
+        $categories = Category::where('name', $category)->get();
+        foreach ($categories as $list) {
+            if ($list->user->influencer != null) {
+                $influencer = new InfluencerResponse();
+                $influencer->influencer_id = $list->user->influencer->id;
+                $influencer->categories = $this->getCategory($list->user->id);
+                $influencer->influencer_name = $list->user->name;
+                $influencer->influencer_photo = $list->user->photo;
+                $influencer->price = $this->getMinRate($list->user->influencer->id);
+                $influencer->location = $list->user->location;
+                $influencer->rating = $list->user->influencer->rating;
+                $influencer->engagement_rate = $list->user->influencer->engagement_rate;
+                array_push($data, $influencer);
+            }
+        }
+        if ($data == null) { return response()->json(['code'=>404, 'message'=>'Data not found']);}
+        return response()->json([
+            'data'=>$data,
+            'code'=>201,
+            'message'=>'Success'
+        ]);
     }
 }
 
