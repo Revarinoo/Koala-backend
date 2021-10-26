@@ -91,20 +91,12 @@ class InfluencerController extends Controller
         return response()->json(['rec_influencers'=>$data], 201);
     }
 
-    public function getInfluencerDetail(){
-        $data = array();
-        if (auth()->user()->business != null) {
-            return response()->json([
-                'code'=>401,
-                'message'=>'User does not exist'
-            ]);
-        }
-        $influencer_id = auth()->user()->influencer->id;
+    public function getInfluencerDetail($influencer_id){
 
         $influencer = DB::table('influencers')
             ->join('users', 'influencers.user_id', '=', 'users.id')
             ->where('influencers.id', $influencer_id)
-            ->select('influencers.id', 'users.name', 'users.location', 'users.photo', 'influencers.user_id')
+            ->select('influencers.id', 'users.name', 'users.location', 'users.photo', 'influencers.user_id', 'influencers.engagement_rate')
             ->first();
         if($influencer != null){
             $influencer_detail = new InfluencerDetailResponse();
@@ -113,16 +105,21 @@ class InfluencerController extends Controller
             $influencer_detail->platforms = $this->getPlatforms($influencer_id);
             $influencer_detail->analytic_photos = $this->getInfluencerAnalytics($influencer_id);;
             $influencer_detail->projects = $projects = $this->getProjects($influencer_id);
-
+            
             return response()->json($influencer_detail, 201);
         }
+        
+        return response()->json([
+            'code'=>401,
+            'message'=>'User does not exist'
+        ]);
     }
 
     public function getInfluencerAnalytics($influencer_id){
         $analytic_photos = DB::table('influencers')
             ->join('influencer_analytics', 'influencers.id', '=', 'influencer_analytics.influencer_id')
             ->where('influencer_analytics.influencer_id', $influencer_id)
-            ->select('influencer_analytics.photo')
+            ->select('influencer_analytics.id', 'influencer_analytics.photo')
             ->get();
 
         return $analytic_photos;
@@ -133,6 +130,7 @@ class InfluencerController extends Controller
         $platforms = DB::table('platforms')
             ->join('influencers', 'influencers.id', '=', 'platforms.influencer_id')
             ->where('platforms.influencer_id', $influencer_id)
+            ->select('platforms.id', 'platforms.name', 'platforms.socialmedia_id', 'platforms.followers', 'platforms.average_likes', 'platforms.average_comments')
             ->get();
 
         return $platforms;
@@ -155,8 +153,8 @@ class InfluencerController extends Controller
             $project = new Project();
             $project->order_id = $order->id;
             $project->business_photo = $order->photo;
-            $project->sum_impressions = $this->countSumImpression($order->id);
-            $project->sum_reach = $this->countSumReach($order->id);
+            $project->sum_impressions = (int)$this->countSumImpression($order->id);
+            $project->sum_reach = (int)$this->countSumReach($order->id);
             $project->businessOwner_photo = $order->photo;
             $project->businessOwner_name = $order->name;
             $project->comment = $order->comment;
