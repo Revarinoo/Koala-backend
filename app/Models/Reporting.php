@@ -16,5 +16,6 @@ class Reporting extends Model
         'comments',
         'impressions',
         'reach',
+        'order_detail_id',
     ];
 }

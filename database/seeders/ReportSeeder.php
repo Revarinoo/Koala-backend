@@ -24,8 +24,9 @@ class ReportSeeder extends Seeder
                 'comments' => 1343,
                 'impressions' => 931300,
                 'reach' => 398230,
+                'order_detail_id'=> 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 2,
@@ -35,8 +36,9 @@ class ReportSeeder extends Seeder
                 'comments' => 0,
                 'impressions' => 531300,
                 'reach' => 172930,
+                'order_detail_id'=> 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 3,
@@ -46,8 +48,9 @@ class ReportSeeder extends Seeder
                 'comments' => 2230,
                 'impressions' => 923425,
                 'reach' => 235523,
+                'order_detail_id'=> 3,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 4,
@@ -57,8 +60,9 @@ class ReportSeeder extends Seeder
                 'comments' => 0,
                 'impressions' => 464300,
                 'reach' => 180893,
+                'order_detail_id'=> 4,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 5,
@@ -68,8 +72,9 @@ class ReportSeeder extends Seeder
                 'comments' => 1377,
                 'impressions' => 731300,
                 'reach' => 272930,
+                'order_detail_id'=> 5,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 6,
@@ -79,8 +84,9 @@ class ReportSeeder extends Seeder
                 'comments' => 0,
                 'impressions' => 531766,
                 'reach' => 232433,
+                'order_detail_id'=> 6,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
         ];
         DB::table('reportings')->insert($reports);
