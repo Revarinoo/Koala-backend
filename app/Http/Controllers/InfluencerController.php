@@ -74,7 +74,7 @@ class InfluencerController extends Controller
             ->distinct()
             ->take(5)
             ->get();
-        
+
         foreach ($influencers as $influencer){
             $response = new InfluencerResponse();
             $response->influencer_id = $influencer->id;
@@ -89,9 +89,16 @@ class InfluencerController extends Controller
         return response()->json(['rec_influencers'=>$data], 201);
     }
 
-    public function getInfluencerDetail($influencer_id){
+    public function getInfluencerDetail(){
         $data = array();
-        
+        if (auth()->user()->business != null) {
+            return response()->json([
+                'code'=>401,
+                'message'=>'User does not exist'
+            ]);
+        }
+        $influencer_id = auth()->user()->influencer->id;
+
         $influencer = DB::table('influencers')
             ->join('users', 'influencers.user_id', '=', 'users.id')
             ->where('influencers.id', $influencer_id)
@@ -107,10 +114,6 @@ class InfluencerController extends Controller
             
             return response()->json($influencer_detail, 201);
         }
-        return response()->json([
-            'code'=>401,
-            'message' => 'User does not exist.'
-        ], 401);
     }
 
     public function getInfluencerAnalytics($influencer_id){
@@ -120,7 +123,7 @@ class InfluencerController extends Controller
             ->select('influencer_analytics.id', 'influencer_analytics.photo')
             ->get();
 
-        return $analytic_photos;  
+        return $analytic_photos;
     }
 
     public function getPlatforms($influencer_id){
@@ -137,7 +140,7 @@ class InfluencerController extends Controller
     public function getProjects($influencer_id){
         $data = array();
         $order_details = array();
-        
+
         $orders = DB::table('orders')
             ->join('contents', 'orders.content_id', '=', 'contents.id')
             ->join('reviews', 'orders.id', '=', 'reviews.order_id')
@@ -147,8 +150,8 @@ class InfluencerController extends Controller
             ->select('orders.id','users.photo', 'users.name', 'reviews.comment', 'reviews.rating', 'businesses.business_name')
             ->get();
 
-        foreach($orders as $order){ 
-            $project = new Project(); 
+        foreach($orders as $order){
+            $project = new Project();
             $project->order_id = $order->id;
             $project->business_photo = $order->photo;
             $project->sum_impressions = (int)$this->countSumImpression($order->id);
@@ -170,7 +173,7 @@ class InfluencerController extends Controller
         ->where('orders.id', $order_id)
         ->groupBy('orders.id')
         ->sum('reportings.impressions');
-        return $sum_impressions; 
+        return $sum_impressions;
     }
 
     public function countSumReach($order_id){
@@ -180,7 +183,7 @@ class InfluencerController extends Controller
         ->where('orders.id', $order_id)
         ->groupBy('orders.id')
         ->sum('reportings.reach');
-        return $sum_reach; 
+        return $sum_reach;
     }
 }
 
