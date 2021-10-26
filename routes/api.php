@@ -34,7 +34,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/influencer', [InfluencerController::class, 'getInfluencerDetail']);
+    Route::get('/influencer/{influencer_id}', [InfluencerController::class, 'getInfluencerDetail']);
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::post('/profile/update', [UserController::class, 'update']);
 });

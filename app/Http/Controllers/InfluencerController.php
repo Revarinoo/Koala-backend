@@ -89,15 +89,7 @@ class InfluencerController extends Controller
         return response()->json(['rec_influencers'=>$data], 201);
     }
 
-    public function getInfluencerDetail(){
-        $data = array();
-        if (auth()->user()->business != null) {
-            return response()->json([
-                'code'=>401,
-                'message'=>'User does not exist'
-            ]);
-        }
-        $influencer_id = auth()->user()->influencer->id;
+    public function getInfluencerDetail($influencer_id){
 
         $influencer = DB::table('influencers')
             ->join('users', 'influencers.user_id', '=', 'users.id')
@@ -114,6 +106,11 @@ class InfluencerController extends Controller
             
             return response()->json($influencer_detail, 201);
         }
+        
+        return response()->json([
+            'code'=>401,
+            'message'=>'User does not exist'
+        ]);
     }
 
     public function getInfluencerAnalytics($influencer_id){
