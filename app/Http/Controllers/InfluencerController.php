@@ -153,8 +153,8 @@ class InfluencerController extends Controller
             $project = new Project();
             $project->order_id = $order->id;
             $project->business_photo = $order->photo;
-            $project->sum_impressions = (int)$this->countSumImpression($order->id);
-            $project->sum_reach = (int)$this->countSumReach($order->id);
+            $project->sum_impressions = (double)$this->countSumImpression($order->id);
+            $project->sum_reach = (double)$this->countSumReach($order->id);
             $project->businessOwner_photo = $order->photo;
             $project->businessOwner_name = $order->name;
             $project->comment = $order->comment;
@@ -168,7 +168,7 @@ class InfluencerController extends Controller
     public function countSumImpression($order_id){
         $sum_impressions = DB::table('orders')
         ->join('order_details', 'orders.id', '=', 'order_details.order_id')
-        ->join('reportings', 'order_details.report_id', '=', 'reportings.id')
+        ->join('reportings', 'order_details.id', '=', 'reportings.order_detail_id')
         ->where('orders.id', $order_id)
         ->groupBy('orders.id')
         ->sum('reportings.impressions');
@@ -178,7 +178,7 @@ class InfluencerController extends Controller
     public function countSumReach($order_id){
         $sum_reach = DB::table('orders')
         ->join('order_details', 'orders.id', '=', 'order_details.order_id')
-        ->join('reportings', 'order_details.report_id', '=', 'reportings.id')
+        ->join('reportings', 'order_details.id', '=', 'reportings.order_detail_id')
         ->where('orders.id', $order_id)
         ->groupBy('orders.id')
         ->sum('reportings.reach');
