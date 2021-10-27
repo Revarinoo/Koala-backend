@@ -53,4 +53,8 @@ class User extends Authenticatable
     public function influencer(){
         return $this->hasOne('App\Models\Influencer');
     }
+
+    public function category() {
+        return $this->hasMany('App\Models\Category');
+    }
 }

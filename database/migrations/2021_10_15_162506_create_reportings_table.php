@@ -21,6 +21,7 @@ class CreateReportingsTable extends Migration
             $table->integer('comments');
             $table->integer('impressions');
             $table->integer('reach');
+            $table->foreignId('order_detail_id');
             $table->timestamps();
         });
     }
