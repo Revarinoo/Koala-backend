@@ -40,4 +40,35 @@ class CampaignController extends Controller
             'message'=>'Success'
         ], 201);
     }
+
+    function getCampaign() {
+        $user = auth()->user()->business;
+        $data = array();
+        foreach ($user->content as $content) {
+            $temp = new CampaignData();
+            $temp->name = $content->name;
+            $temp->photo = $this->getCampaignPhoto($content);
+            $temp->schedule = $content->schedule;
+            array_push($data, $temp);
+        }
+        return response()->json([
+            'data'=>$data,
+            'message'=>'Success',
+            'code'=>201
+        ]);
+    }
+
+    function getCampaignPhoto(Content $content) {
+        $data = array();
+        foreach ($content->contentPhoto as $photo) {
+            array_push($data, $photo->photo);
+        }
+        return $data;
+    }
+}
+
+class CampaignData {
+    public $name;
+    public $photo;
+    public $schedule;
 }
