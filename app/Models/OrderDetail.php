@@ -14,4 +14,16 @@ class OrderDetail extends Model
         'order_id',
         'product_id',
     ];
+
+    public function order() {
+        return $this->belongsTo('App\Models\Order');
+    }
+
+    public function product(){
+        return $this->belongsTo('App\Models\Product');
+    }
+
+    public function reporting() {
+        return $this->hasOne('App\Models\Reporting');
+    }
 }

@@ -19,4 +19,8 @@ class Business extends Model
     public function user() {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function content(){
+        return $this->hasMany('App\Models\Content');
+    }
 }
