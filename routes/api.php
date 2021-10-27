@@ -7,6 +7,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,6 +29,7 @@ Route::post('/login', [LoginController::class, 'authenticate']);
 Route::post('/create-campaign', [CampaignController::class, 'createCampaign']);
 Route::post('/recommended/influencers', [InfluencerController::class, 'getRecommendedInfluencers']);
 Route::get('/influencers/{category}', [InfluencerController::class, 'getInfluencerByCategory']);
+Route::post('/order/review',[ReviewController::class, 'insertReview']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
