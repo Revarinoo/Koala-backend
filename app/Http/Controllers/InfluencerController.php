@@ -94,7 +94,7 @@ class InfluencerController extends Controller
         $influencer = DB::table('influencers')
             ->join('users', 'influencers.user_id', '=', 'users.id')
             ->where('influencers.id', $influencer_id)
-            ->select('influencers.id', 'users.name', 'users.location', 'users.photo', 'influencers.user_id', 'influencers.engagement_rate')
+            ->select('influencers.id', 'influencers.contact_email','users.name', 'users.location', 'users.photo', 'influencers.user_id', 'influencers.engagement_rate')
             ->first();
         if($influencer != null){
             $influencer_detail = new InfluencerDetailResponse();
@@ -106,7 +106,7 @@ class InfluencerController extends Controller
             
             return response()->json($influencer_detail, 201);
         }
-        
+
         return response()->json([
             'code'=>401,
             'message'=>'User does not exist'
