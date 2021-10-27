@@ -15,4 +15,12 @@ class Order extends Model
         'influencer_id',
         'content_id',
     ];
+
+    public function content() {
+        return $this->belongsTo('App\Models\Content');
+    }
+
+    public function orderDetail() {
+        return $this->hasMany('App\Models\OrderDetail');
+    }
 }

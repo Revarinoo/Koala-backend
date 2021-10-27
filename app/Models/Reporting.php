@@ -18,4 +18,7 @@ class Reporting extends Model
         'reach',
         'order_detail_id',
     ];
+    public function orderDetail() {
+        return $this->belongsTo('App\Models\OrderDetail');
+    }
 }

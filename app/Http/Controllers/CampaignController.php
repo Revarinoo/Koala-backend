@@ -6,6 +6,7 @@ use App\Models\Business;
 use App\Models\Content;
 use App\Models\ContentPhoto;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\Storage;
 
 class CampaignController extends Controller
@@ -40,4 +41,47 @@ class CampaignController extends Controller
             'message'=>'Success'
         ], 201);
     }
+
+    function getCampaign() {
+        $user = auth()->user()->business;
+        $data = array();
+        foreach ($user->content as $content) {
+            $temp = new CampaignData();
+            $temp->name = $content->name;
+            $temp->photo = $this->getCampaignPhoto($content);
+            $temp->schedule = $content->schedule;
+            $temp->status = $this->getStatus($content->schedule);
+            array_push($data, $temp);
+        }
+        return response()->json([
+            'data'=>$data,
+            'message'=>'Success',
+            'code'=>201
+        ]);
+    }
+
+    function getCampaignPhoto(Content $content) {
+        $data = array();
+        foreach ($content->contentPhoto as $photo) {
+            array_push($data, $photo->photo);
+        }
+        return $data;
+    }
+
+    private function getStatus($date) {
+        $today = date('Y-m-d H:i:s');
+        $today_time = strtotime($today);
+        $expired = strtotime($date);
+        if ($expired > $today_time) {
+            return "Upcoming";
+        }
+        return "Completed";
+    }
+}
+
+class CampaignData {
+    public $name;
+    public $photo;
+    public $schedule;
+    public $status;
 }

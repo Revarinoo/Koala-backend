@@ -17,30 +17,30 @@ class OrderSeeder extends Seeder
     {
         $orders = [
             [   'id' => 1,
-                'status' => "Paid",
+                'status' => "Completed",
                 'order_date' => Carbon::now()->format('Y-m-d'),
                 'influencer_id' => 2,
                 'content_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')          
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [   'id' => 2,
-                'status' => "Paid",
+                'status' => "On Going",
                 'order_date' => Carbon::now()->format('Y-m-d'),
                 'influencer_id' => 2,
                 'content_id' => 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')          
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [   'id' => 3,
-                'status' => "Paid",
+                'status' => "On Going",
                 'order_date' => Carbon::now()->format('Y-m-d'),
                 'influencer_id' => 2,
                 'content_id' => 3,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')          
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
-            
+
         ];
         DB::table('orders')->insert($orders);
     }
