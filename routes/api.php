@@ -39,4 +39,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::post('/profile/update', [UserController::class, 'update']);
     Route::get('/business/order', [OrderController::class, 'getOrder']);
+    Route::get('/campaign',[CampaignController::class, 'getCampaign']);
 });
