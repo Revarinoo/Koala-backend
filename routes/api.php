@@ -3,6 +3,7 @@
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\InfluencerController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 
@@ -37,4 +38,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/influencer/{influencer_id}', [InfluencerController::class, 'getInfluencerDetail']);
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::post('/profile/update', [UserController::class, 'update']);
+    Route::get('/business/order', [OrderController::class, 'getOrder']);
 });

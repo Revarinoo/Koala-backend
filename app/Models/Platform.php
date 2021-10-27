@@ -22,4 +22,8 @@ class Platform extends Model
     public function influencer(){
         return $this->belongsTo('App\Models\Influencer');
     }
+
+    public function product() {
+        return $this->hasMany('App\Models\Product');
+    }
 }
