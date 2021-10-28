@@ -17,7 +17,7 @@ class CreateOrderDetailsTable extends Migration
             $table->id();
             $table->string('price');
             $table->foreignId('order_id');
-            $table->foreignId('product_id');
+            $table->foreignId('content_detail_id');
             $table->timestamps();
         });
     }

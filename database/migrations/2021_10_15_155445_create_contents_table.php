@@ -17,11 +17,10 @@ class CreateContentsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->longText('instruction');
             $table->date('schedule');
-            $table->text('product_campaign');
+            $table->text('product_name');
             $table->longText('rules');
-            $table->string('type');
+            $table->string('campaign_logo');
             $table->foreignId('business_id');
             $table->timestamps();
         });
