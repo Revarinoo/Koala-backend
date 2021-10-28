@@ -16,8 +16,12 @@ class CreateContentsTable extends Migration
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('description');
             $table->longText('instruction');
             $table->date('schedule');
+            $table->text('product_campaign');
+            $table->longText('rules');
+            $table->string('type');
             $table->foreignId('business_id');
             $table->timestamps();
         });

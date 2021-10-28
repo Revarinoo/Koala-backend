@@ -11,8 +11,12 @@ class Content extends Model
 
     protected $fillable = [
         'name',
+        'description',
         'instruction',
         'schedule',
+        'product_campaign',
+        'rules',
+        'type',
         'business_id',
     ];
 
