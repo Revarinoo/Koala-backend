@@ -12,11 +12,10 @@ class Content extends Model
     protected $fillable = [
         'name',
         'description',
-        'instruction',
         'schedule',
-        'product_campaign',
+        'product_name',
         'rules',
-        'type',
+        'campaign_logo',
         'business_id',
     ];
 
@@ -30,5 +29,9 @@ class Content extends Model
 
     public function order() {
         return $this->hasMany('App\Models\Order');
+    }
+
+    public function contentDetail() {
+        return $this->hasMany('App\Models\ContentDetail');
     }
 }

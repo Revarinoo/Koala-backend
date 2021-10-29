@@ -20,7 +20,6 @@ class OrderSeeder extends Seeder
                 'status' => "Completed",
                 'order_date' => Carbon::now()->format('Y-m-d'),
                 'influencer_id' => 2,
-                'content_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -28,7 +27,6 @@ class OrderSeeder extends Seeder
                 'status' => "On Going",
                 'order_date' => Carbon::now()->format('Y-m-d'),
                 'influencer_id' => 2,
-                'content_id' => 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -36,7 +34,6 @@ class OrderSeeder extends Seeder
                 'status' => "On Going",
                 'order_date' => Carbon::now()->format('Y-m-d'),
                 'influencer_id' => 2,
-                'content_id' => 3,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],

@@ -12,15 +12,15 @@ class OrderDetail extends Model
     protected $fillable = [
         'price',
         'order_id',
-        'product_id',
+        'content_detail_id',
     ];
 
     public function order() {
         return $this->belongsTo('App\Models\Order');
     }
 
-    public function product(){
-        return $this->belongsTo('App\Models\Product');
+    public function contentDetail(){
+        return $this->belongsTo('App\Models\ContentDetail');
     }
 
     public function reporting() {

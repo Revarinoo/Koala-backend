@@ -20,10 +20,6 @@ class Product extends Model
         return $this->belongsTo('App\Models\Influencer');
     }
 
-    public function orderDetail() {
-        return $this->hasMany('App\Models\OrderDetail');
-    }
-
     public function platform() {
         return $this->belongsTo('App\Models\Platform');
     }

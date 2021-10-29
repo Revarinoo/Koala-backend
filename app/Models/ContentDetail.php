@@ -5,21 +5,21 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Order extends Model
+class ContentDetail extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'status',
-        'order_date',
-        'influencer_id',
+        'content_id',
+        'content_type',
+        'instruction'
     ];
-
-    public function content() {
-        return $this->belongsTo('App\Models\Content');
-    }
 
     public function orderDetail() {
         return $this->hasMany('App\Models\OrderDetail');
+    }
+
+    public function Content(){
+        return $this->belongsTo('App\Models\Content');
     }
 }
