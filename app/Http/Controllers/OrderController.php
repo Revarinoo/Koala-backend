@@ -49,8 +49,8 @@ class OrderController extends Controller
         $details = OrderDetail::where('order_id', $order_id)->get();
         foreach ($details as $detail) {
             $product_data = new ProductData();
-            if ($detail->reporting != null) {
                 $product_data->product_type = $detail->contentDetail->content_type;
+
                 if ($detail->reporting != null) {
                     $product_data->reach = $detail->reporting->reach;
                     $product_data->impression = $detail->reporting->impressions;
@@ -58,9 +58,10 @@ class OrderController extends Controller
                     array_push($data, $product_data);
                 }
                 else {
+                    echo "hi";
+                    echo $detail->content_detail_id;
                     array_push($data, $detail->contentDetail->content_type);
                 }
-            }
         }
         return $data;
     }

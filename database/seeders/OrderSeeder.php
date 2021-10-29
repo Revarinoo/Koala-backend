@@ -25,7 +25,7 @@ class OrderSeeder extends Seeder
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [   'id' => 2,
-                'status' => "On Going",
+                'status' => "Completed",
                 'order_date' => Carbon::now()->format('Y-m-d'),
                 'content_id'=>2,
                 'influencer_id' => 2,

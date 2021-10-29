@@ -54,37 +54,13 @@ class ReportSeeder extends Seeder
             ],
             [
                 'id' => 4,
-                'post_url' => "https://www.instagram.com/p/CVSPnj1MzXM/?utm_source=ig_web_copy_link",
-                'views' => 574545,
-                'likes' => 0,
-                'comments' => 0,
-                'impressions' => 464300,
-                'reach' => 180893,
-                'order_detail_id'=> 4,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ],
-            [
-                'id' => 5,
                 'post_url' => "https://www.instagram.com/p/CVUZ74_F_tZ/?utm_source=ig_web_copy_link",
                 'views' => 894230,
                 'likes' => 102240,
                 'comments' => 1377,
                 'impressions' => 731300,
                 'reach' => 272930,
-                'order_detail_id'=> 5,
-                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ],
-            [
-                'id' => 6,
-                'post_url' => "https://www.instagram.com/p/CVUZ74_F_tZ/?utm_source=ig_web_copy_link",
-                'views' => 754043,
-                'likes' => 0,
-                'comments' => 0,
-                'impressions' => 531766,
-                'reach' => 232433,
-                'order_detail_id'=> 6,
+                'order_detail_id'=> 4,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],

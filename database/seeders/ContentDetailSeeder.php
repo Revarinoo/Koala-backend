@@ -38,6 +38,18 @@ class ContentDetailSeeder extends Seeder
                 'content_id'=> 3,
                 'content_type'=>"Instagram Post",
                 'instruction' => "Introduction: \nTersedia sekarang Beef Burger Pink Seoul dengan daging sapi panggang asli Australia, special sweet spicy soy sauce, fried purple cabbage, 2pc long rasher, shredded mozzarella dan pastinya bun bertabur wijen lembut khas Burger Queen.\nHashtag:\n #BurgerQueen #BQPinkSeoul \nPosts:\nInstagram Post x1\nInstagram Story x1",
+            ],
+            [
+                'id'=> 5,
+                'content_id'=> 3,
+                'content_type'=>"Instagram Reels",
+                'instruction' => "Introduction: \nTersedia sekarang Beef Burger Pink Seoul dengan daging sapi panggang asli Australia, special sweet spicy soy sauce, fried purple cabbage, 2pc long rasher, shredded mozzarella dan pastinya bun bertabur wijen lembut khas Burger Queen.\nHashtag:\n #BurgerQueen #BQPinkSeoul \nPosts:\nInstagram Post x1\nInstagram Story x1",
+            ],
+            [
+                'id'=> 6,
+                'content_id'=> 2,
+                'content_type'=>"Instagram Story",
+                'instruction' => "Introduction: \nTersedia sekarang Beef Burger Pink Seoul dengan daging sapi panggang asli Australia, special sweet spicy soy sauce, fried purple cabbage, 2pc long rasher, shredded mozzarella dan pastinya bun bertabur wijen lembut khas Burger Queen.\nHashtag:\n #BurgerQueen #BQPinkSeoul \nPosts:\nInstagram Post x1\nInstagram Story x1",
             ]
         ];
         DB::table('content_details')->insert($content_details);
