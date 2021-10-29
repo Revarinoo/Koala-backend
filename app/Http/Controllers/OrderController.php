@@ -55,13 +55,13 @@ class OrderController extends Controller
                     $product_data->reach = $detail->reporting->reach;
                     $product_data->impression = $detail->reporting->impressions;
                     $product_data->er = $this->calculateER($detail->reporting, $detail->order->influencer->platform->followers);
-                    array_push($data, $product_data);
                 }
                 else {
-                    echo "hi";
-                    echo $detail->content_detail_id;
-                    array_push($data, $detail->contentDetail->content_type);
+                    $product_data->reach = 0;
+                    $product_data->impression = 0;
+                    $product_data->er = 0;
                 }
+            array_push($data, $product_data);
         }
         return $data;
     }
