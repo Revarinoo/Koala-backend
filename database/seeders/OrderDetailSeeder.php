@@ -52,15 +52,15 @@ class OrderDetailSeeder extends Seeder
                 'id' => 5,
                 'price'=>400000,
                 'order_id' => 3,
-                'content_detail_id' => 3,
+                'content_detail_id' => 5,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [
                 'id' => 6,
                 'price'=>700000,
-                'order_id' => 4,
-                'content_detail_id' => 4,
+                'order_id' => 3,
+                'content_detail_id' => 6,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
