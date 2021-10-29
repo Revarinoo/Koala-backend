@@ -6,6 +6,7 @@ use App\Models\Business;
 use App\Models\Order;
 use App\Models\OrderDetail;
 use App\Models\Reporting;
+use App\Models\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -28,7 +29,7 @@ class OrderController extends Controller
             $temp = new BusinessOrder();
             $temp->order_id = $data->order_id;
             $temp->influencer_name = $data->influencer_name;
-            $temp->influencer_photo = $data->influencer_photo;
+            $temp->influencer_photo = Utility::$imagePath . $data->influencer_photo;
             $temp->content_id = $data->content_id;
             $temp->order_date = $data->order_date;
             $temp->status = $data->status;
@@ -49,11 +50,16 @@ class OrderController extends Controller
         foreach ($details as $detail) {
             $product_data = new ProductData();
             if ($detail->reporting != null) {
-                $product_data->product_type = $detail->product->product_type;
-                $product_data->reach = $detail->reporting->reach;
-                $product_data->impression = $detail->reporting->impressions;
-                $product_data->er = $this->calculateER($detail->reporting, $detail->product->platform->followers);
-                array_push($data, $product_data);
+                $product_data->product_type = $detail->contentDetail->content_type;
+                if ($detail->reporting != null) {
+                    $product_data->reach = $detail->reporting->reach;
+                    $product_data->impression = $detail->reporting->impressions;
+                    $product_data->er = $this->calculateER($detail->reporting, $detail->order->influencer->platform->followers);
+                    array_push($data, $product_data);
+                }
+                else {
+                    array_push($data, $detail->contentDetail->content_type);
+                }
             }
         }
         return $data;

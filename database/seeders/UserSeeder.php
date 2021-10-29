@@ -25,8 +25,8 @@ class UserSeeder extends Seeder
                 'location' => "California",
                 'photo' => "elonmusk.png",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')        
-            ], 
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
             [
                 'id' => 2,
                 'name' => "Raditya Dika",
@@ -45,7 +45,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 22,
                 'location' => "Jakarta Utara",
-                'photo' => "siscakohl.png",
+                'photo' => "siscakohl.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],

@@ -23,4 +23,8 @@ class Order extends Model
     public function orderDetail() {
         return $this->hasMany('App\Models\OrderDetail');
     }
+
+    public function influencer() {
+        return $this->belongsTo('App\Models\Influencer');
+    }
 }
