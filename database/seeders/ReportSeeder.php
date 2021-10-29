@@ -72,7 +72,7 @@ class ReportSeeder extends Seeder
                 'comments' => 1377,
                 'impressions' => 731300,
                 'reach' => 272930,
-                'order_detail_id'=> 4,
+                'order_detail_id'=> 5,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -84,7 +84,7 @@ class ReportSeeder extends Seeder
                 'comments' => 0,
                 'impressions' => 531766,
                 'reach' => 232433,
-                'order_detail_id'=> 4,
+                'order_detail_id'=> 6,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
