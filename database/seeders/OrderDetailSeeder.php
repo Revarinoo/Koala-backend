@@ -20,7 +20,7 @@ class OrderDetailSeeder extends Seeder
                 'id' => 1,
                 'price'=>1200000,
                 'order_id' => 1,
-                'content_detail_id' => 3,
+                'content_detail_id' => 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -28,7 +28,7 @@ class OrderDetailSeeder extends Seeder
                 'id' => 2,
                 'price'=>1000000,
                 'order_id' => 1,
-                'content_detail_id' => 4,
+                'content_detail_id' => 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -59,7 +59,7 @@ class OrderDetailSeeder extends Seeder
             [
                 'id' => 6,
                 'price'=>700000,
-                'order_id' => 3,
+                'order_id' => 4,
                 'content_detail_id' => 4,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')

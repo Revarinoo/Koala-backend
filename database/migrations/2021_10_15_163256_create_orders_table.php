@@ -17,6 +17,7 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('status');
             $table->date('order_date');
+            $table->foreignId('content_id');
             $table->foreignId('influencer_id');
             $table->timestamps();
         });

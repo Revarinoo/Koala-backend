@@ -12,6 +12,7 @@ class Order extends Model
     protected $fillable = [
         'status',
         'order_date',
+        'content_id',
         'influencer_id',
     ];
 
