@@ -31,6 +31,7 @@ Route::post('/recommended/influencers', [InfluencerController::class, 'getRecomm
 Route::get('/influencers/{category}', [InfluencerController::class, 'getInfluencerByCategory']);
 Route::post('/order/review',[ReviewController::class, 'insertReview']);
 
+
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -38,6 +39,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/influencer/{influencer_id}', [InfluencerController::class, 'getInfluencerDetail']);
+    Route::get('/business-report/{content_id}',[CampaignController::class, 'getBusinessReport']);
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::post('/profile/update', [UserController::class, 'update']);
     Route::get('/business/order', [OrderController::class, 'getOrder']);

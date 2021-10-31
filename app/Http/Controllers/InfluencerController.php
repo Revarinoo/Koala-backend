@@ -146,13 +146,13 @@ class InfluencerController extends Controller
             ->join('businesses', 'businesses.id', '=', 'contents.business_id')
             ->join('users', 'users.id', '=', 'businesses.user_id')
             ->where('orders.influencer_id', $influencer_id)
-            ->select('orders.id','users.photo', 'users.name', 'reviews.comment', 'reviews.rating', 'businesses.business_name')
+            ->select('orders.id','users.photo', 'contents.campaign_logo','users.name', 'reviews.comment', 'reviews.rating', 'businesses.business_name')
             ->get();
 
         foreach($orders as $order){
             $project = new Project();
             $project->order_id = $order->id;
-            $project->business_photo = $order->photo;
+            $project->campaign_logo = $order->campaign_logo;
             $project->sum_impressions = (double)$this->countSumImpression($order->id);
             $project->sum_reach = (double)$this->countSumReach($order->id);
             $project->businessOwner_photo = $order->photo;
@@ -234,7 +234,7 @@ class InfluencerDetailResponse {
 
 class Project{
     public $order_id;
-    public $business_photo;
+    public $campaign_logo;
     public $sum_impressions;
     public $sum_reach;
     public $businessOwner_photo;
