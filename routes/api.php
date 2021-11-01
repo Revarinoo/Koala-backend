@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/influencer/{influencer_id}', [InfluencerController::class, 'getInfluencerDetail']);
     Route::get('/business-report/{content_id}',[CampaignController::class, 'getBusinessReport']);
+    Route::get('/business-report',[CampaignController::class, 'getAllBusinessReport']);
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::post('/profile/update', [UserController::class, 'update']);
     Route::get('/business/order', [OrderController::class, 'getOrder']);

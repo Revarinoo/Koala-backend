@@ -102,17 +102,16 @@ class CampaignController extends Controller
     public function getBusinessReport($content_id){
         $data = DB::table('contents')
             ->where('contents.id', $content_id)
-            ->select('contents.name', 'contents.schedule')
+            ->select('contents.name', 'contents.schedule', 'contents.campaign_logo')
             ->first();
             if ($data != null){
                 $campaign_detail = new BusinessReportResponse();
-                foreach($data as $d){
-                    $campaign_detail->content_name = $data->name;
-                    $campaign_detail->dueDate = $data->schedule;
-                    $campaign_detail->totalExpense = $this->getTotalExpense($content_id);
-                    $campaign_detail->analytics = $this->getTotalReachImp($content_id);
-                    $campaign_detail->influencers = $this->getInfluencerReport($content_id);
-                } 
+                $campaign_detail->content_name = $data->name;
+                $campaign_detail->dueDate = $data->schedule;
+                $campaign_detail->campaign_logo = Utility::$imagePath . $data->campaign_logo;
+                $campaign_detail->totalExpense = $this->getTotalExpense($content_id);
+                $campaign_detail->analytics = $this->getTotalReachImp($content_id);
+                $campaign_detail->influencers = $this->getInfluencerReport($content_id);
                 
                 return response()->json([
                     'code'=>201,
@@ -157,14 +156,14 @@ class CampaignController extends Controller
             ->join('reportings', 'reportings.order_detail_id', '=', 'order_details.id')
             ->join('users', 'users.id', '=', 'influencers.user_id')
             ->where('orders.content_id', $content_id)
-            ->select('influencers.id as influencer_id', 'users.name', DB::raw("SUM(order_details.price) as total_price"),
+            ->select('influencers.id as influencer_id', 'users.name', 'users.photo', DB::raw("SUM(order_details.price) as total_price"),
             DB::raw("SUM(reportings.likes) as total_likes"), DB::raw("SUM(reportings.comments) as total_comments"))
-            ->groupBy('users.name', 'influencers.id')
+            ->groupBy('users.name', 'influencers.id', 'users.photo')
             ->get();
 
         foreach($data as $d){
+            $d->photo = Utility::$imagePath . $d->photo;
             $followers = $this->getFollowersCount($d->influencer_id);
-           
             $engagement_rate = $this->getEngagementRate($d->influencer_id);
             $engagement_rate /= $followers;
             $engagement_rate *= 100;
@@ -189,8 +188,6 @@ class CampaignController extends Controller
             
             $total_average = $data->avg_likes + $data->avg_comments;
             
-           
-            
             return $total_average;
     }
 
@@ -202,11 +199,45 @@ class CampaignController extends Controller
         ->first();
         return (double) $followers->follower_count;
     }
+
+    public function getAllBusinessReport(){
+        $user = auth()->user();
+        $business = DB::table('businesses')
+            ->where('businesses.user_id', $user->id)
+            ->first();
+        $reports = DB::table('contents')
+            ->join('orders', 'contents.id', '=', 'orders.content_id')
+            ->join('order_details', 'order_details.order_id', '=', 'orders.id')
+            ->select('orders.content_id', 'contents.name', 'contents.campaign_logo','contents.schedule', DB::raw("SUM(order_details.price) as campaign_price"))
+            ->where('contents.business_id', $business->id)
+            ->groupBy('orders.content_id', 'contents.name', 'contents.schedule', 'contents.campaign_logo')
+            ->get();
+            
+        if ($reports != null){
+            $total_expense = 0;
+            foreach($reports as $r){
+                $r->campaign_logo = Utility::$imagePath . $r->campaign_logo;
+                $total_expense += $r->campaign_price;
+            }
+
+            return response()->json([
+                'reports'=>$reports,
+                'total_expense'=>$total_expense,
+                'code'=>201
+            ]);
+        }
+        return response()->json([
+            'message'=>'Data does not exist.',
+            'code'=>401
+        ]);
+        
+    }
 }
 
 class BusinessReportResponse{
     public $content_name;
     public $dueDate;
+    public $campaign_logo;
     public $totalExpense;
     public $analytics;
     public $influencers;
