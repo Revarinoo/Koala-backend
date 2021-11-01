@@ -150,17 +150,57 @@ class CampaignController extends Controller
     }
 
     public function getInfluencerReport($content_id){
+        $arr = array();
         $data = DB::table('orders')
             ->join('order_details', 'orders.id', '=', 'order_details.order_id')
             ->join('influencers', 'orders.influencer_id', '=', 'influencers.id')
             ->join('reportings', 'reportings.order_detail_id', '=', 'order_details.id')
             ->join('users', 'users.id', '=', 'influencers.user_id')
             ->where('orders.content_id', $content_id)
-            ->select('users.name', DB::raw("SUM(order_details.price) as total_price"),
+            ->select('influencers.id as influencer_id', 'users.name', DB::raw("SUM(order_details.price) as total_price"),
             DB::raw("SUM(reportings.likes) as total_likes"), DB::raw("SUM(reportings.comments) as total_comments"))
-            ->groupBy('users.name')
+            ->groupBy('users.name', 'influencers.id')
             ->get();
-            return $data;
+
+        foreach($data as $d){
+            $followers = $this->getFollowersCount($d->influencer_id);
+           
+            $engagement_rate = $this->getEngagementRate($d->influencer_id);
+            $engagement_rate /= $followers;
+            $engagement_rate *= 100;
+            $d->engagement_rate = number_format((double)$engagement_rate, 2, '.', '');
+         
+            array_push($arr, $d);    
+        }
+        
+        return $arr;
+    }
+
+    public function getEngagementRate($influencer_id){
+        $data = DB::table('orders')
+            ->join('order_details', 'order_details.order_id', '=', 'orders.id')
+            ->join('content_details', 'order_details.content_detail_id', '=', 'content_details.id')
+            ->join('reportings', 'reportings.order_detail_id', '=', 'order_details.id')
+            ->where('orders.influencer_id', $influencer_id)
+            ->where('content_details.content_type', 'Instagram Post')
+            ->select(DB::raw("AVG(reportings.likes) as avg_likes"), DB::raw("AVG(reportings.comments) as avg_comments"))
+            ->groupBy('orders.influencer_id')
+            ->first();
+            
+            $total_average = $data->avg_likes + $data->avg_comments;
+            
+           
+            
+            return $total_average;
+    }
+
+    public function getFollowersCount($influencer_id){
+        $followers = DB::table('platforms')
+        ->join('influencers', 'influencers.id', '=', 'platforms.influencer_id')
+        ->where('influencers.id', $influencer_id)
+        ->select('platforms.followers as follower_count')
+        ->first();
+        return (double) $followers->follower_count;
     }
 }
 

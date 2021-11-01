@@ -19,11 +19,11 @@ class ReportSeeder extends Seeder
             [
                 'id' => 1,
                 'post_url' => "https://www.instagram.com/p/CUbumHlBdAr/?utm_source=ig_web_copy_link",
-                'views' => 1240530,
-                'likes' => 63240,
+                'views' => 95530,
+                'likes' => 43240,
                 'comments' => 1343,
-                'impressions' => 931300,
-                'reach' => 398230,
+                'impressions' => 73300,
+                'reach' => 18230,
                 'order_detail_id'=> 1,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -31,11 +31,11 @@ class ReportSeeder extends Seeder
             [
                 'id' => 2,
                 'post_url' => "https://www.instagram.com/p/CUbumHlBdAr/?utm_source=ig_web_copy_link",
-                'views' => 633320,
+                'views' => 75320,
                 'likes' => 0,
                 'comments' => 0,
-                'impressions' => 531300,
-                'reach' => 172930,
+                'impressions' => 51300,
+                'reach' => 22930,
                 'order_detail_id'=> 2,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -43,11 +43,11 @@ class ReportSeeder extends Seeder
             [
                 'id' => 3,
                 'post_url' => "https://www.instagram.com/p/CVSPnj1MzXM/?utm_source=ig_web_copy_link",
-                'views' => 1645033,
-                'likes' => 90244,
+                'views' => 105033,
+                'likes' => 30244,
                 'comments' => 2230,
-                'impressions' => 923425,
-                'reach' => 235523,
+                'impressions' => 93425,
+                'reach' => 25523,
                 'order_detail_id'=> 3,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
@@ -55,11 +55,11 @@ class ReportSeeder extends Seeder
             [
                 'id' => 4,
                 'post_url' => "https://www.instagram.com/p/CVUZ74_F_tZ/?utm_source=ig_web_copy_link",
-                'views' => 894230,
-                'likes' => 102240,
+                'views' => 99230,
+                'likes' => 23240,
                 'comments' => 1377,
-                'impressions' => 731300,
-                'reach' => 272930,
+                'impressions' => 83300,
+                'reach' => 17930,
                 'order_detail_id'=> 4,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
