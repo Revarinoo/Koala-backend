@@ -15,40 +15,47 @@ use Illuminate\Support\Facades\DB;
 class CampaignController extends Controller
 {
     function createCampaign(Request $request) {
-
-        $business = Business::where('id', $request['business_id'])->first();
+        $user = auth()->user();
+        $business = Business::where('user_id', $user->id)->first();
         if ($business == null) {
             return response()->json([
-                'code'=> 401,
-                'message'=>'User not available'
-            ], 401);
+                'code'=> 404,
+                'message'=>'User does not exist'
+            ], 404);
         }
 
+        if($request['campaign_logo'] != null) {
+            $file = $request->file('campaign_logo');
+            $imgname = time() . $file->getClientOriginalName();
+            Storage::putFileAs('public/images',$file,$imgname);
+        }
+        else {
+            $imgname = "default.png";
+        }
 
-        $file = $request->file('campaign_logo');
-        $imgname = time() . $file->getClientOriginalName();
-        Storage::putFileAs('public/images',$file,$imgname);
 
         $content = Content::create([
             'name'=>$request['name'],
             'description'=> $request['description'],
-            'instruction'=> $request['instruction'],
             'schedule'=>$request['schedule'],
-            'product_campaign'=>$request['product_campaign'],
+            'product_name'=> $request['product_name'],
             'rules'=>$request['rules'],
-            'type'=>$request['type'],
             'campaign_logo'=>$imgname,
-            'business_id'=>$request['business_id']
+            'business_id'=>$business->id
         ]);
 
+        foreach ($request->file('references') as $reference) {
+            $reference_name = time() . $reference->getClientOriginalName();
+            Storage::putFileAs('public/images',$reference,$reference_name);
 
-
-//        ContentPhoto::create([
-//            'content_id'=>$content->id,
-//            'photo'=>$imgname
-//        ]);
+            ContentPhoto::create([
+                'content_id'=>$content->id,
+                'photo' => $reference_name
+            ]);
+        }
 
         return response()->json([
+            'content_id'=> $content->id,
             'code'=>201,
             'message'=>'Success'
         ], 201);
@@ -245,6 +252,19 @@ class CampaignController extends Controller
 
         return response()->json([
            'data'=>$content_details,
+            'message'=>"Success",
+            'code'=>201
+        ]);
+    }
+
+    public function createCampaignDetail(Request $request) {
+        ContentDetail::create([
+            'content_id'=>$request['content_id'],
+            'content_type'=>$request['content_type'],
+            'instruction'=>$request['instruction']
+        ]);
+
+        return response()->json([
             'message'=>"Success",
             'code'=>201
         ]);

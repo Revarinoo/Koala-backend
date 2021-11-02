@@ -26,12 +26,11 @@ use Illuminate\Support\Facades\Route;
 Route::post('/register', [RegisterController::class, 'registerUser']);
 Route::get('/influencers', [InfluencerController::class, 'getAllInfluencer']);
 Route::post('/login', [LoginController::class, 'authenticate']);
-Route::post('/create-campaign', [CampaignController::class, 'createCampaign']);
 Route::post('/recommended/influencers', [InfluencerController::class, 'getRecommendedInfluencers']);
 Route::get('/influencers/{category}', [InfluencerController::class, 'getInfluencerByCategory']);
 Route::post('/order/review',[ReviewController::class, 'insertReview']);
 Route::get('/campaign/detail/{content_id}',[CampaignController::class, 'getCampaignDetail']);
-
+Route::post('/campaign/detail/create', [CampaignController::class, 'createCampaignDetail']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -46,4 +45,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/profile/update', [UserController::class, 'update']);
     Route::get('/business/order', [OrderController::class, 'getOrder']);
     Route::get('/campaign',[CampaignController::class, 'getCampaign']);
+    Route::post('/campaign/create', [CampaignController::class, 'createCampaign']);
 });
