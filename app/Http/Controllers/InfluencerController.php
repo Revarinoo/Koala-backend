@@ -9,6 +9,7 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\Utility;
 
 class InfluencerController extends Controller
 {
@@ -81,7 +82,7 @@ class InfluencerController extends Controller
             $response = new InfluencerResponse();
             $response->influencer_id = $influencer->id;
             $response->influencer_name = $influencer->name;
-            $response->influencer_photo = $influencer->photo;
+            $response->influencer_photo = Utility::$imagePath . $influencer->photo;
             $response->price = $this->getMinRate($influencer->id);
             $response->location = $influencer->location;
             $response->engagement_rate = $influencer->engagement_rate;
@@ -101,6 +102,7 @@ class InfluencerController extends Controller
         if($influencer != null){
             $influencer_detail = new InfluencerDetailResponse();
             $influencer_detail->influencer_profile = $influencer;
+            $influencer_detail->influencer_profile->photo = Utility::$imagePath . $influencer->photo;
             $influencer_detail->categories = $this->getCategory($influencer->user_id);
             $influencer_detail->platforms = $this->getPlatforms($influencer_id);
             $influencer_detail->analytic_photos = $this->getInfluencerAnalytics($influencer_id);;
@@ -121,7 +123,11 @@ class InfluencerController extends Controller
             ->where('influencer_analytics.influencer_id', $influencer_id)
             ->select('influencer_analytics.id', 'influencer_analytics.photo')
             ->get();
-
+            
+            foreach($analytic_photos as $a){
+                $a->photo = Utility::$imagePath . $a->photo;
+            }
+        
         return $analytic_photos;
     }
 
@@ -146,16 +152,16 @@ class InfluencerController extends Controller
             ->join('businesses', 'businesses.id', '=', 'contents.business_id')
             ->join('users', 'users.id', '=', 'businesses.user_id')
             ->where('orders.influencer_id', $influencer_id)
-            ->select('orders.id','users.photo', 'contents.campaign_logo','users.name', 'reviews.comment', 'reviews.rating', 'businesses.business_name')
+            ->select('orders.id','users.photo', 'users.name', 'contents.campaign_logo','reviews.comment', 'reviews.rating', 'businesses.business_name')
             ->get();
 
         foreach($orders as $order){
             $project = new Project();
             $project->order_id = $order->id;
-            $project->campaign_logo = $order->campaign_logo;
+            $project->business_photo = Utility::$imagePath . $order->campaign_logo;
             $project->sum_impressions = (double)$this->countSumImpression($order->id);
             $project->sum_reach = (double)$this->countSumReach($order->id);
-            $project->businessOwner_photo = $order->photo;
+            $project->businessOwner_photo = Utility::$imagePath . $order->photo;
             $project->businessOwner_name = $order->name;
             $project->comment = $order->comment;
             $project->rating = $order->rating;
