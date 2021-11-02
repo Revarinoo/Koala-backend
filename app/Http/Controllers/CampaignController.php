@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Business;
 use App\Models\Content;
+use App\Models\ContentDetail;
 use App\Models\ContentPhoto;
 use App\Models\Utility;
 use Illuminate\Http\Request;
@@ -112,7 +113,7 @@ class CampaignController extends Controller
                 $campaign_detail->totalExpense = $this->getTotalExpense($content_id);
                 $campaign_detail->analytics = $this->getTotalReachImp($content_id);
                 $campaign_detail->influencers = $this->getInfluencerReport($content_id);
-                
+
                 return response()->json([
                     'code'=>201,
                     'campaign_detail'=>$campaign_detail
@@ -144,7 +145,7 @@ class CampaignController extends Controller
             DB::raw("SUM(impressions) as total_imp"))
             ->groupBy('order_details.content_detail_id', 'content_details.content_type')
             ->get();
-            
+
             return $data;
     }
 
@@ -168,10 +169,10 @@ class CampaignController extends Controller
             $engagement_rate /= $followers;
             $engagement_rate *= 100;
             $d->engagement_rate = number_format((double)$engagement_rate, 2, '.', '');
-         
-            array_push($arr, $d);    
+
+            array_push($arr, $d);
         }
-        
+
         return $arr;
     }
 
@@ -185,9 +186,9 @@ class CampaignController extends Controller
             ->select(DB::raw("AVG(reportings.likes) as avg_likes"), DB::raw("AVG(reportings.comments) as avg_comments"))
             ->groupBy('orders.influencer_id')
             ->first();
-            
+
             $total_average = $data->avg_likes + $data->avg_comments;
-            
+
             return $total_average;
     }
 
@@ -212,7 +213,7 @@ class CampaignController extends Controller
             ->where('contents.business_id', $business->id)
             ->groupBy('orders.content_id', 'contents.name', 'contents.schedule', 'contents.campaign_logo')
             ->get();
-            
+
         if ($reports != null){
             $total_expense = 0;
             foreach($reports as $r){
@@ -230,7 +231,23 @@ class CampaignController extends Controller
             'message'=>'Data does not exist.',
             'code'=>401
         ]);
-        
+    }
+
+    public function getCampaignDetail($content_id) {
+        $content_details = ContentDetail::where('content_id', $content_id)->get();
+        if ($content_details->count() == 0){
+            return response()->json([
+                'data'=>$content_details,
+                'message'=>"Campaign does not exist",
+                'code'=>404
+            ]);
+        }
+
+        return response()->json([
+           'data'=>$content_details,
+            'message'=>"Success",
+            'code'=>201
+        ]);
     }
 }
 
