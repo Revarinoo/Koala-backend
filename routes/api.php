@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CampaignController;
+use App\Http\Controllers\CampaignDetailController;
 use App\Http\Controllers\InfluencerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RegisterController;
@@ -32,6 +33,7 @@ Route::post('/order/review',[ReviewController::class, 'insertReview']);
 Route::get('/campaign/detail/{content_id}',[CampaignController::class, 'getCampaignDetail']);
 Route::post('/campaign/detail/create', [CampaignController::class, 'createCampaignDetail']);
 Route::post('order/create', [OrderController::class, 'createOrder']);
+Route::get('/campaign/detail/upcoming/{content_id}', [CampaignDetailController::class, 'getCampaignDetail']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
