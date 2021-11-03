@@ -31,6 +31,7 @@ Route::get('/influencers/{category}', [InfluencerController::class, 'getInfluenc
 Route::post('/order/review',[ReviewController::class, 'insertReview']);
 Route::get('/campaign/detail/{content_id}',[CampaignController::class, 'getCampaignDetail']);
 Route::post('/campaign/detail/create', [CampaignController::class, 'createCampaignDetail']);
+Route::post('order/create', [OrderController::class, 'createOrder']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

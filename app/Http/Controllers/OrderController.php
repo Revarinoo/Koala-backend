@@ -69,6 +69,20 @@ class OrderController extends Controller
     private function calculateER(Reporting $reporting, int $followers) {
         return (($reporting->likes + $reporting->comments) / $followers) * 100;
     }
+
+    public function createOrder(Request $request) {
+        Order::create([
+            'status'=>$request['status'],
+            'order_date'=>$request['order_date'],
+            'content_id'=>$request['content_id'],
+            'influencer_id'=>$request['influencer_id']
+        ]);
+
+        return response([
+            'message'=>"Success",
+            'code'=>201
+        ]);
+    }
 }
 
 class BusinessOrder {
