@@ -16,26 +16,26 @@ class ContentPhotoSeeder extends Seeder
     public function run()
     {
         $content_photos = [
-            [   
+            [
                 'id' => 1,
                 'content_id' => 1,
-                'photo' => "kopikenangan",
+                'photo' => "kopikenangan.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
-            [   
+            [
                 'id' => 2,
                 'content_id' => 2,
-                'photo' => "starbucks",
+                'photo' => "starbucks.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
-            [   
+            [
                 'id' => 3,
                 'content_id' => 3,
-                'photo' => "burgerking",
+                'photo' => "burgerking.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
-                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')  
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
         ];
         DB::table('content_photos')->insert($content_photos);
