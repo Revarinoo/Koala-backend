@@ -89,14 +89,6 @@ class CampaignController extends Controller
         return $data;
     }
 
-    function getCampaignPhoto(Content $content) {
-        $data = array();
-        foreach ($content->contentPhoto as $photo) {
-            array_push($data, Utility::$imagePath . $photo->photo);
-        }
-        return $data;
-    }
-
     private function getStatus($date) {
         $today = date('Y-m-d H:i:s');
         $today_time = strtotime($today);
