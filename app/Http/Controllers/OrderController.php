@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Business;
 use App\Models\Order;
 use App\Models\OrderDetail;
+use App\Models\Content;
 use App\Models\Reporting;
 use App\Models\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class OrderController extends Controller
 {
@@ -81,6 +83,30 @@ class OrderController extends Controller
         return response([
             'message'=>"Success",
             'code'=>201
+        ]);
+    }
+
+    public function rescheduleOrder(Request $request){
+    
+        $order = Order::find($request->order_id);
+       
+        if ($order != null && $request->dueDate != null){
+
+            $date = Carbon::parse($request->dueDate)->format('Y-m-d');
+            $order->order_date = $date;
+            $order->save();
+            
+            return response([
+                'code'=>201,
+                'message'=>"Success",
+                'order_id'=>$order->id,
+                'dueDate'=> $order->order_date
+            ]);
+            
+        }
+        return response([
+            'code'=>401,
+            'message'=>"Failed"
         ]);
     }
 }
