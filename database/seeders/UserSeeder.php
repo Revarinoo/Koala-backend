@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 36,
                 'location' => "California",
-                'photo' => "elonmusk.png",
+                'photo' => "elonmusk.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -34,7 +34,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 35,
                 'location' => "Jakarta Barat",
-                'photo' => "radityadika.png",
+                'photo' => "radityadika.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -56,7 +56,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 29,
                 'location' => "Jakarta Selatan",
-                'photo' => "asokaremadjas.png",
+                'photo' => "asokaremadjas.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -67,7 +67,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 21,
                 'location' => "Semarang",
-                'photo' => "erikanatalia.png",
+                'photo' => "erikanatalia.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -78,7 +78,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 26,
                 'location' => "Jakarta Selatan",
-                'photo' => "hansdaniel.png",
+                'photo' => "hansdaniel.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -89,7 +89,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 33,
                 'location' => "Bandung",
-                'photo' => "alexferdy.png",
+                'photo' => "alexferdy.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -100,7 +100,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 26,
                 'location' => "Tangerang",
-                'photo' => "magdalena.png",
+                'photo' => "magdalena.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -111,7 +111,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 42,
                 'location' => "Surabaya",
-                'photo' => "tanboykun.png",
+                'photo' => "tanboykun.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -122,7 +122,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 36,
                 'location' => "Jakarta Utara",
-                'photo' => "titantyra.png",
+                'photo' => "titantyra.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -133,7 +133,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 37,
                 'location' => "Jakarta Utara",
-                'photo' => "baimwong.png",
+                'photo' => "baimwong.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -144,7 +144,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 27,
                 'location' => "Jakarta Selatan",
-                'photo' => "anyageraldine.png",
+                'photo' => "anyageraldine.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -155,7 +155,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 24,
                 'location' => "Jakarta Timur",
-                'photo' => "citrakirana.png",
+                'photo' => "citrakirana.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -166,7 +166,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 24,
                 'location' => "Jakarta Timur",
-                'photo' => "ginaangelia.png",
+                'photo' => "ginaangelia.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -177,7 +177,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 26,
                 'location' => "Jakarta Barat",
-                'photo' => "tasyafarasya.png",
+                'photo' => "tasyafarasya.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -188,7 +188,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 28,
                 'location' => "Jakarta Timur",
-                'photo' => "yukikato.png",
+                'photo' => "yukikato.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -199,7 +199,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 42,
                 'location' => "Jakarta Barat",
-                'photo' => "tomjerry.png",
+                'photo' => "tomjerry.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
@@ -210,7 +210,7 @@ class UserSeeder extends Seeder
                 'password' => Hash::make('123456'),
                 'age' => 38,
                 'location' => "Bekasi",
-                'photo' => "davidedgy.png",
+                'photo' => "davidedgy.jpeg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
