@@ -27,7 +27,7 @@ class InfluencerController extends Controller
             if (($categories = $this->getCategory($platform->user_id)) != null) {
                 $obj->influencer_id = $platform->influencer_id;
                 $obj->influencer_name = $platform->name;
-                $obj->influencer_photo = $platform->photo;
+                $obj->influencer_photo = Utility::$imagePath . $platform->photo;
                 $obj->price = $this->getMinRate($platform->influencer_id);
                 $obj->engagement_rate = $platform->engagement_rate;
                 $obj->categories = $categories;
@@ -107,7 +107,7 @@ class InfluencerController extends Controller
             $influencer_detail->platforms = $this->getPlatforms($influencer_id);
             $influencer_detail->analytic_photos = $this->getInfluencerAnalytics($influencer_id);;
             $influencer_detail->projects = $projects = $this->getProjects($influencer_id);
-            
+
             return response()->json($influencer_detail, 201);
         }
 
@@ -123,11 +123,11 @@ class InfluencerController extends Controller
             ->where('influencer_analytics.influencer_id', $influencer_id)
             ->select('influencer_analytics.id', 'influencer_analytics.photo')
             ->get();
-            
+
             foreach($analytic_photos as $a){
                 $a->photo = Utility::$imagePath . $a->photo;
             }
-        
+
         return $analytic_photos;
     }
 

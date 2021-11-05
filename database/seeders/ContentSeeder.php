@@ -42,7 +42,7 @@ class ContentSeeder extends Seeder
             [   'id' => 3,
                 'name'=>'New Product Campaign',
                 'description'=>"Introduction\nMy Coffee is a coffee shop located in South Jakarta. Famous for our iced americano that brewed to perfection to help start your day and caramel latte with creamy texture yet refreshing to slow down your pace in the busy life.",
-                'schedule' => Carbon::now()->format('Y-m-d'),
+                'schedule' => date('Y.m.d',strtotime("-1 days")),
                 'product_name'=>"1x Iced Latter",
                 'rules'=> "Must show that you drink the coffee.\nShow price of each products.\nMention all our location.\nTag us in the post",
                 'campaign_logo'=>"newproduct.png",

@@ -6,6 +6,7 @@ use App\Models\Business;
 use App\Models\Content;
 use App\Models\ContentDetail;
 use App\Models\ContentPhoto;
+use App\Models\Order;
 use App\Models\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
@@ -145,7 +146,14 @@ class CampaignController extends Controller
             ->groupBy('order_details.content_detail_id', 'content_details.content_type')
             ->get();
 
-            return $data;
+        if ($data->isEmpty()) {
+            return array(
+                'content_type'=>0,
+                'total_reach'=>0,
+                'total_imp'=>0
+            );
+        }
+        return $data;
     }
 
     public function getInfluencerReport($content_id){
@@ -170,6 +178,19 @@ class CampaignController extends Controller
             $d->engagement_rate = number_format((double)$engagement_rate, 2, '.', '');
 
             array_push($arr, $d);
+        }
+
+        if ($arr == []) {
+            $order = Order::where('content_id', $content_id)->first();
+            return array(
+                'influencer_id'=>$order->influencer->id,
+                'name'=>$order->influencer->name,
+                'photo'=> Utility::$imagePath . $order->influencer->user->photo,
+                'total_price'=>$order->orderDetail->sum('price'),
+                'total_likes'=>0,
+                'total_comments'=>0,
+                'engagement_rate'=>0
+            );
         }
 
         return $arr;
