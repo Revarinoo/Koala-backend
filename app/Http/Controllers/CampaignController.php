@@ -147,11 +147,16 @@ class CampaignController extends Controller
             ->get();
 
         if ($data->isEmpty()) {
-            return array(
-                'content_type'=>0,
-                'total_reach'=>0,
-                'total_imp'=>0
-            );
+            $arr = array();
+            $content_details = ContentDetail::where('content_id', $content_id)->get();
+            foreach ($content_details as $content_detail) {
+                array_push($arr, [
+                    'content_type'=>$content_detail->content_type,
+                    'total_reach' => "0",
+                    'total_imp'=> "0"
+                ]);
+            }
+            return $arr;
         }
         return $data;
     }
@@ -184,12 +189,12 @@ class CampaignController extends Controller
             $order = Order::where('content_id', $content_id)->first();
             return array(
                 'influencer_id'=>$order->influencer->id,
-                'name'=>$order->influencer->name,
+                'name'=>$order->influencer->user->name,
                 'photo'=> Utility::$imagePath . $order->influencer->user->photo,
                 'total_price'=>$order->orderDetail->sum('price'),
-                'total_likes'=>0,
-                'total_comments'=>0,
-                'engagement_rate'=>0
+                'total_likes'=>"0",
+                'total_comments'=>"0",
+                'engagement_rate'=>"0"
             );
         }
 
