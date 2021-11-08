@@ -17,7 +17,8 @@ class CreateContentsTable extends Migration
             $table->id();
             $table->string('name');
             $table->string('description');
-            $table->date('schedule');
+            $table->date('start_date');
+            $table->date('end_date');
             $table->text('product_name');
             $table->longText('rules');
             $table->string('campaign_logo');

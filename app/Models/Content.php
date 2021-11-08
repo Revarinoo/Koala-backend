@@ -12,7 +12,8 @@ class Content extends Model
     protected $fillable = [
         'name',
         'description',
-        'schedule',
+        'start_date',
+        'end_date',
         'product_name',
         'rules',
         'campaign_logo',

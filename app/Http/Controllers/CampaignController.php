@@ -38,7 +38,8 @@ class CampaignController extends Controller
         $content = Content::create([
             'name'=>$request['name'],
             'description'=> $request['description'],
-            'schedule'=>$request['schedule'],
+            'start_date'=>$request['start_date'],
+            'end_date'=>$request['end_date'],
             'product_name'=> $request['product_name'],
             'rules'=>$request['rules'],
             'campaign_logo'=>$imgname,
@@ -70,8 +71,8 @@ class CampaignController extends Controller
             $temp->content_id = $content->id;
             $temp->name = $content->name;
             $temp->photo = Utility::$imagePath . $content->campaign_logo;
-            $temp->schedule = $content->schedule;
-            $temp->status = $this->getStatus($content->schedule);
+            $temp->schedule = $content->end_date;
+            $temp->status = $this->getStatus($content->end_date);
             $temp->type = $this->getContentType($content->contentDetail);
             array_push($data, $temp);
         }
