@@ -178,11 +178,8 @@ class CampaignController extends Controller
         foreach($data as $d){
             $d->photo = Utility::$imagePath . $d->photo;
             $followers = $this->getFollowersCount($d->influencer_id);
-            $engagement_rate = $this->getEngagementRate($d->influencer_id);
-            $engagement_rate /= $followers;
-            $engagement_rate *= 100;
-            $d->engagement_rate = number_format((double)$engagement_rate, 2, '.', '');
-
+            $d->engagement_rate = $this->getEngagementRate($d->influencer_id);
+           
             array_push($arr, $d);
         }
 
@@ -215,8 +212,12 @@ class CampaignController extends Controller
             ->first();
 
             $total_average = $data->avg_likes + $data->avg_comments;
+            $followers = $this->getFollowersCount($influencer_id);
+            $engagement_rate = $total_average / $followers;
+            $engagement_rate *= 100;
+            $engagement_rate = number_format((double)$engagement_rate, 2, '.', '');
 
-            return $total_average;
+            return $engagement_rate;
     }
 
     public function getFollowersCount($influencer_id){
@@ -236,21 +237,16 @@ class CampaignController extends Controller
         $reports = DB::table('contents')
             ->join('orders', 'contents.id', '=', 'orders.content_id')
             ->join('order_details', 'order_details.order_id', '=', 'orders.id')
-            ->select('orders.content_id', 'contents.name', 'contents.campaign_logo','contents.schedule', DB::raw("SUM(order_details.price) as campaign_price"))
+            ->join('reportings', 'reportings.order_detail_id', '=', 'order_details.id')
+            ->select('contents.end_date', DB::raw("SUM(order_details.price) as total_price"), DB::raw("AVG(reportings.impressions) as avg_imp"), DB::raw("AVG(reportings.reach) as avg_reach"))
             ->where('contents.business_id', $business->id)
-            ->groupBy('orders.content_id', 'contents.name', 'contents.schedule', 'contents.campaign_logo')
-            ->get();
+            ->groupBy('contents.business_id', 'contents.end_date')
+            ->first();
 
         if ($reports != null){
-            $total_expense = 0;
-            foreach($reports as $r){
-                $r->campaign_logo = Utility::$imagePath . $r->campaign_logo;
-                $total_expense += $r->campaign_price;
-            }
-
+            $reports->avg_er = $this->getAverageEngagementRate($business->id);
             return response()->json([
                 'reports'=>$reports,
-                'total_expense'=>$total_expense,
                 'code'=>201
             ]);
         }
@@ -288,6 +284,26 @@ class CampaignController extends Controller
             'message'=>"Success",
             'code'=>201
         ]);
+    }
+
+    public function getAverageEngagementRate($business_id){
+        
+        $influencers = DB::table('orders')
+            ->join('influencers', 'influencers.id', '=', 'orders.influencer_id')
+            ->join('contents', 'contents.id', '=', 'orders.content_id')
+            ->where('contents.business_id', $business_id)
+            ->select('influencers.id')
+            ->get();
+
+            if($influencers != null){
+                $avg_er = 0;
+                foreach ($influencers as $i){
+                    $engagement_rate = $this->getEngagementRate($i->id);
+                    $avg_er += $engagement_rate;
+                }
+                $avg_er /= count($influencers);
+            }
+        return $avg_er;
     }
 }
 
