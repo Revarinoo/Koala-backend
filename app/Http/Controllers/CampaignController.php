@@ -178,7 +178,7 @@ class CampaignController extends Controller
         foreach($data as $d){
             $d->photo = Utility::$imagePath . $d->photo;
             $followers = $this->getFollowersCount($d->influencer_id);
-            $d->engagement_rate = $this->getEngagementRate($d->influencer_id);
+            $d->engagement_rate = $this->getEngagementRate($d->influencer_id, $content_id);
            
             array_push($arr, $d);
         }
@@ -200,15 +200,16 @@ class CampaignController extends Controller
         return $arr;
     }
 
-    public function getEngagementRate($influencer_id){
+    public function getEngagementRate($influencer_id, $content_id){
         $data = DB::table('orders')
             ->join('order_details', 'order_details.order_id', '=', 'orders.id')
             ->join('content_details', 'order_details.content_detail_id', '=', 'content_details.id')
             ->join('reportings', 'reportings.order_detail_id', '=', 'order_details.id')
             ->where('orders.influencer_id', $influencer_id)
+            ->where('content_details.content_id', $content_id)
             ->where('content_details.content_type', 'Instagram Post')
             ->select(DB::raw("AVG(reportings.likes) as avg_likes"), DB::raw("AVG(reportings.comments) as avg_comments"))
-            ->groupBy('orders.influencer_id')
+            ->groupBy('order_details.order_id')
             ->first();
 
             $total_average = $data->avg_likes + $data->avg_comments;
@@ -216,7 +217,6 @@ class CampaignController extends Controller
             $engagement_rate = $total_average / $followers;
             $engagement_rate *= 100;
             $engagement_rate = number_format((double)$engagement_rate, 2, '.', '');
-
             return $engagement_rate;
     }
 
@@ -292,16 +292,20 @@ class CampaignController extends Controller
             ->join('influencers', 'influencers.id', '=', 'orders.influencer_id')
             ->join('contents', 'contents.id', '=', 'orders.content_id')
             ->where('contents.business_id', $business_id)
-            ->select('influencers.id')
+            ->where('orders.status','Completed')
+            ->select('influencers.id as influencer_id', 'contents.id as content_id')
             ->get();
 
             if($influencers != null){
                 $avg_er = 0;
+
                 foreach ($influencers as $i){
-                    $engagement_rate = $this->getEngagementRate($i->id);
+                    $engagement_rate = $this->getEngagementRate($i->influencer_id, $i->content_id);
                     $avg_er += $engagement_rate;
                 }
                 $avg_er /= count($influencers);
+                $avg_er = number_format((double)$avg_er, 2, '.', '');
+
             }
         return $avg_er;
     }
