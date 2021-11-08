@@ -16,7 +16,8 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('product_type');
-            $table->integer('rate');
+            $table->integer('min_rate');
+            $table->integer('max_rate');
             $table->foreignId('influencer_id');
             $table->foreignId('platform_id');
             $table->timestamps();

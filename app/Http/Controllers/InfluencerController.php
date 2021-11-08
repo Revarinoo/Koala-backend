@@ -45,7 +45,7 @@ class InfluencerController extends Controller
     }
 
     function getMinRate(int $id) {
-        $rate = Product::where('influencer_id', $id)->get()->min('rate');
+        $rate = Product::where('influencer_id', $id)->get()->min('min_rate');
         return $rate;
     }
 
@@ -106,8 +106,8 @@ class InfluencerController extends Controller
             $influencer_detail->categories = $this->getCategory($influencer->user_id);
             $influencer_detail->platforms = $this->getPlatforms($influencer_id);
             $influencer_detail->analytic_photos = $this->getInfluencerAnalytics($influencer_id);;
-            $influencer_detail->projects = $projects = $this->getProjects($influencer_id);
-
+            $influencer_detail->projects = $this->getProjects($influencer_id);
+            $influencer_detail->products = $this->getProductPrice($influencer_id);
             return response()->json($influencer_detail, 201);
         }
 
@@ -216,6 +216,20 @@ class InfluencerController extends Controller
             'message'=>'Success'
         ]);
     }
+
+    public function getProductPrice($influencer_id) {
+        $influencer = Influencer::where('id', $influencer_id)->first();
+        $data = array();
+        foreach ($influencer->product as $product) {
+            $temp = array(
+                'content_type'=>$product->product_type,
+                'minPrice'=> $product->min_rate,
+                'maxPrice'=> $product->max_rate
+            );
+            array_push($data, $temp);
+        }
+        return $data;
+    }
 }
 
 
@@ -234,6 +248,7 @@ class InfluencerDetailResponse {
     public $influencer_profile;
     public $categories;
     public $platforms;
+    public $products;
     public $analytic_photos;
     public $projects;
 }
