@@ -104,12 +104,12 @@ class CampaignController extends Controller
     public function getBusinessReport($content_id){
         $data = DB::table('contents')
             ->where('contents.id', $content_id)
-            ->select('contents.name', 'contents.schedule', 'contents.campaign_logo')
+            ->select('contents.name', 'contents.end_date', 'contents.campaign_logo')
             ->first();
             if ($data != null){
                 $campaign_detail = new BusinessReportResponse();
                 $campaign_detail->content_name = $data->name;
-                $campaign_detail->dueDate = $data->schedule;
+                $campaign_detail->end_date = $data->end_date;
                 $campaign_detail->campaign_logo = Utility::$imagePath . $data->campaign_logo;
                 $campaign_detail->totalExpense = $this->getTotalExpense($content_id);
                 $campaign_detail->analytics = $this->getTotalReachImp($content_id);
@@ -293,7 +293,7 @@ class CampaignController extends Controller
 
 class BusinessReportResponse{
     public $content_name;
-    public $dueDate;
+    public $end_date;
     public $campaign_logo;
     public $totalExpense;
     public $analytics;
