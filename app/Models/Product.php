@@ -11,7 +11,8 @@ class Product extends Model
 
     protected $fillable = [
         'product_type',
-        'rate',
+        'min_rate',
+        'max_rate',
         'influencer_id',
         'platform_id',
     ];
