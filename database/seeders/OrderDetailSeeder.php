@@ -63,7 +63,63 @@ class OrderDetailSeeder extends Seeder
                 'content_detail_id' => 6,
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
-            ]
+            ],
+            [
+                'id' => 7,
+                'price'=>520000,
+                'order_id' => 4,
+                'content_detail_id' => 7,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 8,
+                'price'=>345000,
+                'order_id' => 5,
+                'content_detail_id' => 7,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 9,
+                'price'=>950000,
+                'order_id' => 6,
+                'content_detail_id' => 7,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 10,
+                'price'=>1500000,
+                'order_id' => 7,
+                'content_detail_id' => 7,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 11,
+                'price'=>760000,
+                'order_id' => 8,
+                'content_detail_id' => 8,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 12,
+                'price'=>420000,
+                'order_id' => 9,
+                'content_detail_id' => 8,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 13,
+                'price'=>1400000,
+                'order_id' => 10,
+                'content_detail_id' => 8,
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
         ];
         DB::table('order_details')->insert($order_details);
     }
