@@ -104,7 +104,7 @@ class ReportSeeder extends Seeder
                 'id' => 8,
                 'post_url' => "https://www.instagram.com/p/CVUZ74_F_tZ/?utm_source=ig_web_copy_link",
                 'views' => 120154,
-                'likes' => 390433,
+                'likes' => 60898,
                 'comments' => 594,
                 'impressions' => 89300,
                 'reach' => 2930,

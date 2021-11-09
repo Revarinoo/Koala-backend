@@ -107,7 +107,7 @@ class CampaignController extends Controller
             ->select('contents.name', 'contents.end_date', 'contents.campaign_logo')
             ->first();
             if ($data != null){
-                $campaign_detail = new BusinessReportResponse();
+                $campaign_detail = new BusinessReportDetailResponse();
                 $campaign_detail->content_name = $data->name;
                 $campaign_detail->end_date = $data->end_date;
                 $campaign_detail->campaign_logo = Utility::$imagePath . $data->campaign_logo;
@@ -238,15 +238,44 @@ class CampaignController extends Controller
             ->join('orders', 'contents.id', '=', 'orders.content_id')
             ->join('order_details', 'order_details.order_id', '=', 'orders.id')
             ->join('reportings', 'reportings.order_detail_id', '=', 'order_details.id')
-            ->select('contents.end_date', DB::raw("SUM(order_details.price) as total_price"), DB::raw("AVG(reportings.impressions) as avg_imp"), DB::raw("AVG(reportings.reach) as avg_reach"))
+            ->select(DB::raw('YEAR(orders.updated_at) year, MONTH(orders.updated_at) month'), DB::raw("SUM(order_details.price) as total_price"), DB::raw("AVG(reportings.impressions) as avg_imp"), DB::raw("AVG(reportings.reach) as avg_reach"))
             ->where('contents.business_id', $business->id)
-            ->groupBy('contents.business_id', 'contents.end_date')
-            ->first();
-
-        if ($reports != null){
-            $reports->avg_er = $this->getAverageEngagementRate($business->id);
+            ->groupBy('year', 'month')
+            ->get();
+            $result = array();
+            if ($reports != null){
+                $index = 0;
+                foreach ($reports as $report){
+                    $report->avg_er = $this->getAverageEngagementRate($business->id, $report->month, $report->year,);
+                    
+                    $data = new BusinessReportResponse();
+                    $avg_imp = new AverageImp();
+                    $avg_reach = new AverageReach();
+                    $avg_er = new AverageER();
+                    $data->month = $report->month;
+                    $data->total_expense = $report->total_price;
+                    $overview = new OverviewData();
+                    
+                    $avg_imp->data = number_format((double)$report->avg_imp, 2, '.', '');
+                    $avg_reach->data = number_format((double)$report->avg_reach, 2, '.', '');
+                    $avg_er->data = $report->avg_er;
+                    if($index != 0){
+                        
+                        $avg_imp->diff = $this->calculateDiffPercentage($reports[$index-1]->avg_imp,$report->avg_imp);
+                        $avg_reach->diff = $this->calculateDiffPercentage($reports[$index-1]->avg_reach, $report->avg_reach,);
+                        
+                        $avg_er->diff = number_format((double)$report->avg_er - $reports[$index-1]->avg_er, 2, '.', '');
+                        
+                    }
+                    $overview->avg_reach = $avg_reach;
+                    $overview->avg_impression = $avg_imp;
+                    $overview->avg_er = $avg_er;
+                    $data->overview_data = $overview;
+                    $index++;
+                    array_push($result, $data);
+                }
             return response()->json([
-                'reports'=>$reports,
+                'reports'=>$result,
                 'code'=>201
             ]);
         }
@@ -254,6 +283,14 @@ class CampaignController extends Controller
             'message'=>'Data does not exist.',
             'code'=>401
         ]);
+    }
+
+    public function calculateDiffPercentage($avg_before, $avg_after){
+        $diffPercentage = $avg_before - $avg_after;
+        $diffPercentage /= $avg_before;
+        $diffPercentage *= 100;
+        $diffPercentage = number_format((double)$diffPercentage, 2, '.', '');
+        return $diffPercentage;
     }
 
     public function getCampaignDetail($content_id) {
@@ -286,32 +323,32 @@ class CampaignController extends Controller
         ]);
     }
 
-    public function getAverageEngagementRate($business_id){
+    public function getAverageEngagementRate($business_id, $month, $year){
         
         $influencers = DB::table('orders')
             ->join('influencers', 'influencers.id', '=', 'orders.influencer_id')
             ->join('contents', 'contents.id', '=', 'orders.content_id')
             ->where('contents.business_id', $business_id)
             ->where('orders.status','Completed')
+            ->whereYear('orders.updated_at', $year)
+            ->whereMonth('orders.updated_at', $month)
             ->select('influencers.id as influencer_id', 'contents.id as content_id')
             ->get();
 
+            $avg_er = 0;
             if($influencers != null){
-                $avg_er = 0;
-
+                
                 foreach ($influencers as $i){
-                    $engagement_rate = $this->getEngagementRate($i->influencer_id, $i->content_id);
-                    $avg_er += $engagement_rate;
+                    $avg_er += $this->getEngagementRate($i->influencer_id, $i->content_id);
                 }
-                $avg_er /= count($influencers);
+                $avg_er/= count($influencers);
                 $avg_er = number_format((double)$avg_er, 2, '.', '');
-
             }
         return $avg_er;
     }
 }
 
-class BusinessReportResponse{
+class BusinessReportDetailResponse{
     public $content_name;
     public $end_date;
     public $campaign_logo;
@@ -327,4 +364,31 @@ class CampaignData {
     public $schedule;
     public $status;
     public $type;
+}
+
+class BusinessReportResponse{
+    public $month;
+    public $total_expense;
+    public $overview_data;
+}
+
+class OverviewData{
+    public $avg_reach;
+    public $avg_impression;
+    public $avg_er;
+}
+
+class AverageImp{
+    public $data;
+    public $diff;
+}
+
+class AverageReach{
+    public $data;
+    public $diff;
+}
+
+class AverageER{
+    public $data;
+    public $diff;
 }
