@@ -186,15 +186,29 @@ class CampaignController extends Controller
 
         if ($arr == []) {
             $order = Order::where('content_id', $content_id)->first();
-            $temp_array = array(
-                'influencer_id'=>$order->influencer->id,
-                'name'=>$order->influencer->user->name,
-                'photo'=> Utility::$imagePath . $order->influencer->user->photo,
-                'total_price'=>$order->orderDetail->sum('price'),
-                'total_likes'=>"0",
-                'total_comments'=>"0",
-                'engagement_rate'=>"0"
-            );
+            if ($order == null) {
+                $temp_array = array(
+                    'influencer_id'=>0,
+                    'name'=>"",
+                    'photo'=> "",
+                    'total_price'=> 0,
+                    'total_likes'=>"0",
+                    'total_comments'=>"0",
+                    'engagement_rate'=>"0"
+                );
+            }
+
+            else {
+                $temp_array = array(
+                    'influencer_id'=>$order->influencer->id,
+                    'name'=>$order->influencer->user->name,
+                    'photo'=> Utility::$imagePath . $order->influencer->user->photo,
+                    'total_price'=>$order->orderDetail->sum('price'),
+                    'total_likes'=>"0",
+                    'total_comments'=>"0",
+                    'engagement_rate'=>"0"
+                );
+            }
             array_push($arr, $temp_array);
         }
 
