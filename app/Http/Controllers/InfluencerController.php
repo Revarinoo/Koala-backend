@@ -201,7 +201,7 @@ class InfluencerController extends Controller
                 $influencer->influencer_id = $list->user->influencer->id;
                 $influencer->categories = $this->getCategory($list->user->id);
                 $influencer->influencer_name = $list->user->name;
-                $influencer->influencer_photo = $list->user->photo;
+                $influencer->influencer_photo = Utility::$imagePath . $list->user->photo;
                 $influencer->price = $this->getMinRate($list->user->influencer->id);
                 $influencer->location = $list->user->location;
                 $influencer->rating = $list->user->influencer->rating;
