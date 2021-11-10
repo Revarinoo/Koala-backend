@@ -53,6 +53,30 @@ class ContentSeeder extends Seeder
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
+            [   'id' => 4,
+                'name'=>'Boba Campaign',
+                'description'=>"Introduction\nBrown Sugar Ombré Effect presented inside the edge of our signature Brown Sugar Boba Milk is named our ‘happiness pattern’ by Xing Fu Tong’s Founder. Xing Fu means ‘happiness’ in Chinese.",
+                'start_date' => Carbon::now()->subDays(60)->format('Y-m-d'),
+                'end_date' => Carbon::now()->format('Y-m-d'),
+                'product_name'=>"1x Brown Sugar Boba Milk",
+                'rules'=> "Must show that you drink the boba.\nShow price of each products.\nMention all our location.\nTag us in the post",
+                'campaign_logo'=>"bobacampaign.jpeg",
+                'business_id'=> 1,
+                'created_at' => Carbon::now()->subDays(60)->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [   'id' => 5,
+                'name'=>'Pretzel Campaign',
+                'description'=>"You can count the ingredients in our hand-held snacks on one hand. And that’s how snacking should be.",
+                'start_date' => Carbon::now()->subDays(90)->format('Y-m-d'),
+                'end_date' => Carbon::now()->subDays(30)->format('Y-m-d'),
+                'product_name'=>"1x Original Pretzel",
+                'rules'=> "Must show that you eat the pretzel.\nShow price of each products.\nMention all our location.\nTag us in the post",
+                'campaign_logo'=>"pretzelcampaign.jpeg",
+                'business_id'=> 1,
+                'created_at' => Carbon::now()->subDays(90)->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->subDays(30)->format('Y-m-d H:i:s')
+            ],
         ];
         DB::table('contents')->insert($contents);
     }

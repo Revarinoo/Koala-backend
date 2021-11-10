@@ -104,12 +104,12 @@ class CampaignController extends Controller
     public function getBusinessReport($content_id){
         $data = DB::table('contents')
             ->where('contents.id', $content_id)
-            ->select('contents.name', 'contents.schedule', 'contents.campaign_logo')
+            ->select('contents.name', 'contents.end_date', 'contents.campaign_logo')
             ->first();
             if ($data != null){
-                $campaign_detail = new BusinessReportResponse();
+                $campaign_detail = new BusinessReportDetailResponse();
                 $campaign_detail->content_name = $data->name;
-                $campaign_detail->dueDate = $data->schedule;
+                $campaign_detail->end_date = $data->end_date;
                 $campaign_detail->campaign_logo = Utility::$imagePath . $data->campaign_logo;
                 $campaign_detail->totalExpense = $this->getTotalExpense($content_id);
                 $campaign_detail->analytics = $this->getTotalReachImp($content_id);
@@ -178,11 +178,8 @@ class CampaignController extends Controller
         foreach($data as $d){
             $d->photo = Utility::$imagePath . $d->photo;
             $followers = $this->getFollowersCount($d->influencer_id);
-            $engagement_rate = $this->getEngagementRate($d->influencer_id);
-            $engagement_rate /= $followers;
-            $engagement_rate *= 100;
-            $d->engagement_rate = number_format((double)$engagement_rate, 2, '.', '');
-
+            $d->engagement_rate = $this->getEngagementRate($d->influencer_id, $content_id);
+           
             array_push($arr, $d);
         }
 
@@ -203,20 +200,24 @@ class CampaignController extends Controller
         return $arr;
     }
 
-    public function getEngagementRate($influencer_id){
+    public function getEngagementRate($influencer_id, $content_id){
         $data = DB::table('orders')
             ->join('order_details', 'order_details.order_id', '=', 'orders.id')
             ->join('content_details', 'order_details.content_detail_id', '=', 'content_details.id')
             ->join('reportings', 'reportings.order_detail_id', '=', 'order_details.id')
             ->where('orders.influencer_id', $influencer_id)
+            ->where('content_details.content_id', $content_id)
             ->where('content_details.content_type', 'Instagram Post')
             ->select(DB::raw("AVG(reportings.likes) as avg_likes"), DB::raw("AVG(reportings.comments) as avg_comments"))
-            ->groupBy('orders.influencer_id')
+            ->groupBy('order_details.order_id')
             ->first();
 
             $total_average = $data->avg_likes + $data->avg_comments;
-
-            return $total_average;
+            $followers = $this->getFollowersCount($influencer_id);
+            $engagement_rate = $total_average / $followers;
+            $engagement_rate *= 100;
+            $engagement_rate = number_format((double)$engagement_rate, 2, '.', '');
+            return $engagement_rate;
     }
 
     public function getFollowersCount($influencer_id){
@@ -236,21 +237,45 @@ class CampaignController extends Controller
         $reports = DB::table('contents')
             ->join('orders', 'contents.id', '=', 'orders.content_id')
             ->join('order_details', 'order_details.order_id', '=', 'orders.id')
-            ->select('orders.content_id', 'contents.name', 'contents.campaign_logo','contents.schedule', DB::raw("SUM(order_details.price) as campaign_price"))
+            ->join('reportings', 'reportings.order_detail_id', '=', 'order_details.id')
+            ->select(DB::raw('YEAR(orders.updated_at) year, MONTH(orders.updated_at) month'), DB::raw("SUM(order_details.price) as total_price"), DB::raw("AVG(reportings.impressions) as avg_imp"), DB::raw("AVG(reportings.reach) as avg_reach"))
             ->where('contents.business_id', $business->id)
-            ->groupBy('orders.content_id', 'contents.name', 'contents.schedule', 'contents.campaign_logo')
+            ->groupBy('year', 'month')
             ->get();
-
-        if ($reports != null){
-            $total_expense = 0;
-            foreach($reports as $r){
-                $r->campaign_logo = Utility::$imagePath . $r->campaign_logo;
-                $total_expense += $r->campaign_price;
-            }
-
+            $result = array();
+            if ($reports != null){
+                $index = 0;
+                foreach ($reports as $report){
+                    $report->avg_er = $this->getAverageEngagementRate($business->id, $report->month, $report->year,);
+                    
+                    $data = new BusinessReportResponse();
+                    $avg_imp = new AverageImp();
+                    $avg_reach = new AverageReach();
+                    $avg_er = new AverageER();
+                    $data->month = $report->month;
+                    $data->total_expense = $report->total_price;
+                    $overview = new OverviewData();
+                    
+                    $avg_imp->data = number_format((double)$report->avg_imp, 2, '.', '');
+                    $avg_reach->data = number_format((double)$report->avg_reach, 2, '.', '');
+                    $avg_er->data = $report->avg_er;
+                    if($index != 0){
+                        
+                        $avg_imp->diff = $this->calculateDiffPercentage($reports[$index-1]->avg_imp,$report->avg_imp);
+                        $avg_reach->diff = $this->calculateDiffPercentage($reports[$index-1]->avg_reach, $report->avg_reach,);
+                        
+                        $avg_er->diff = number_format((double)$report->avg_er - $reports[$index-1]->avg_er, 2, '.', '');
+                        
+                    }
+                    $overview->avg_reach = $avg_reach;
+                    $overview->avg_impression = $avg_imp;
+                    $overview->avg_er = $avg_er;
+                    $data->overview_data = $overview;
+                    $index++;
+                    array_push($result, $data);
+                }
             return response()->json([
-                'reports'=>$reports,
-                'total_expense'=>$total_expense,
+                'reports'=>$result,
                 'code'=>201
             ]);
         }
@@ -258,6 +283,14 @@ class CampaignController extends Controller
             'message'=>'Data does not exist.',
             'code'=>401
         ]);
+    }
+
+    public function calculateDiffPercentage($avg_before, $avg_after){
+        $diffPercentage = $avg_before - $avg_after;
+        $diffPercentage /= $avg_before;
+        $diffPercentage *= 100;
+        $diffPercentage = number_format((double)$diffPercentage, 2, '.', '');
+        return $diffPercentage;
     }
 
     public function getCampaignDetail($content_id) {
@@ -289,11 +322,35 @@ class CampaignController extends Controller
             'code'=>201
         ]);
     }
+
+    public function getAverageEngagementRate($business_id, $month, $year){
+        
+        $influencers = DB::table('orders')
+            ->join('influencers', 'influencers.id', '=', 'orders.influencer_id')
+            ->join('contents', 'contents.id', '=', 'orders.content_id')
+            ->where('contents.business_id', $business_id)
+            ->where('orders.status','Completed')
+            ->whereYear('orders.updated_at', $year)
+            ->whereMonth('orders.updated_at', $month)
+            ->select('influencers.id as influencer_id', 'contents.id as content_id')
+            ->get();
+
+            $avg_er = 0;
+            if($influencers != null){
+                
+                foreach ($influencers as $i){
+                    $avg_er += $this->getEngagementRate($i->influencer_id, $i->content_id);
+                }
+                $avg_er/= count($influencers);
+                $avg_er = number_format((double)$avg_er, 2, '.', '');
+            }
+        return $avg_er;
+    }
 }
 
-class BusinessReportResponse{
+class BusinessReportDetailResponse{
     public $content_name;
-    public $dueDate;
+    public $end_date;
     public $campaign_logo;
     public $totalExpense;
     public $analytics;
@@ -307,4 +364,31 @@ class CampaignData {
     public $schedule;
     public $status;
     public $type;
+}
+
+class BusinessReportResponse{
+    public $month;
+    public $total_expense;
+    public $overview_data;
+}
+
+class OverviewData{
+    public $avg_reach;
+    public $avg_impression;
+    public $avg_er;
+}
+
+class AverageImp{
+    public $data;
+    public $diff;
+}
+
+class AverageReach{
+    public $data;
+    public $diff;
+}
+
+class AverageER{
+    public $data;
+    public $diff;
 }
