@@ -19,105 +19,105 @@ class InfluencerAnalyticSeeder extends Seeder
             [
                 'id' => 1,
                 'influencer_id' => 1,
-                'photo' => "top_location",
+                'photo' => "top_location.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 2,
                 'influencer_id' => 1,
-                'photo' => "age_range",
+                'photo' => "age_range.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 3,
                 'influencer_id' => 1,
-                'photo' => "gender",
+                'photo' => "gender.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 4,
                 'influencer_id' => 2,
-                'photo' => "top_location",
+                'photo' => "top_location.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 5,
                 'influencer_id' => 2,
-                'photo' => "age_range",
+                'photo' => "age_range.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 6,
                 'influencer_id' => 2,
-                'photo' => "gender",
+                'photo' => "gender.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 7,
                 'influencer_id' => 5,
-                'photo' => "top_location",
+                'photo' => "top_location.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 8,
                 'influencer_id' => 5,
-                'photo' => "age_range",
+                'photo' => "age_range.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 9,
                 'influencer_id' => 5,
-                'photo' => "gender",
+                'photo' => "gender.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 10,
                 'influencer_id' => 6,
-                'photo' => "top_location",
+                'photo' => "top_location.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 11,
                 'influencer_id' => 6,
-                'photo' => "age_range",
+                'photo' => "age_range.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 12,
                 'influencer_id' => 6,
-                'photo' => "gender",
+                'photo' => "gender.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 13,
                 'influencer_id' => 9,
-                'photo' => "top_location",
+                'photo' => "top_location.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 14,
                 'influencer_id' => 9,
-                'photo' => "age_range",
+                'photo' => "age_range.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ],
             [
                 'id' => 15,
                 'influencer_id' => 9,
-                'photo' => "gender",
+                'photo' => "gender.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s') 
             ]

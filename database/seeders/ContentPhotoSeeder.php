@@ -36,6 +36,20 @@ class ContentPhotoSeeder extends Seeder
                 'photo' => "burgerking.jpg",
                 'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 4,
+                'content_id' => 4,
+                'photo' => "boba.jpg",
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+            ],
+            [
+                'id' => 5,
+                'content_id' => 5,
+                'photo' => "pretzel.jpg",
+                'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ]
         ];
         DB::table('content_photos')->insert($content_photos);
