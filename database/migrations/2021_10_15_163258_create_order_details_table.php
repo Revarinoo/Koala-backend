@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateReportingPhotosTable extends Migration
+class CreateOrderDetailsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,11 @@ class CreateReportingPhotosTable extends Migration
      */
     public function up()
     {
-        Schema::create('reporting_photos', function (Blueprint $table) {
+        Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('report_id');
-            $table->string('photo');
+            $table->string('price');
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
+            $table->foreignId('content_detail_id');
             $table->timestamps();
         });
     }
@@ -28,6 +29,6 @@ class CreateReportingPhotosTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('reporting_photos');
+        Schema::dropIfExists('order_details');
     }
 }

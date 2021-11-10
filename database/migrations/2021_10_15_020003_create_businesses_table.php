@@ -18,7 +18,7 @@ class CreateBusinessesTable extends Migration
             $table->string('business_name')->nullable();
             $table->string('website')->nullable();
             $table->string('instagram')->nullable();
-            $table->foreignId('user_id');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

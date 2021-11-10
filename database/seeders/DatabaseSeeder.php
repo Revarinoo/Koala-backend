@@ -24,12 +24,12 @@ class DatabaseSeeder extends Seeder
             ProductSeeder::class,
             ContentSeeder::class,
             ContentPhotoSeeder::class,
-            ReportSeeder::class,
-            ReportPhotoSeeder::class,
             OrderSeeder::class,
             OrderDetailSeeder::class,
             ReviewSeeder::class,
             ContentDetailSeeder::class,
+            ReportSeeder::class,
+            ReportPhotoSeeder::class,
         ]);
     }
 }

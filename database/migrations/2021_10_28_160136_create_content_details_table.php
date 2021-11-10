@@ -15,7 +15,7 @@ class CreateContentDetailsTable extends Migration
     {
         Schema::create('content_details', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('content_id');
+            $table->foreignId('content_id')->constrained('contents')->onDelete('cascade');
             $table->string('content_type');
             $table->longText('instruction');
             $table->timestamps();

@@ -22,6 +22,7 @@ class RegisterController extends Controller
         }
 
         $user = User::create([
+            'photo'=>"default.png",
             'name'=>$request['name'],
             'email'=>$request['email'],
             'password'=>bcrypt($request['password'])
@@ -51,6 +52,7 @@ class RegisterController extends Controller
     function registerInfluencer(User $user, Request $request) {
         $influencer = Influencer::create([
             'user_id'=>$user->id,
+            'photo'=>"default.png",
             'engagement_rate'=>$request['engagement_rate'],
         ]);
 

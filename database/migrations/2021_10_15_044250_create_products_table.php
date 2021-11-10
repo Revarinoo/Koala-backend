@@ -18,8 +18,8 @@ class CreateProductsTable extends Migration
             $table->string('product_type');
             $table->integer('min_rate');
             $table->integer('max_rate');
-            $table->foreignId('influencer_id');
-            $table->foreignId('platform_id');
+            $table->foreignId('influencer_id')->constrained('influencers')->onDelete('cascade');
+            $table->foreignId('platform_id')->constrained('platforms')->onDelete('cascade');
             $table->timestamps();
         });
     }

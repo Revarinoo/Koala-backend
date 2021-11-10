@@ -22,7 +22,7 @@ class CreateContentsTable extends Migration
             $table->text('product_name');
             $table->longText('rules');
             $table->string('campaign_logo');
-            $table->foreignId('business_id');
+            $table->foreignId('business_id')->constrained('businesses')->onDelete('cascade');
             $table->timestamps();
         });
     }

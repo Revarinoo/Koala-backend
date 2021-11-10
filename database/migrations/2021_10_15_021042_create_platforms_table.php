@@ -21,7 +21,7 @@ class CreatePlatformsTable extends Migration
             $table->integer('followers')->nullable();
             $table->double('average_likes');
             $table->double('average_comments');
-            $table->foreignId('influencer_id');
+            $table->foreignId('influencer_id')->constrained('influencers')->onDelete('cascade');
             $table->timestamps();
         });
     }

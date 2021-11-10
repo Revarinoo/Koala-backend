@@ -7,6 +7,7 @@ use App\Models\Content;
 use App\Models\ContentDetail;
 use App\Models\ContentPhoto;
 use App\Models\Order;
+use App\Models\User;
 use App\Models\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Date;
@@ -179,7 +180,7 @@ class CampaignController extends Controller
             $d->photo = Utility::$imagePath . $d->photo;
             $followers = $this->getFollowersCount($d->influencer_id);
             $d->engagement_rate = $this->getEngagementRate($d->influencer_id, $content_id);
-           
+
             array_push($arr, $d);
         }
 
@@ -247,7 +248,7 @@ class CampaignController extends Controller
                 $index = 0;
                 foreach ($reports as $report){
                     $report->avg_er = $this->getAverageEngagementRate($business->id, $report->month, $report->year,);
-                    
+
                     $data = new BusinessReportResponse();
                     $avg_imp = new AverageImp();
                     $avg_reach = new AverageReach();
@@ -255,17 +256,17 @@ class CampaignController extends Controller
                     $data->month = $report->month;
                     $data->total_expense = $report->total_price;
                     $overview = new OverviewData();
-                    
+
                     $avg_imp->data = number_format((double)$report->avg_imp, 2, '.', '');
                     $avg_reach->data = number_format((double)$report->avg_reach, 2, '.', '');
                     $avg_er->data = $report->avg_er;
                     if($index != 0){
-                        
+
                         $avg_imp->diff = $this->calculateDiffPercentage($reports[$index-1]->avg_imp,$report->avg_imp);
                         $avg_reach->diff = $this->calculateDiffPercentage($reports[$index-1]->avg_reach, $report->avg_reach,);
-                        
+
                         $avg_er->diff = number_format((double)$report->avg_er - $reports[$index-1]->avg_er, 2, '.', '');
-                        
+
                     }
                     $overview->avg_reach = $avg_reach;
                     $overview->avg_impression = $avg_imp;
@@ -324,7 +325,7 @@ class CampaignController extends Controller
     }
 
     public function getAverageEngagementRate($business_id, $month, $year){
-        
+
         $influencers = DB::table('orders')
             ->join('influencers', 'influencers.id', '=', 'orders.influencer_id')
             ->join('contents', 'contents.id', '=', 'orders.content_id')
@@ -337,7 +338,7 @@ class CampaignController extends Controller
 
             $avg_er = 0;
             if($influencers != null){
-                
+
                 foreach ($influencers as $i){
                     $avg_er += $this->getEngagementRate($i->influencer_id, $i->content_id);
                 }

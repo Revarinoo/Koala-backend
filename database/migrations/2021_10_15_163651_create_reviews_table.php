@@ -17,7 +17,7 @@ class CreateReviewsTable extends Migration
             $table->id();
             $table->longText('comment');
             $table->integer('rating');
-            $table->foreignId('order_id');
+            $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->timestamps();
         });
     }

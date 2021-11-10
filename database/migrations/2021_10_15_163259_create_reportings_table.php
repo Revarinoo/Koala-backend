@@ -21,7 +21,7 @@ class CreateReportingsTable extends Migration
             $table->integer('comments');
             $table->integer('impressions');
             $table->integer('reach');
-            $table->foreignId('order_detail_id');
+            $table->foreignId('order_detail_id')->constrained('order_details')->onDelete('cascade');
             $table->timestamps();
         });
     }
