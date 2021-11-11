@@ -87,26 +87,35 @@ class OrderController extends Controller
     }
 
     public function rescheduleOrder(Request $request){
-    
+
         $order = Order::find($request->order_id);
-       
+
         if ($order != null && $request->dueDate != null){
 
             $date = Carbon::parse($request->dueDate)->format('Y-m-d');
             $order->order_date = $date;
             $order->save();
-            
+
             return response([
                 'code'=>201,
                 'message'=>"Success",
                 'order_id'=>$order->id,
                 'dueDate'=> $order->order_date
             ]);
-            
+
         }
         return response([
             'code'=>401,
             'message'=>"Failed"
+        ]);
+    }
+
+    public function cancelOrder($order_id) {
+        $order = Order::find($order_id);
+        $order->delete();
+        return response()->json([
+            'code'=>201,
+            'message'=>"Success"
         ]);
     }
 }
