@@ -78,6 +78,10 @@ class InfluencerController extends Controller
             ->take(5)
             ->get();
 
+        if ($influencers->isEmpty()) {
+            $influencers = $this->getRandomRecommendation();
+        }
+
         foreach ($influencers as $influencer){
             $response = new InfluencerResponse();
             $response->influencer_id = $influencer->id;
@@ -90,6 +94,20 @@ class InfluencerController extends Controller
             array_push($data, $response);
         }
         return response()->json(['rec_influencers'=>$data], 201);
+    }
+
+    private function getRandomRecommendation() {
+        $influencers = DB::table('influencers')
+            ->join('users', 'influencers.user_id', '=', 'users.id')
+            ->join('categories', 'influencers.user_id', '=', 'categories.user_id')
+            ->join('platforms', 'platforms.influencer_id', '=', 'influencers.id')
+            ->select('influencers.id', 'influencers.user_id','users.name', 'users.photo', 'platforms.socialmedia_id', 'users.location', 'influencers.engagement_rate')
+            ->orderBy('engagement_rate', 'desc')
+            ->distinct()
+            ->get();
+        $data = array_rand($influencers->toArray(), 4);
+        $rand = array($influencers[$data[0]], $influencers[$data[1]], $influencers[$data[2]], $influencers[$data[3]]);
+        return $rand;
     }
 
     public function getInfluencerDetail($influencer_id){
