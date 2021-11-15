@@ -256,6 +256,8 @@ class CampaignController extends Controller
             ->select(DB::raw('YEAR(orders.updated_at) year, MONTH(orders.updated_at) month'), DB::raw("SUM(order_details.price) as total_price"), DB::raw("AVG(reportings.impressions) as avg_imp"), DB::raw("AVG(reportings.reach) as avg_reach"))
             ->where('contents.business_id', $business->id)
             ->groupBy('year', 'month')
+            ->orderBy('year', 'ASC')
+            ->orderBy('month', 'ASC')
             ->get();
             $result = array();
             if ($reports != null){
