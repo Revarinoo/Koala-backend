@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Models\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -30,5 +32,12 @@ class UserController extends Controller
            'code'=>201,
             'message' => 'success'
         ]);
+    }
+
+    function getUserProfile($user_id) {
+        $user = User::find($user_id);
+        $user['photo'] = Utility::$imagePath . $user['photo'];
+
+        return $user;
     }
 }
