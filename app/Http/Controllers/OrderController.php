@@ -73,16 +73,31 @@ class OrderController extends Controller
     }
 
     public function createOrder(Request $request) {
-        Order::create([
-            'status'=>$request['status'],
-            'order_date'=>$request['order_date'],
-            'content_id'=>$request['content_id'],
-            'influencer_id'=>$request['influencer_id']
-        ]);
+        $order = \DB::transaction(
+			function () use ($request) {
+				$order = Order::create([
+                    'status'=> $request->status,
+                    'order_date' => $request->order_date,
+                    'content_id' => $request->content_id,
+                    'influencer_id' => $request->influencer_id
+                ]);
+                $this->_generatePaymentToken($order);
+				// $this->_saveOrderItems($order);
+				return $order;
+			}
+		);
 
-        return response([
-            'message'=>"Success",
-            'code'=>201
+		if ($order) {
+            
+            return response([
+                'order'=>$order,
+                'message'=>"Success",
+                'code'=>201
+            ]);
+		}
+		return response([
+            'message'=>"Failed",
+            'code'=>401
         ]);
     }
 
@@ -119,65 +134,24 @@ class OrderController extends Controller
         ]);
     }
 
-    /**
-	 * Checkout process and saving order data
-	 *
-	 * @param OrderRequest $request order data
-	 *
-	 * @return void
-	 */
-	public function doCheckout(Request $request)
-	{
-		// $params = $request->except('_token');
-
-		$order = \DB::transaction(
-			function () use ($request) {
-				$order = Order::create([
-                    'status'=> $request->status,
-                    'order_date' => $request->order_date,
-                    'content_id' => $request->content_id,
-                    'influencer_id' => $request->influencer_id
-                ]);
-				// $this->_saveOrderItems($order);
-				
-	
-				return $order;
-			}
-		);
-
-		if ($order) {
-		
-			// \Session::flash('success', 'Thank you. Your order has been received!');
-            $snap = $this->_generatePaymentToken($order);
-            return response([
-                'order'=>$order,
-                'snap' => $snap,
-                'message'=>"Success",
-                'code'=>201
-            ]);
-			// return redirect('orders/received/'. $order->id);
-		}
-		return response([
-            'order'=>$order,
-            'message'=>"Failed",
-            'code'=>401
-        ]);
-	}
-
     private function _generatePaymentToken($order){
         $this->initPaymentGateway();
+        $arr = explode(' ', $order->content->business->user->name, 2);
+        $first_name = $arr[0];
+        $last_name = $arr[1];
 
         $customerDetails = [
-            'first_name' => "Elon",
-            'last_name' => "Musk",
-            'email' => "claraanggraini_01@yahoo.com",
+            
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' =>  $order->content->business->user->email,
             'phone' => "082333534432"
         ];
         $params = [
             'enable_payments' => \App\Models\Payment::PAYMENT_CHANNELS,
             'transaction_details' => [
-                'order_id' => 1,
-                'gross_amount' => 10000
+                'order_id' => $order->id,
+                'gross_amount' => 1000
             ],
             'customer_details' => $customerDetails,
             'expiry' => [

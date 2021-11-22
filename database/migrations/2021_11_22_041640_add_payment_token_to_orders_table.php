@@ -16,9 +16,11 @@ class AddPaymentTokenToOrdersTable extends Migration
 		Schema::table(
 			'orders',
 			function (Blueprint $table) {
+				$table->string('code')->after('status')->nullable();
+				$table->string('payment_status')->after('code')->nullable();
 				$table->string('payment_token')->after('payment_status')->nullable();
 				$table->string('payment_url')->after('payment_token')->nullable();
-
+				
 				$table->index('payment_token');
 			}
 		);

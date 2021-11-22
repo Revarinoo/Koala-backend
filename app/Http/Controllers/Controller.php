@@ -14,7 +14,7 @@ class Controller extends BaseController
         //Set your Merchant Server Key
         \Midtrans\Config::$serverKey = env('MIDTRANS_SERVER_KEY');
         //Set to Development Sandbox Environment (default). Set to true for Product Environment (accept real)
-        \Midtrans\Config::$isProduction = false;
+        \Midtrans\Config::$isProduction = true;
 
         \Midtrans\Config::$isSanitized = true;
 
