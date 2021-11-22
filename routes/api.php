@@ -7,6 +7,7 @@ use App\Http\Controllers\InfluencerController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\PaymentController;
 
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\UserController;
@@ -35,6 +36,12 @@ Route::post('/campaign/detail/create', [CampaignController::class, 'createCampai
 Route::post('order/create', [OrderController::class, 'createOrder']);
 Route::get('/campaign/detail/upcoming/{content_id}', [CampaignDetailController::class, 'getCampaignDetail']);
 Route::delete('/order/delete/{order_id}', [OrderController::class, 'cancelOrder']);
+
+
+Route::post('payment/notification', [PaymentController::class, 'notification']);
+Route::get('payment/completed', [PaymentController::class, 'completed']);
+Route::get('payment/failed', [PaymentController::class, 'failed']);
+
 Route::get('/user/{user_id}', [UserController::class, 'getUserProfile']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
