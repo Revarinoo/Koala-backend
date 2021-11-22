@@ -23,7 +23,7 @@ class PaymentController extends Controller
 		$statusCode = null;
 
 		$paymentNotification = new \Midtrans\Notification();
-		$order = Order::where('code', $paymentNotification->order_id)->firstOrFail();
+		$order = Order::where('id', $paymentNotification->order_id)->firstOrFail();
 
 		if ($order->isPaid()) {
 			return response(['message' => 'The order has been paid before'], 422);
