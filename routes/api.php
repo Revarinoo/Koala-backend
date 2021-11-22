@@ -35,6 +35,7 @@ Route::post('/campaign/detail/create', [CampaignController::class, 'createCampai
 Route::post('order/create', [OrderController::class, 'createOrder']);
 Route::get('/campaign/detail/upcoming/{content_id}', [CampaignDetailController::class, 'getCampaignDetail']);
 Route::delete('/order/delete/{order_id}', [OrderController::class, 'cancelOrder']);
+Route::post('order/checkout', [OrderController::class, 'doCheckout']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
