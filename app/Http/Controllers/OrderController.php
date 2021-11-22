@@ -73,16 +73,31 @@ class OrderController extends Controller
     }
 
     public function createOrder(Request $request) {
-        Order::create([
-            'status'=>$request['status'],
-            'order_date'=>$request['order_date'],
-            'content_id'=>$request['content_id'],
-            'influencer_id'=>$request['influencer_id']
-        ]);
+        $order = \DB::transaction(
+			function () use ($request) {
+				$order = Order::create([
+                    'status'=> $request->status,
+                    'order_date' => $request->order_date,
+                    'content_id' => $request->content_id,
+                    'influencer_id' => $request->influencer_id
+                ]);
+                $this->_generatePaymentToken($order);
+				// $this->_saveOrderItems($order);
+				return $order;
+			}
+		);
 
-        return response([
-            'message'=>"Success",
-            'code'=>201
+		if ($order) {
+            
+            return response([
+                'order'=>$order,
+                'message'=>"Success",
+                'code'=>201
+            ]);
+		}
+		return response([
+            'message'=>"Failed",
+            'code'=>401
         ]);
     }
 
@@ -142,6 +157,41 @@ class OrderController extends Controller
             'data' => $data
         ]);
     }
+    private function _generatePaymentToken($order){
+        $this->initPaymentGateway();
+        $arr = explode(' ', $order->content->business->user->name, 2);
+        $first_name = $arr[0];
+        $last_name = $arr[1];
+
+        $customerDetails = [
+            
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'email' =>  $order->content->business->user->email,
+            'phone' => "082333534432"
+        ];
+        $params = [
+            'enable_payments' => \App\Models\Payment::PAYMENT_CHANNELS,
+            'transaction_details' => [
+                'order_id' => $order->id,
+                'gross_amount' => 1000
+            ],
+            'customer_details' => $customerDetails,
+            'expiry' => [
+                'start_time' => date('Y-m-d H:i:s T'),
+                'unit' => \App\Models\Payment::EXPIRY_UNIT,
+                'duration' => \App\Models\Payment::EXPIRY_DURATION
+            ],
+        ];
+        $snap = \Midtrans\Snap::createTransaction($params);
+        if ($snap->token) {
+			$order->payment_token = $snap->token;
+			$order->payment_url = $snap->redirect_url;
+			$order->save();
+		}
+        return $snap;
+    }
+
 }
 
 class BusinessOrder {
