@@ -59,4 +59,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/campaign',[CampaignController::class, 'getCampaign']);
     Route::post('/campaign/create', [CampaignController::class, 'createCampaign']);
     Route::post('order/reschedule', [OrderController::class, 'rescheduleOrder']);
+    Route::get('influencer/order/list', [OrderController::class, 'orderList']);
 });

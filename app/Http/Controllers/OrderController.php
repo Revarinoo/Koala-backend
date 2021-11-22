@@ -134,6 +134,29 @@ class OrderController extends Controller
         ]);
     }
 
+    /* Influencer */
+    public function orderList() {
+        $influencer = auth()->user()->influencer->id;
+        $orders = Order::where('influencer_id', $influencer)->get();
+        $data = array();
+        foreach ($orders as $order) {
+            array_push($data, [
+                'order_id'=> $order->id,
+                'content_id'=> $order->content->id,
+                'status'=> $order->status,
+                'campaign_name'=>$order->content->name,
+                'start_date'=> date("d-m-Y", strtotime($order->content->start_date)),
+                'end_date'=> date("d-m-Y", strtotime($order->content->end_date)),
+                'photo'=> Utility::$imagePath . $order->content->campaign_logo
+            ]);
+        }
+
+        return response()->json([
+            'code'=>201,
+            'message'=>"Success",
+            'data' => $data
+        ]);
+    }
     private function _generatePaymentToken($order){
         $this->initPaymentGateway();
         $arr = explode(' ', $order->content->business->user->name, 2);
