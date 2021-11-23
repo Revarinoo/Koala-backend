@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Content;
 use App\Models\ContentDetail;
 use App\Models\ContentPhoto;
+use App\Models\Order;
 use App\Models\Utility;
 use Illuminate\Http\Request;
 
@@ -32,5 +33,23 @@ class CampaignDetailController extends Controller
             array_push($data, Utility::$imagePath . $content_photo->photo);
         }
         return $data;
+    }
+
+    function orderDetailInfluencer($order_id) {
+        $order = Order::where('id', $order_id)->first();
+        $content = Content::where('id', $order->content->id)->first();
+        $content_details = ContentDetail::where('content_id', $order->content->id)->get();
+        $content['campaign_logo'] = Utility::$imagePath . $content['campaign_logo'];
+        $content_references = $this->getCampaignPhoto($order->content->id);
+
+        return response()->json([
+            'campaign'=>$content,
+            'campaign_details'=>$content_details,
+            'references'=>$content_references,
+            'business_photo'=> Utility::$imagePath . $content->business->business_photo,
+            'business_name'=> $content->business->business_name,
+            'message'=>"Success",
+            'code'=> 201
+        ]);
     }
 }

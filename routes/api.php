@@ -43,6 +43,7 @@ Route::post('payment/completed', [PaymentController::class, 'completed']);
 Route::post('payment/failed', [PaymentController::class, 'failed']);
 
 Route::get('/user/{user_id}', [UserController::class, 'getUserProfile']);
+Route::get('/influencer/order/detail/{order_id}', [CampaignDetailController::class, 'orderDetailInfluencer']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
