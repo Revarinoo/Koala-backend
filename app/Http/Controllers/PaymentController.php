@@ -113,7 +113,7 @@ class PaymentController extends Controller
 
     public function completed(Request $request)
 	{
-		$code = $request->query('order_id');
+		$code = $request->order_id;
 		$order = Order::where('id', $code)->firstOrFail();
 		
 		if ($order->payment_status == Order::UNPAID) {
@@ -127,7 +127,7 @@ class PaymentController extends Controller
 
 	public function unfinish(Request $request)
 	{
-		$code = $request->query('order_id');
+		$code = $request->order_id;
 		$order = Order::where('id', $code)->firstOrFail();
 
         return response([
@@ -139,7 +139,7 @@ class PaymentController extends Controller
 
 	public function failed(Request $request)
 	{
-		$code = $request->query('order_id');
+		$code = $request->order_id;
 		$order = Order::where('code', $code)->firstOrFail();
 
 		return response([
