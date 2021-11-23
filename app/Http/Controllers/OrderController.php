@@ -89,7 +89,7 @@ class OrderController extends Controller
 		);
 
 		if ($order) {
-            
+
             return response([
                 'order'=>$order,
                 'message'=>"Success",
@@ -165,7 +165,7 @@ class OrderController extends Controller
         $last_name = $arr[1];
 
         $customerDetails = [
-            
+
             'first_name' => $first_name,
             'last_name' => $last_name,
             'email' =>  $order->content->business->user->email,
