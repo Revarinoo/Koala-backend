@@ -43,6 +43,7 @@ class CampaignDetailController extends Controller
         $content_references = $this->getCampaignPhoto($order->content->id);
 
         return response()->json([
+            'order_id'=> $order->id,
             'campaign'=>$content,
             'campaign_details'=>$content_details,
             'references'=>$content_references,
