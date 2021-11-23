@@ -107,7 +107,7 @@ class PaymentController extends Controller
 			'message' => $message,
 		];
 
-		return response($response, 201);
+		return response($response, 200);
 	}
 
 
@@ -120,9 +120,9 @@ class PaymentController extends Controller
 			return redirect('payment/failed?order_id='. $code);
 		}
 		return response([
-            'code'=>401,
-            'message'=>"Failed"
-        ]);;
+            'code'=>201,
+            'message'=>"Success"
+        ],200);
 	}
 
 	public function unfinish(Request $request)
@@ -134,7 +134,7 @@ class PaymentController extends Controller
             'order'=> $order,
             'code'=>401,
             'message'=>"Unfinished"
-        ]);
+        ], 400);
 	}
 
 	public function failed(Request $request)
@@ -146,6 +146,6 @@ class PaymentController extends Controller
             'order'=> $order,
             'code'=>401,
             'message'=> "Sorry, we couldn't process your payment."
-        ]);
+        ], 400);
 	}
 }

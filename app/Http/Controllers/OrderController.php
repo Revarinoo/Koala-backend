@@ -77,6 +77,7 @@ class OrderController extends Controller
 			function () use ($request) {
 				$order = Order::create([
                     'status'=> $request->status,
+                    'payment_status' => Order::UNPAID,
                     'order_date' => $request->order_date,
                     'content_id' => $request->content_id,
                     'influencer_id' => $request->influencer_id
