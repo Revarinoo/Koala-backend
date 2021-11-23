@@ -193,6 +193,15 @@ class OrderController extends Controller
         return $snap;
     }
 
+    function updateOrderStatus(Request $request) {
+        Order::find($request->order_id)->update($request->all());
+
+        return response()->json([
+            'code'=>201,
+            'message'=>"Update Success"
+        ]);
+    }
+
 }
 
 class BusinessOrder {
