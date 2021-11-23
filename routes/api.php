@@ -39,8 +39,8 @@ Route::delete('/order/delete/{order_id}', [OrderController::class, 'cancelOrder'
 
 
 Route::post('payment/notification', [PaymentController::class, 'notification']);
-Route::get('payment/completed', [PaymentController::class, 'completed']);
-Route::get('payment/failed', [PaymentController::class, 'failed']);
+Route::post('payment/completed', [PaymentController::class, 'completed']);
+Route::post('payment/failed', [PaymentController::class, 'failed']);
 
 Route::get('/user/{user_id}', [UserController::class, 'getUserProfile']);
 
