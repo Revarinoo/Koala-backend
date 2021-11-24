@@ -44,6 +44,8 @@ Route::post('payment/failed', [PaymentController::class, 'failed']);
 Route::get('order/{order_id}', [OrderController::class, 'getOneOrder']);
 
 Route::get('/user/{user_id}', [UserController::class, 'getUserProfile']);
+Route::get('/influencer/order/detail/{order_id}', [CampaignDetailController::class, 'orderDetailInfluencer']);
+Route::put('/influencer/campaign/status', [OrderController::class, 'updateOrderStatus']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
@@ -60,4 +62,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/campaign',[CampaignController::class, 'getCampaign']);
     Route::post('/campaign/create', [CampaignController::class, 'createCampaign']);
     Route::post('order/reschedule', [OrderController::class, 'rescheduleOrder']);
+    Route::get('influencer/order/list', [OrderController::class, 'orderList']);
+    Route::get('influencer/profile/detail', [InfluencerController::class, 'getInfluencerProfile']);
 });

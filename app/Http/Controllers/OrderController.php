@@ -89,7 +89,7 @@ class OrderController extends Controller
 		);
 
 		if ($order) {
-            
+
             return response([
                 'order'=>$order,
                 'message'=>"Success",
@@ -135,6 +135,29 @@ class OrderController extends Controller
         ]);
     }
 
+    /* Influencer */
+    public function orderList() {
+        $influencer = auth()->user()->influencer->id;
+        $orders = Order::where('influencer_id', $influencer)->get();
+        $data = array();
+        foreach ($orders as $order) {
+            array_push($data, [
+                'order_id'=> $order->id,
+                'content_id'=> $order->content->id,
+                'status'=> $order->status,
+                'campaign_name'=>$order->content->name,
+                'start_date'=> date("d-m-Y", strtotime($order->content->start_date)),
+                'end_date'=> date("d-m-Y", strtotime($order->content->end_date)),
+                'photo'=> Utility::$imagePath . $order->content->campaign_logo
+            ]);
+        }
+
+        return response()->json([
+            'code'=>201,
+            'message'=>"Success",
+            'data' => $data
+        ]);
+    }
     private function _generatePaymentToken($order){
         $this->initPaymentGateway();
         $arr = explode(' ', $order->content->business->user->name, 2);
@@ -142,6 +165,7 @@ class OrderController extends Controller
         $last_name = $arr[1];
 
         $customerDetails = [
+
             'first_name' => $first_name,
             'last_name' => $last_name,
             'email' =>  $order->content->business->user->email,
@@ -184,6 +208,15 @@ class OrderController extends Controller
         }
         return response(401);
     }
+    function updateOrderStatus(Request $request) {
+        Order::find($request->order_id)->update($request->all());
+
+        return response()->json([
+            'code'=>201,
+            'message'=>"Update Success"
+        ]);
+    }
+
 }
 
 class BusinessOrder {

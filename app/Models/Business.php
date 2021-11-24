@@ -13,7 +13,8 @@ class Business extends Model
         'business_name',
         'website',
         'instagram',
-        'user_id'
+        'user_id',
+        'business_photo'
     ];
 
     public function user() {

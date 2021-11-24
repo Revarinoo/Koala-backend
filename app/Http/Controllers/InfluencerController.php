@@ -248,6 +248,21 @@ class InfluencerController extends Controller
         }
         return $data;
     }
+
+    public function getInfluencerProfile() {
+        $user = auth()->user();
+
+        return response()->json([
+            'code'=>201,
+            'message'=>"Success",
+            'photo'=> Utility::$imagePath . $user->photo,
+            'email'=>$user->email,
+            'instagram'=>$user->influencer->platform->socialmedia_id,
+            'location'=>$user->location,
+            'specialty'=>$user->category,
+            'products'=>$user->influencer->product
+        ]);
+    }
 }
 
 
