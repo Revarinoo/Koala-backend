@@ -15,12 +15,12 @@ class CreateReportingsTable extends Migration
     {
         Schema::create('reportings', function (Blueprint $table) {
             $table->id();
-            $table->string('post_url');
-            $table->integer('views');
-            $table->integer('likes');
-            $table->integer('comments');
-            $table->integer('impressions');
-            $table->integer('reach');
+            $table->string('post_url')->nullable();
+            $table->integer('views')->nullable();
+            $table->integer('likes')->nullable();
+            $table->integer('comments')->nullable();
+            $table->integer('impressions')->nullable();
+            $table->integer('reach')->nullable();
             $table->foreignId('order_detail_id')->constrained('order_details')->onDelete('cascade');
             $table->timestamps();
         });

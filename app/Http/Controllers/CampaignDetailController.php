@@ -42,10 +42,18 @@ class CampaignDetailController extends Controller
         $content['campaign_logo'] = Utility::$imagePath . $content['campaign_logo'];
         $content_references = $this->getCampaignPhoto($order->content->id);
 
+        $campaign_details = array();
+        foreach ($order->orderDetail as $detail) {
+            array_push($campaign_details, array(
+                'order_detail_id'=>$detail->id,
+                'content_type'=> $detail->contentDetail->content_type,
+                'instruction'=> $detail->contentDetail->instruction
+            ));
+        }
         return response()->json([
             'order_id'=> $order->id,
             'campaign'=>$content,
-            'campaign_details'=>$content_details,
+            'campaign_details'=>$campaign_details,
             'references'=>$content_references,
             'business_photo'=> Utility::$imagePath . $content->business->business_photo,
             'business_name'=> $content->business->business_name,
