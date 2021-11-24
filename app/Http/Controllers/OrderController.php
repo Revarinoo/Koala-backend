@@ -197,6 +197,10 @@ class OrderController extends Controller
         $order = Order::find($order_id);
         
         if ($order!=null){
+            if($order->payment_status == null){
+                $order->payment_status = "unpaid";
+                $order->save();
+            }
             return response([
                 'order_id' => $order->id,
                 'token' => $order->payment_token,
@@ -207,6 +211,7 @@ class OrderController extends Controller
         }
         return response(401);
     }
+    
     function updateOrderStatus(Request $request) {
         Order::find($request->order_id)->update($request->all());
 
