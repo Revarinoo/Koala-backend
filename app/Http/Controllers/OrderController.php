@@ -142,7 +142,6 @@ class OrderController extends Controller
         $last_name = $arr[1];
 
         $customerDetails = [
-            
             'first_name' => $first_name,
             'last_name' => $last_name,
             'email' =>  $order->content->business->user->email,
@@ -170,6 +169,18 @@ class OrderController extends Controller
         return $snap;
     }
 
+    public function getOneOrder($order_id){
+        $order = Order::find($order_id);
+
+        if ($order!=null){
+            return response([
+                'order_id' => $order->id,
+                'token' => $order->token,
+                'payment_url' => $order->payment_url
+            ],201);
+        }
+        return response(401);
+    }
 }
 
 class BusinessOrder {
