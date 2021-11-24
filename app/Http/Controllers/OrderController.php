@@ -171,12 +171,15 @@ class OrderController extends Controller
 
     public function getOneOrder($order_id){
         $order = Order::find($order_id);
-
+        
         if ($order!=null){
+            error_log($order_id);
             return response([
                 'order_id' => $order->id,
-                'token' => $order->token,
-                'payment_url' => $order->payment_url
+                'token' => $order->payment_token,
+                'payment_url' => $order->payment_url,
+                'payment_status' => $order->payment_status,
+                'code' => 201
             ],201);
         }
         return response(401);
