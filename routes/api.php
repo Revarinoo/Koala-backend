@@ -4,6 +4,7 @@ use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CampaignController;
 use App\Http\Controllers\CampaignDetailController;
 use App\Http\Controllers\InfluencerController;
+use App\Http\Controllers\InfluencerReportController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
@@ -45,6 +46,7 @@ Route::post('payment/failed', [PaymentController::class, 'failed']);
 Route::get('/user/{user_id}', [UserController::class, 'getUserProfile']);
 Route::get('/influencer/order/detail/{order_id}', [CampaignDetailController::class, 'orderDetailInfluencer']);
 Route::put('/influencer/campaign/status', [OrderController::class, 'updateOrderStatus']);
+Route::post('influencer/order/report', [InfluencerReportController::class, 'createReport']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
