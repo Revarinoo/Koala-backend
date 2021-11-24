@@ -197,7 +197,6 @@ class OrderController extends Controller
         $order = Order::find($order_id);
         
         if ($order!=null){
-            error_log($order_id);
             return response([
                 'order_id' => $order->id,
                 'token' => $order->payment_token,
