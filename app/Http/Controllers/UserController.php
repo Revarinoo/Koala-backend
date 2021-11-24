@@ -46,27 +46,54 @@ class UserController extends Controller
             $platform->update([
                 'socialmedia_id'=>$request['socialmedia_id']
             ]);
-            Product::create([
-                'product_type'=> "Instagram Post",
-                'min_rate'=> $request['post_min_rate'],
-                'max_rate'=> $request['post_max_rate'],
-                'influencer_id'=>$user->influencer->id,
-                'platform_id' => $user->influencer->platform->id
-            ]);
-            Product::create([
-                'product_type'=> "Instagram Story",
-                'min_rate'=> $request['story_min_rate'],
-                'max_rate'=> $request['story_max_rate'],
-                'influencer_id'=>$user->influencer->id,
-                'platform_id' => $user->influencer->platform->id
-            ]);
-            Product::create([
-                'product_type'=> "Instagram Reels",
-                'min_rate'=> $request['reels_min_rate'],
-                'max_rate'=> $request['reels_max_rate'],
-                'influencer_id'=>$user->influencer->id,
-                'platform_id' => $user->influencer->platform->id
-            ]);
+
+            $products = Product::where('influencer_id', $user->influencer->id)->get();
+            if (!$products) {
+                Product::create([
+                    'product_type'=> "Instagram Post",
+                    'min_rate'=> $request['post_min_rate'],
+                    'max_rate'=> $request['post_max_rate'],
+                    'influencer_id'=>$user->influencer->id,
+                    'platform_id' => $user->influencer->platform->id
+                ]);
+                Product::create([
+                    'product_type'=> "Instagram Story",
+                    'min_rate'=> $request['story_min_rate'],
+                    'max_rate'=> $request['story_max_rate'],
+                    'influencer_id'=>$user->influencer->id,
+                    'platform_id' => $user->influencer->platform->id
+                ]);
+                Product::create([
+                    'product_type'=> "Instagram Reels",
+                    'min_rate'=> $request['reels_min_rate'],
+                    'max_rate'=> $request['reels_max_rate'],
+                    'influencer_id'=>$user->influencer->id,
+                    'platform_id' => $user->influencer->platform->id
+                ]);
+            }
+
+            else {
+                $product_post = Product::where('influencer_id', $user->influencer->id)->orWhere('product_type', "Instagram Post")->first();
+                $product_post->update([
+                    'min_rate'=> $request['post_min_rate'],
+                    'max_rate'=> $request['post_max_rate']
+                ]);
+
+                $product_story = Product::where('influencer_id', $user->influencer->id)->orWhere('product_type', "Instagram Story")->first();
+                $product_story->update([
+                    'min_rate'=> $request['story_min_rate'],
+                    'max_rate'=> $request['story_max_rate']
+                ]);
+
+                $product_reels = Product::where('influencer_id', $user->influencer->id)->orWhere('product_type', "Instagram Reels")->first();
+                if($product_reels){
+                    $product_reels->update([
+                        'min_rate'=> $request['reels_min_rate'],
+                        'max_rate'=> $request['reels_max_rate']
+                    ]);
+                }
+            }
+
         }
 
         return response()->json([
