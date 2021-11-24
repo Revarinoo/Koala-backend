@@ -20,7 +20,7 @@ class UserController extends Controller
             if ($user->photo != null) Storage::delete('public/images/'. $user->photo);
             $imgname = time() . $file->getClientOriginalName();
             Storage::putFileAs('public/images',$file,$imgname);
-            $input['image'] = $imgname;
+            $input['photo'] = $imgname;
         }
         $user->update($input);
 
