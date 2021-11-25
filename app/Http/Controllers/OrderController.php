@@ -193,6 +193,25 @@ class OrderController extends Controller
         return $snap;
     }
 
+    public function getOneOrder($order_id){
+        $order = Order::find($order_id);
+        
+        if ($order!=null){
+            if($order->payment_status == null){
+                $order->payment_status = "unpaid";
+                $order->save();
+            }
+            return response([
+                'order_id' => $order->id,
+                'token' => $order->payment_token,
+                'payment_url' => $order->payment_url,
+                'payment_status' => $order->payment_status,
+                'code' => 201
+            ],201);
+        }
+        return response(401);
+    }
+    
     function updateOrderStatus(Request $request) {
         Order::find($request->order_id)->update($request->all());
 
