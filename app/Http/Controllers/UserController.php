@@ -28,7 +28,7 @@ class UserController extends Controller
             $user->business->update($input);
         }
         else if ($request['type_role'] == "Influencer") {
-//            $user->influencer->update($input);
+            $user->influencer->update($input);
             $categories = $request['categories'];
             $old_categories = Category::where('user_id', $user->id)->get();
             if (!$old_categories->isEmpty()) {
