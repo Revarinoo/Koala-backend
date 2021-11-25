@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Review;
+use App\Models\Utility;
 use Illuminate\Http\Request;
 
 class ReviewController extends Controller
@@ -27,10 +28,22 @@ class ReviewController extends Controller
 
     function getReview($order_id) {
         $review = Review::where('order_id', $order_id)->first();
+        if ($review->order->content->business->business_photo == null) {
+            $review->order->content->business->business_photo = Utility::$imagePath . "default.png";
+        }
+        $business = array([
+            'photo'=>$review->order->content->business->business_photo,
+            'name' => $review->order->content->business->business_name
+        ]);
+        $review_data = array([
+            'comment'=>$review->comment,
+            'rating'=>$review->rating
+        ]);
         return response()->json([
             'code'=>201,
             'message'=> "Success",
-            'review'=> $review
+            'review'=> $review_data,
+            'business'=>$business
         ]);
     }
 }

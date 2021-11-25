@@ -29,6 +29,10 @@ class Order extends Model
         return $this->belongsTo('App\Models\Influencer');
     }
 
+    public function review() {
+        return $this->hasMany('App\Models\Review');
+    }
+
     public const CREATED = 'created';
 	public const CONFIRMED = 'confirmed';
 	public const DELIVERED = 'delivered';
@@ -47,7 +51,7 @@ class Order extends Model
 		self::COMPLETED => 'Completed',
 		self::CANCELLED => 'Cancelled',
 	];
-    
+
     /**
 	 * Generate order code
 	 *
@@ -62,12 +66,12 @@ class Order extends Model
 			->first();
 
 		$lastOrderCode = !empty($lastOrder) ? $lastOrder['last_code'] : null;
-		
+
 		$orderCode = $dateCode . '00001';
 		if ($lastOrderCode) {
 			$lastOrderNumber = str_replace($dateCode, '', $lastOrderCode);
 			$nextOrderNumber = sprintf('%05d', (int)$lastOrderNumber + 1);
-			
+
 			$orderCode = $dateCode . $nextOrderNumber;
 		}
 
