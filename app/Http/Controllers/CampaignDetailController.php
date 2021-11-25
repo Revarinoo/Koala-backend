@@ -49,15 +49,19 @@ class CampaignDetailController extends Controller
                 'instruction'=> $detail->contentDetail->instruction
             ));
         }
+        $photo = "";
         if($content->business->business_photo == null) {
-            $content->business->business_photo = Utility::$imagePath . "default.png";
+            $photo = Utility::$imagePath . "default.png";
+        }
+        else {
+            $photo = Utility::$imagePath . $content->business->business_photo;
         }
         return response()->json([
             'order_id'=> $order->id,
             'campaign'=>$content,
             'campaign_details'=>$campaign_details,
             'references'=>$content_references,
-            'business_photo'=> Utility::$imagePath . $content->business->business_photo,
+            'business_photo'=> $photo,
             'business_name'=> $content->business->business_name,
             'message'=>"Success",
             'code'=> 201
