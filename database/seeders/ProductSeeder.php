@@ -54,7 +54,7 @@ class ProductSeeder extends Seeder
                 'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
             ],
             [   'id' => 31,
-                'product_type' => "Instagram Story",
+                'product_type' => "Instagram Reels",
                 'min_rate' => 1500000,
                 'max_rate'=>2500000,
                 'influencer_id' => 2,
