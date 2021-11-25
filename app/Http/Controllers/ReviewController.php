@@ -31,14 +31,14 @@ class ReviewController extends Controller
         if ($review->order->content->business->business_photo == null) {
             $review->order->content->business->business_photo = Utility::$imagePath . "default.png";
         }
-        $business = array([
+        $business = array(
             'photo'=>$review->order->content->business->business_photo,
             'name' => $review->order->content->business->business_name
-        ]);
-        $review_data = array([
+        );
+        $review_data = array(
             'comment'=>$review->comment,
             'rating'=>$review->rating
-        ]);
+        );
         return response()->json([
             'code'=>201,
             'message'=> "Success",
