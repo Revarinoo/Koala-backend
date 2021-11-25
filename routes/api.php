@@ -46,7 +46,7 @@ Route::get('order/{order_id}', [OrderController::class, 'getOneOrder']);
 
 Route::get('/user/{user_id}', [UserController::class, 'getUserProfile']);
 Route::get('/influencer/order/detail/{order_id}', [CampaignDetailController::class, 'orderDetailInfluencer']);
-Route::put('/influencer/campaign/status', [OrderController::class, 'updateOrderStatus']);
+Route::post('/influencer/campaign/status', [OrderController::class, 'updateOrderStatus']);
 Route::post('influencer/order/report', [InfluencerReportController::class, 'createReport']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
