@@ -24,4 +24,13 @@ class ReviewController extends Controller
             'code'=>201
         ]);
     }
+
+    function getReview($order_id) {
+        $review = Review::where('order_id', $order_id)->first();
+        return response()->json([
+            'code'=>201,
+            'message'=> "Success",
+            'review'=> $review
+        ]);
+    }
 }
