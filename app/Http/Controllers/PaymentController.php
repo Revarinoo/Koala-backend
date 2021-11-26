@@ -93,7 +93,7 @@ class PaymentController extends Controller
 				function () use ($order, $payment) {
 					if (in_array($payment->status, [Payment::SUCCESS, Payment::SETTLEMENT])) {
 						$order->payment_status = Order::PAID;
-						$order->status = Order::CONFIRMED;
+						$order->status = "On Going";
 						$order->save();
 					}
 				}
