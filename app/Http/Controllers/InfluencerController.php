@@ -184,7 +184,9 @@ class InfluencerController extends Controller
             $project->total_likes = $analytics->total_likes;
             $project->total_comments = $analytics->total_comments;
             $project->engagement_rate = number_format((double)$analytics->engagement_rate, 2, '.', '');
+            $project->post_photo = $this->getPostPhoto($order->id)->post_photo;
             $project->comment = $order->comment;
+            
             array_push($data, $project);
         }
 
@@ -201,6 +203,7 @@ class InfluencerController extends Controller
         ->groupBy('order_id')
         ->first();
         
+
         if($order_detail != null){
             $engagement_rate = $order_detail->total_likes+ $order_detail->total_comments;
             $engagement_rate /= $order_detail->project_count;
@@ -209,6 +212,16 @@ class InfluencerController extends Controller
             $order_detail->engagement_rate = $engagement_rate;
         }
         return $order_detail;
+    }
+
+    public function getPostPhoto($order_id){
+        $post_photo = OrderDetail::where('order_id', $order_id)
+        ->join('reportings','order_details.id','=','reportings.order_detail_id')
+        ->join('content_details', 'content_details.id', '=', 'order_details.id')
+        ->select('reportings.post_photo')
+        ->where('content_details.content_type', 'Instagram Post')
+        ->first();
+        return $post_photo;
     }
 
     public function countSumImpression($order_id){
@@ -315,5 +328,6 @@ class Project{
     public $engagement_rate;
     public $business_photo;
     public $business_name;
+    public $post_photo;
     public $comment;
 }
