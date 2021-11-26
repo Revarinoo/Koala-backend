@@ -14,4 +14,8 @@ class Review extends Model
         'rating',
         'order_id',
     ];
+
+    public function order() {
+        return $this->belongsTo('App\Models\Order');
+    }
 }

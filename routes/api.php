@@ -6,6 +6,7 @@ use App\Http\Controllers\CampaignDetailController;
 use App\Http\Controllers\InfluencerController;
 use App\Http\Controllers\InfluencerReportController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\OrderDetailController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\PaymentController;
@@ -46,8 +47,10 @@ Route::get('order/{order_id}', [OrderController::class, 'getOneOrder']);
 
 Route::get('/user/{user_id}', [UserController::class, 'getUserProfile']);
 Route::get('/influencer/order/detail/{order_id}', [CampaignDetailController::class, 'orderDetailInfluencer']);
-Route::put('/influencer/campaign/status', [OrderController::class, 'updateOrderStatus']);
+Route::post('/influencer/campaign/status', [OrderController::class, 'updateOrderStatus']);
 Route::post('influencer/order/report', [InfluencerReportController::class, 'createReport']);
+Route::get('order/review/{order_id}', [ReviewController::class, 'getReview']);
+Route::get('payment/detail/{order_id}', [OrderDetailController::class, 'paymentOrderDetail']);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

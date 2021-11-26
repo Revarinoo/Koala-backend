@@ -16,6 +16,7 @@ class Reporting extends Model
         'comments',
         'impressions',
         'reach',
+        'post_photo',
         'order_detail_id',
     ];
     public function orderDetail() {

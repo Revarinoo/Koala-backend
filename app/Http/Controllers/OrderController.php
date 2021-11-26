@@ -36,6 +36,7 @@ class OrderController extends Controller
             $temp->order_date = $data->order_date;
             $temp->status = $data->status;
             $temp->product_data = $this->getProductData($data->order_id);
+            $temp->availableToPay = $this->checkPaymentAvailability($data->order_id);
             array_push($response_data, $temp);
         }
 
@@ -44,6 +45,16 @@ class OrderController extends Controller
             'message'=>'Success',
             'code'=>201
         ]);
+    }
+
+    private function checkPaymentAvailability($order_id) {
+        $order_detail = OrderDetail::where('order_id', $order_id)->get();
+        foreach ($order_detail as $detail) {
+            if ($detail->price != null) {
+                return 1;
+            }
+        }
+        return 0;
     }
 
     private function getProductData(int $order_id) {
@@ -89,6 +100,13 @@ class OrderController extends Controller
 		);
 
 		if ($order) {
+
+            foreach ($order->content->contentDetail as $detail) {
+                OrderDetail::create([
+                    'order_id'=> $order->id,
+                    'content_detail_id'=>$detail->id
+                ]);
+            }
 
             return response([
                 'order'=>$order,
@@ -195,7 +213,7 @@ class OrderController extends Controller
 
     public function getOneOrder($order_id){
         $order = Order::find($order_id);
-        
+
         if ($order!=null){
             if($order->payment_status == null){
                 $order->payment_status = "unpaid";
@@ -211,7 +229,7 @@ class OrderController extends Controller
         }
         return response(401);
     }
-    
+
     function updateOrderStatus(Request $request) {
         Order::find($request->order_id)->update($request->all());
 
@@ -231,6 +249,7 @@ class BusinessOrder {
     public $order_date;
     public $status;
     public $product_data;
+    public $availableToPay;
 }
 
 class ProductData {

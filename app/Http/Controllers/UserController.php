@@ -73,19 +73,19 @@ class UserController extends Controller
             }
 
             else {
-                $product_post = Product::where('influencer_id', $user->influencer->id)->orWhere('product_type', "Instagram Post")->first();
+                $product_post = Product::where('influencer_id', $user->influencer->id)->where('product_type', "Instagram Post")->first();
                 $product_post->update([
                     'min_rate'=> $request['post_min_rate'],
                     'max_rate'=> $request['post_max_rate']
                 ]);
 
-                $product_story = Product::where('influencer_id', $user->influencer->id)->orWhere('product_type', "Instagram Story")->first();
+                $product_story = Product::where('influencer_id', $user->influencer->id)->where('product_type', "Instagram Story")->first();
                 $product_story->update([
                     'min_rate'=> $request['story_min_rate'],
                     'max_rate'=> $request['story_max_rate']
                 ]);
 
-                $product_reels = Product::where('influencer_id', $user->influencer->id)->orWhere('product_type', "Instagram Reels")->first();
+                $product_reels = Product::where('influencer_id', $user->influencer->id)->where('product_type', "Instagram Reels")->first();
                 if($product_reels){
                     $product_reels->update([
                         'min_rate'=> $request['reels_min_rate'],

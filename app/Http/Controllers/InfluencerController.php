@@ -277,6 +277,7 @@ class InfluencerController extends Controller
         return response()->json([
             'code'=>201,
             'message'=>"Success",
+            'influencer_name'=> $user->name,
             'photo'=> Utility::$imagePath . $user->photo,
             'email'=>$user->email,
             'instagram'=>$user->influencer->platform->socialmedia_id,

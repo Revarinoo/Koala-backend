@@ -38,7 +38,6 @@ class CampaignDetailController extends Controller
     function orderDetailInfluencer($order_id) {
         $order = Order::where('id', $order_id)->first();
         $content = Content::where('id', $order->content->id)->first();
-        $content_details = ContentDetail::where('content_id', $order->content->id)->get();
         $content['campaign_logo'] = Utility::$imagePath . $content['campaign_logo'];
         $content_references = $this->getCampaignPhoto($order->content->id);
 
@@ -50,12 +49,19 @@ class CampaignDetailController extends Controller
                 'instruction'=> $detail->contentDetail->instruction
             ));
         }
+        $photo = "";
+        if($content->business->business_photo == null) {
+            $photo = Utility::$imagePath . "default.png";
+        }
+        else {
+            $photo = Utility::$imagePath . $content->business->business_photo;
+        }
         return response()->json([
             'order_id'=> $order->id,
             'campaign'=>$content,
             'campaign_details'=>$campaign_details,
             'references'=>$content_references,
-            'business_photo'=> Utility::$imagePath . $content->business->business_photo,
+            'business_photo'=> $photo,
             'business_name'=> $content->business->business_name,
             'message'=>"Success",
             'code'=> 201

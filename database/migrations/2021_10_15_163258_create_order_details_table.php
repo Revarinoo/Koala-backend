@@ -15,7 +15,7 @@ class CreateOrderDetailsTable extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
-            $table->string('price');
+            $table->double('price')->nullable();
             $table->foreignId('order_id')->constrained('orders')->onDelete('cascade');
             $table->foreignId('content_detail_id');
             $table->timestamps();
