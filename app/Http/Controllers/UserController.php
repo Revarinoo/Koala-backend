@@ -47,7 +47,7 @@ class UserController extends Controller
                 'socialmedia_id'=>$request['socialmedia_id']
             ]);
 
-            $products = Product::where('influencer_id', $user->influencer->id)->get();
+            $products = Product::find($user->influencer->id);
             if (!$products) {
                 Product::create([
                     'product_type'=> "Instagram Post",
