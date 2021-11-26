@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\OrderDetail;
 use App\Models\Influencer;
 use App\Models\Platform;
 use App\Models\Product;
@@ -111,11 +112,10 @@ class InfluencerController extends Controller
     }
 
     public function getInfluencerDetail($influencer_id){
-
         $influencer = DB::table('influencers')
             ->join('users', 'influencers.user_id', '=', 'users.id')
             ->where('influencers.id', $influencer_id)
-            ->select('influencers.id', 'influencers.contact_email','users.name', 'users.location', 'users.photo', 'influencers.user_id', 'influencers.engagement_rate')
+            ->select('influencers.id', 'influencers.contact_email','users.name', 'users.location', 'influencers.rating','users.photo', 'influencers.user_id', 'influencers.engagement_rate')
             ->first();
         if($influencer != null){
             $influencer_detail = new InfluencerDetailResponse();
@@ -123,7 +123,6 @@ class InfluencerController extends Controller
             $influencer_detail->influencer_profile->photo = Utility::$imagePath . $influencer->photo;
             $influencer_detail->categories = $this->getCategory($influencer->user_id);
             $influencer_detail->platforms = $this->getPlatforms($influencer_id);
-            $influencer_detail->analytic_photos = $this->getInfluencerAnalytics($influencer_id);;
             $influencer_detail->projects = $this->getProjects($influencer_id);
             $influencer_detail->products = $this->getProductPrice($influencer_id);
             return response()->json($influencer_detail, 201);
@@ -164,29 +163,52 @@ class InfluencerController extends Controller
         $data = array();
         $order_details = array();
 
+        $influencer_followers = Platform::where('influencer_id', $influencer_id)->first()->followers;
+
         $orders = DB::table('orders')
             ->join('contents', 'orders.content_id', '=', 'contents.id')
             ->join('reviews', 'orders.id', '=', 'reviews.order_id')
             ->join('businesses', 'businesses.id', '=', 'contents.business_id')
             ->join('users', 'users.id', '=', 'businesses.user_id')
             ->where('orders.influencer_id', $influencer_id)
-            ->select('orders.id','users.photo', 'users.name', 'contents.campaign_logo','reviews.comment', 'reviews.rating', 'businesses.business_name')
+            ->where('orders.status', 'Completed')
+            ->select('orders.id','reviews.comment', 'businesses.business_name', 'businesses.business_photo')
             ->get();
 
         foreach($orders as $order){
             $project = new Project();
             $project->order_id = $order->id;
-            $project->business_photo = Utility::$imagePath . $order->campaign_logo;
-            $project->sum_impressions = (double)$this->countSumImpression($order->id);
-            $project->sum_reach = (double)$this->countSumReach($order->id);
-            $project->businessOwner_photo = Utility::$imagePath . $order->photo;
-            $project->businessOwner_name = $order->name;
+            $project->business_photo = Utility::$imagePath . $order->business_photo;
+            $project->business_name = $order->business_name;
+            $analytics = $this->getPortfolioAnalytics($order->id, $influencer_followers);
+            $project->total_likes = $analytics->total_likes;
+            $project->total_comments = $analytics->total_comments;
+            $project->engagement_rate = number_format((double)$analytics->engagement_rate, 2, '.', '');
             $project->comment = $order->comment;
-            $project->rating = $order->rating;
             array_push($data, $project);
         }
 
         return $data;
+    }
+
+    public function getPortfolioAnalytics($order_id, $followers){
+        $order_detail = OrderDetail::where('order_id', $order_id)
+        ->join('reportings','order_details.id','=','reportings.order_detail_id')
+        ->join('content_details', 'content_details.id', '=', 'order_details.id')
+        ->select(DB::raw("SUM(reportings.likes) as total_likes"), DB::raw("SUM(reportings.comments) as total_comments"), DB::raw("COUNT(order_details.id) as project_count"))
+        ->where('content_details.content_type', 'Instagram Post')
+        ->orWhere('content_details.content_type', 'Instagram Reels')
+        ->groupBy('order_id')
+        ->first();
+        
+        if($order_detail != null){
+            $engagement_rate = $order_detail->total_likes+ $order_detail->total_comments;
+            $engagement_rate /= $order_detail->project_count;
+            $engagement_rate /= $followers;
+        
+            $order_detail->engagement_rate = $engagement_rate;
+        }
+        return $order_detail;
     }
 
     public function countSumImpression($order_id){
@@ -282,17 +304,15 @@ class InfluencerDetailResponse {
     public $categories;
     public $platforms;
     public $products;
-    public $analytic_photos;
     public $projects;
 }
 
 class Project{
     public $order_id;
-    public $campaign_logo;
-    public $sum_impressions;
-    public $sum_reach;
-    public $businessOwner_photo;
-    public $businessOwner_name;
+    public $total_likes;
+    public $total_comments;
+    public $engagement_rate;
+    public $business_photo;
+    public $business_name;
     public $comment;
-    public $rating;
 }
