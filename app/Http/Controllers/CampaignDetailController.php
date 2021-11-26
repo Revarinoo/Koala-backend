@@ -6,6 +6,7 @@ use App\Models\Content;
 use App\Models\ContentDetail;
 use App\Models\ContentPhoto;
 use App\Models\Order;
+use App\Models\OrderDetail;
 use App\Models\Utility;
 use Illuminate\Http\Request;
 
@@ -40,6 +41,7 @@ class CampaignDetailController extends Controller
         $content = Content::where('id', $order->content->id)->first();
         $content['campaign_logo'] = Utility::$imagePath . $content['campaign_logo'];
         $content_references = $this->getCampaignPhoto($order->content->id);
+        $order_detail = OrderDetail::where('order_id', $order_id)->get();
 
         $campaign_details = array();
         foreach ($order->orderDetail as $detail) {
@@ -63,6 +65,7 @@ class CampaignDetailController extends Controller
             'references'=>$content_references,
             'business_photo'=> $photo,
             'business_name'=> $content->business->business_name,
+            'order_detail'=>$order_detail,
             'message'=>"Success",
             'code'=> 201
         ]);
