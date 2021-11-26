@@ -48,7 +48,7 @@ class UserController extends Controller
             ]);
 
             $products = Product::where('influencer_id', $user->influencer->id)->first();
-            if ($products->isEmpty()) {
+            if ($products == null) {
                 Product::create([
                     'product_type'=> "Instagram Post",
                     'min_rate'=> $request['post_min_rate'],
