@@ -11,8 +11,10 @@ class BusinessController extends Controller
     function updateBusinessProfile(Request $request) {
         $input = $request->all();
         $user = auth()->user();
-        $business = Business::where('user_id', $user->id);
-
+        $business = Business::where('user_id', $user->id)
+                    ->join('users', 'users.id', '=', 'businesses.user_id')
+                    ->first();
+                    
         if($business != null){
             if ($file = $request->file('image')) {
                 if ($business->business_photo != null) Storage::delete('public/images/'. $business->business_photo);
@@ -23,7 +25,6 @@ class BusinessController extends Controller
 
             $business->update($input);
 
-            $user->update($input->description);
             return response()->json([
                 'code'=>201,
                 'message' => 'success'
