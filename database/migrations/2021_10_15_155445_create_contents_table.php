@@ -15,9 +15,14 @@ class CreateContentsTable extends Migration
     {
         Schema::create('contents', function (Blueprint $table) {
             $table->id();
-            $table->longText('instruction');
-            $table->date('schedule');
-            $table->foreignId('business_id');
+            $table->string('name');
+            $table->string('description');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->text('product_name');
+            $table->longText('rules');
+            $table->string('campaign_logo');
+            $table->foreignId('business_id')->constrained('businesses')->onDelete('cascade');
             $table->timestamps();
         });
     }

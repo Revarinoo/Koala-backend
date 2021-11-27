@@ -17,8 +17,8 @@ class CreateInfluencersTable extends Migration
             $table->id();
             $table->double('rating')->nullable();
             $table->string('contact_email')->nullable();
-            $table->double('engagement_rate')->nullable();
-            $table->foreignId('user_id');
+            $table->double('engagement_rate');
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -10,8 +10,20 @@ class OrderDetail extends Model
     use HasFactory;
 
     protected $fillable = [
+        'price',
         'order_id',
-        'report_id',
-        'product_id',
+        'content_detail_id',
     ];
+
+    public function order() {
+        return $this->belongsTo('App\Models\Order');
+    }
+
+    public function contentDetail(){
+        return $this->belongsTo('App\Models\ContentDetail');
+    }
+
+    public function reporting() {
+        return $this->hasOne('App\Models\Reporting');
+    }
 }

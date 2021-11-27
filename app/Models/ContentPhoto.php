@@ -13,4 +13,8 @@ class ContentPhoto extends Model
         'content_id',
         'photo',
     ];
+
+    public function content() {
+        return $this->belongsTo('App\Models\Content');
+    }
 }

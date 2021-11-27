@@ -17,8 +17,8 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('status');
             $table->date('order_date');
+            $table->foreignId('content_id')->constrained('contents')->onDelete('cascade');
             $table->foreignId('influencer_id');
-            $table->foreignId('content_id');
             $table->timestamps();
         });
     }

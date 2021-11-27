@@ -17,7 +17,7 @@ class Influencer extends Model
     ];
 
     public function platform(){
-        return $this->hasMany('App\Models\Platform');
+        return $this->hasOne('App\Models\Platform');
     }
 
     public function product() {
@@ -26,5 +26,9 @@ class Influencer extends Model
 
     public function user() {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function order() {
+        return $this->hasMany('App\Models\Order');
     }
 }

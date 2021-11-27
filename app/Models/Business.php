@@ -13,10 +13,15 @@ class Business extends Model
         'business_name',
         'website',
         'instagram',
-        'user_id'
+        'user_id',
+        'business_photo'
     ];
 
     public function user() {
         return $this->belongsTo('App\Models\User');
+    }
+
+    public function content(){
+        return $this->hasMany('App\Models\Content');
     }
 }

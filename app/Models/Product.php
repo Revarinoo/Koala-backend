@@ -11,12 +11,17 @@ class Product extends Model
 
     protected $fillable = [
         'product_type',
-        'rate',
+        'min_rate',
+        'max_rate',
         'influencer_id',
         'platform_id',
     ];
 
     public function influencer(){
         return $this->belongsTo('App\Models\Influencer');
+    }
+
+    public function platform() {
+        return $this->belongsTo('App\Models\Platform');
     }
 }
