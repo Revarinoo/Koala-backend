@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Platform;
 use App\Models\Product;
 use App\Models\User;
+use App\Models\Business;
 use App\Models\Utility;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -16,16 +17,30 @@ class UserController extends Controller
     function update(Request $request) {
         $input = $request->all();
         $user = auth()->user();
-        if ($file = $request->file('image')) {
-            if ($user->photo != null) Storage::delete('public/images/'. $user->photo);
-            $imgname = time() . $file->getClientOriginalName();
-            Storage::putFileAs('public/images',$file,$imgname);
-            $input['photo'] = $imgname;
-        }
-        $user->update($input);
-
+    
         if ($request['type_role'] == "Business") {
-            $user->business->update($input);
+            $input = $request->all();
+            // $user = auth()->user();
+            $business = Business::where('user_id', $user->id)
+                    ->join('users', 'users.id', '=', 'businesses.user_id')
+                    ->first();
+                    
+            if($business != null){
+                if ($file = $request->file('business_photo')) {
+                    if ($business->business_photo != null) Storage::delete('public/images/'. $business->business_photo);
+                    $imgname = time() . $file->getClientOriginalName();
+                    Storage::putFileAs('public/images',$file,$imgname);
+                    $input['business_photo'] = $imgname;
+                }
+
+                $business->update($input);
+                $user->update($input);
+                return response()->json([
+                    'code'=>201,
+                    'message' => 'success'
+                ], 201);
+            }
+            
         }
         else if ($request['type_role'] == "Influencer") {
             $user->influencer->update($input);
@@ -93,15 +108,26 @@ class UserController extends Controller
                     ]);
                 }
             }
+            return response()->json([
+                'code'=>201,
+                 'message' => 'success'
+             ]);
 
+        }else{
+            if ($file = $request->file('image')) {
+                if ($user->photo != null) Storage::delete('public/images/'. $user->photo);
+                $imgname = time() . $file->getClientOriginalName();
+                Storage::putFileAs('public/images',$file,$imgname);
+                $input['photo'] = $imgname;
+            }
+            $user->update($input);
         }
-
         return response()->json([
-           'code'=>201,
-            'message' => 'success'
-        ]);
+            'code'=>401,
+            'message' => 'failed'
+        ], 401);
+       
     }
-
 
     function getUserProfile($user_id) {
         $user = User::find($user_id);
