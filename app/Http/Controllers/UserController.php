@@ -19,8 +19,6 @@ class UserController extends Controller
         $user = auth()->user();
     
         if ($request['type_role'] == "Business") {
-            $input = $request->all();
-            // $user = auth()->user();
             $business = Business::where('user_id', $user->id)
                     ->join('users', 'users.id', '=', 'businesses.user_id')
                     ->first();
