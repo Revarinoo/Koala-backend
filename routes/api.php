@@ -63,6 +63,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/business-report/{content_id}',[CampaignController::class, 'getBusinessReport']);
     Route::get('/business-report',[CampaignController::class, 'getAllBusinessReport']);
     Route::post('/logout', [LoginController::class, 'logout']);
+    Route::get('business/profile', [BusinessController::class, 'getBusinessProfile']);
     Route::post('/profile/update', [UserController::class, 'update']);
     Route::get('/business/order', [OrderController::class, 'getOrder']);
     Route::get('/campaign',[CampaignController::class, 'getCampaign']);
