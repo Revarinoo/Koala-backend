@@ -148,19 +148,47 @@ class CampaignController extends Controller
             ->groupBy('order_details.content_detail_id', 'content_details.content_type')
             ->get();
 
-        if ($data->isEmpty()) {
-            $arr = array();
-            $content_details = ContentDetail::where('content_id', $content_id)->get();
-            foreach ($content_details as $content_detail) {
-                array_push($arr, [
-                    'content_type'=>$content_detail->content_type,
-                    'total_reach' => "0",
-                    'total_imp'=> "0"
-                ]);
+        $arr = array();
+        $arr = [
+            [
+                'content_type' => 'Instagram Post',
+                'total_reach' => "0",
+                'total_imp' => "0"
+            ],
+            [
+                'content_type' =>'Instagram Story',
+                'total_reach' => "0",
+                'total_imp' => "0"
+            ],
+            [
+                'content_type' => 'Instagram Reels',
+                'total_reach' => "0",
+                'total_imp' => "0"
+            ]
+        ];
+        foreach($data as $d){
+            if($d->content_type == "Instagram Post"){
+                $arr[0] = [
+                    'content_type'=>$d->content_type,
+                    'total_reach' => $d->total_reach,
+                    'total_imp'=> $d->total_imp,
+                ];
+            }if($d->content_type == "Instagram Story"){
+                $arr[1] = [
+                    'content_type'=>$d->content_type,
+                    'total_reach' => $d->total_reach,
+                    'total_imp'=> $d->total_imp,
+                ];
+            }if($d->content_type == "Instagram Reels"){
+                $arr[2] = [
+                    'content_type'=>$d->content_type,
+                    'total_reach' => $d->total_reach,
+                    'total_imp'=> $d->total_imp,
+                ];
             }
-            return $arr;
+
         }
-        return $data;
+        return $arr;
     }
 
     public function getInfluencerReport($content_id){
