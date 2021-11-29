@@ -105,11 +105,12 @@ class CampaignController extends Controller
     public function getBusinessReport($content_id){
         $data = DB::table('contents')
             ->where('contents.id', $content_id)
-            ->select('contents.name', 'contents.end_date', 'contents.campaign_logo')
+            ->select('contents.name', 'contents.start_date','contents.end_date', 'contents.campaign_logo')
             ->first();
             if ($data != null){
                 $campaign_detail = new BusinessReportDetailResponse();
                 $campaign_detail->content_name = $data->name;
+                $campaign_detail->start_date = $data->start_date;
                 $campaign_detail->end_date = $data->end_date;
                 $campaign_detail->campaign_logo = Utility::$imagePath . $data->campaign_logo;
                 $campaign_detail->totalExpense = $this->getTotalExpense($content_id);
@@ -395,6 +396,7 @@ class CampaignController extends Controller
 
 class BusinessReportDetailResponse{
     public $content_name;
+    public $start_date;
     public $end_date;
     public $campaign_logo;
     public $totalExpense;
