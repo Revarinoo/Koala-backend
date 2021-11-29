@@ -28,7 +28,8 @@ class UserController extends Controller
             if($business != null){
                 if ($file = $request->file('business_photo')) {
                     if ($business->business_photo != null) Storage::delete('public/images/'. $business->business_photo);
-                    $imgname = time() . $file->getClientOriginalName();
+                    $imgname = time() . "_" . $business->business_name . "_" . $business->id . ".jpeg";
+                    
                     Storage::putFileAs('public/images',$file,$imgname);
                     $input['business_photo'] = $imgname;
                 }
