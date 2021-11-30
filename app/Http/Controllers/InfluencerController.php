@@ -174,7 +174,6 @@ class InfluencerController extends Controller
             ->where('orders.status', 'Completed')
             ->select('orders.id','reviews.comment', 'businesses.business_name', 'businesses.business_photo')
             ->get();
-
         foreach($orders as $order){
             $project = new Project();
             $project->order_id = $order->id;
@@ -186,7 +185,7 @@ class InfluencerController extends Controller
             $project->engagement_rate = number_format((double)$analytics->engagement_rate, 2, '.', '');
             $project->post_photo = $this->getPostPhoto($order->id)->post_photo;
             $project->comment = $order->comment;
-            
+
             array_push($data, $project);
         }
 
@@ -196,19 +195,18 @@ class InfluencerController extends Controller
     public function getPortfolioAnalytics($order_id, $followers){
         $order_detail = OrderDetail::where('order_id', $order_id)
         ->join('reportings','order_details.id','=','reportings.order_detail_id')
-        ->join('content_details', 'content_details.id', '=', 'order_details.id')
+        ->join('content_details', 'content_details.id', '=', 'order_details.content_detail_id')
         ->select(DB::raw("SUM(reportings.likes) as total_likes"), DB::raw("SUM(reportings.comments) as total_comments"), DB::raw("COUNT(order_details.id) as project_count"))
         ->where('content_details.content_type', 'Instagram Post')
         ->orWhere('content_details.content_type', 'Instagram Reels')
         ->groupBy('order_id')
         ->first();
-        
 
         if($order_detail != null){
             $engagement_rate = $order_detail->total_likes+ $order_detail->total_comments;
             $engagement_rate /= $order_detail->project_count;
             $engagement_rate /= $followers;
-        
+
             $order_detail->engagement_rate = $engagement_rate;
         }
         return $order_detail;
@@ -217,7 +215,7 @@ class InfluencerController extends Controller
     public function getPostPhoto($order_id){
         $post_photo = OrderDetail::where('order_id', $order_id)
         ->join('reportings','order_details.id','=','reportings.order_detail_id')
-        ->join('content_details', 'content_details.id', '=', 'order_details.id')
+        ->join('content_details', 'content_details.id', '=', 'order_details.content_detail_id')
         ->select('reportings.post_photo')
         ->where('content_details.content_type', 'Instagram Post')
         ->first();
