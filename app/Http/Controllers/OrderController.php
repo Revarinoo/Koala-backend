@@ -180,7 +180,13 @@ class OrderController extends Controller
         $this->initPaymentGateway();
         $arr = explode(' ', $order->content->business->user->name, 2);
         $first_name = $arr[0];
-        $last_name = $arr[1];
+        if (empty($arr[1])) {
+            $last_name = "";
+        }
+        else {
+            $last_name = $arr[1];
+        }
+
 
         $customerDetails = [
 
