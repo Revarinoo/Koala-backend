@@ -207,7 +207,7 @@ class InfluencerController extends Controller
             $engagement_rate /= $order_detail->project_count;
             $engagement_rate /= $followers;
 
-            $order_detail->engagement_rate = $engagement_rate;
+            $order_detail->engagement_rate = $engagement_rate * 100;
         }
         return $order_detail;
     }
