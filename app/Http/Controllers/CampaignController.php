@@ -105,11 +105,12 @@ class CampaignController extends Controller
     public function getBusinessReport($content_id){
         $data = DB::table('contents')
             ->where('contents.id', $content_id)
-            ->select('contents.name', 'contents.end_date', 'contents.campaign_logo')
+            ->select('contents.name', 'contents.start_date','contents.end_date', 'contents.campaign_logo')
             ->first();
             if ($data != null){
                 $campaign_detail = new BusinessReportDetailResponse();
                 $campaign_detail->content_name = $data->name;
+                $campaign_detail->start_date = $data->start_date;
                 $campaign_detail->end_date = $data->end_date;
                 $campaign_detail->campaign_logo = Utility::$imagePath . $data->campaign_logo;
                 $campaign_detail->totalExpense = $this->getTotalExpense($content_id);
@@ -148,19 +149,47 @@ class CampaignController extends Controller
             ->groupBy('order_details.content_detail_id', 'content_details.content_type')
             ->get();
 
-        if ($data->isEmpty()) {
-            $arr = array();
-            $content_details = ContentDetail::where('content_id', $content_id)->get();
-            foreach ($content_details as $content_detail) {
-                array_push($arr, [
-                    'content_type'=>$content_detail->content_type,
-                    'total_reach' => "0",
-                    'total_imp'=> "0"
-                ]);
+        $arr = array();
+        $arr = [
+            [
+                'content_type' => 'Instagram Post',
+                'total_reach' => "0",
+                'total_imp' => "0"
+            ],
+            [
+                'content_type' =>'Instagram Story',
+                'total_reach' => "0",
+                'total_imp' => "0"
+            ],
+            [
+                'content_type' => 'Instagram Reels',
+                'total_reach' => "0",
+                'total_imp' => "0"
+            ]
+        ];
+        foreach($data as $d){
+            if($d->content_type == "Instagram Post"){
+                $arr[0] = [
+                    'content_type'=>$d->content_type,
+                    'total_reach' => $d->total_reach,
+                    'total_imp'=> $d->total_imp,
+                ];
+            }if($d->content_type == "Instagram Story"){
+                $arr[1] = [
+                    'content_type'=>$d->content_type,
+                    'total_reach' => $d->total_reach,
+                    'total_imp'=> $d->total_imp,
+                ];
+            }if($d->content_type == "Instagram Reels"){
+                $arr[2] = [
+                    'content_type'=>$d->content_type,
+                    'total_reach' => $d->total_reach,
+                    'total_imp'=> $d->total_imp,
+                ];
             }
-            return $arr;
+
         }
-        return $data;
+        return $arr;
     }
 
     public function getInfluencerReport($content_id){
@@ -367,6 +396,7 @@ class CampaignController extends Controller
 
 class BusinessReportDetailResponse{
     public $content_name;
+    public $start_date;
     public $end_date;
     public $campaign_logo;
     public $totalExpense;
