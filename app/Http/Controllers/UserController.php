@@ -20,7 +20,6 @@ class UserController extends Controller
     
         if ($request['type_role'] == "Business") {
             $business = Business::where('user_id', $user->id)
-                    ->join('users', 'users.id', '=', 'businesses.user_id')
                     ->first();
                     
             if($business != null){
@@ -32,8 +31,17 @@ class UserController extends Controller
                     $input['business_photo'] = $imgname;
                 }
 
-                $business->update($input);
-                $user->update($input);
+                $business->update([
+                    'business_name' => $input['business_name'],
+                    'website' => $input['website'],
+                    'instagram' => $input['instagram'],
+                    'business_photo' => $input['business_photo']
+                ]);
+
+                $user->update([
+                    'location' => $input['location'],
+                    'description' => $input['description']
+                ]);
                 return response()->json([
                     'code'=>201,
                     'message' => 'success'
