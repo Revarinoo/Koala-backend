@@ -23,7 +23,7 @@ class OrderController extends Controller
             ->join('influencers', 'orders.influencer_id', '=', 'influencers.id')
             ->join('users', 'influencers.user_id', '=', 'users.id')
             ->select('orders.id as order_id', 'users.name as influencer_name', 'users.photo as influencer_photo',
-                'contents.id as content_id', 'orders.order_date', 'orders.status')
+                'contents.id as content_id', 'orders.order_date', 'orders.status', 'contents.name as campaign_name')
             ->get();
 
         $response_data = array();
@@ -37,6 +37,7 @@ class OrderController extends Controller
             $temp->status = $data->status;
             $temp->product_data = $this->getProductData($data->order_id);
             $temp->availableToPay = $this->checkPaymentAvailability($data->order_id);
+            $temp->campaign_name = $data->campaign_name;
             array_push($response_data, $temp);
         }
 
@@ -264,6 +265,7 @@ class BusinessOrder {
     public $influencer_name;
     public $influencer_photo;
     public $content_id;
+    public $campaign_name;
     public $order_date;
     public $status;
     public $product_data;
