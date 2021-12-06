@@ -65,22 +65,22 @@ class OrderController extends Controller
                 $product_data->product_type = $detail->contentDetail->content_type;
                 if ($detail->reporting != null) {
                     if ($detail->contentDetail->content_type == "Instagram Post") {
-                        $product_data->reach = $detail->reporting->likes;
-                        $product_data->impression = $detail->reporting->comments;
+                        $product_data->data1 = $detail->reporting->likes;
+                        $product_data->data2 = $detail->reporting->comments;
                     }
                     else if ($detail->contentDetail->content_type == "Instagram Story") {
-                        $product_data->reach = $detail->reporting->reach;
-                        $product_data->impression = $detail->reporting->impressions;
+                        $product_data->data1 = $detail->reporting->reach;
+                        $product_data->data2 = $detail->reporting->impressions;
                     }
                     else {
-                        $product_data->reach = $detail->reporting->views;
-                        $product_data->impression = $detail->reporting->likes;
+                        $product_data->data1 = $detail->reporting->views;
+                        $product_data->data2 = $detail->reporting->likes;
                     }
                         $product_data->er = $this->calculateER($detail->reporting, $detail->order->influencer->platform->followers);
                 }
                 else {
-                    $product_data->reach = 0;
-                    $product_data->impression = 0;
+                    $product_data->data1 = 0;
+                    $product_data->data2 = 0;
                     $product_data->er = 0;
                 }
             array_push($data, $product_data);
@@ -272,7 +272,7 @@ class BusinessOrder {
 
 class ProductData {
     public $product_type;
-    public $reach;
-    public $impression;
+    public $data1;
+    public $data2;
     public $er;
 }
