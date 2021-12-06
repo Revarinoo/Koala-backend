@@ -63,11 +63,20 @@ class OrderController extends Controller
         foreach ($details as $detail) {
             $product_data = new ProductData();
                 $product_data->product_type = $detail->contentDetail->content_type;
-
                 if ($detail->reporting != null) {
-                    $product_data->reach = $detail->reporting->reach;
-                    $product_data->impression = $detail->reporting->impressions;
-                    $product_data->er = $this->calculateER($detail->reporting, $detail->order->influencer->platform->followers);
+                    if ($detail->contentDetail->content_type == "Instagram Post") {
+                        $product_data->reach = $detail->reporting->likes;
+                        $product_data->impression = $detail->reporting->comments;
+                    }
+                    else if ($detail->contentDetail->content_type == "Instagram Story") {
+                        $product_data->reach = $detail->reporting->reach;
+                        $product_data->impression = $detail->reporting->impressions;
+                    }
+                    else {
+                        $product_data->reach = $detail->reporting->views;
+                        $product_data->impression = $detail->reporting->likes;
+                    }
+                        $product_data->er = $this->calculateER($detail->reporting, $detail->order->influencer->platform->followers);
                 }
                 else {
                     $product_data->reach = 0;
@@ -80,6 +89,9 @@ class OrderController extends Controller
     }
 
     private function calculateER(Reporting $reporting, int $followers) {
+        if ($reporting->orderDetail->contentDetail->content_type == "Instagram Story") {
+            return $reporting->reach / $reporting->impressions;
+        }
         return (($reporting->likes + $reporting->comments) / $followers) * 100;
     }
 
