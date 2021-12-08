@@ -183,7 +183,7 @@ class InfluencerController extends Controller
             $project->total_likes = $analytics->total_likes;
             $project->total_comments = $analytics->total_comments;
             $project->engagement_rate = number_format((double)$analytics->engagement_rate, 2, '.', '');
-            $project->post_photo = $this->getPostPhoto($order->id)->post_photo;
+            $project->post_photo = Utility::$imagePath . $this->getPostPhoto($order->id)->post_photo;
             $project->comment = $order->comment;
 
             array_push($data, $project);
