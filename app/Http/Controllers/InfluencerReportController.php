@@ -22,12 +22,13 @@ class InfluencerReportController extends Controller
     }
 
     function submitReport(Request $request) {
-        $file = $request->file('post_photo');
-        $img_name = time() . rand(201, 1000) . "." . $file->getClientOriginalExtension();
-        Storage::putFileAs('public/images', $file, $img_name);
-
         $input = $request->all();
-        $input['post_photo'] = $img_name;
+        if ($file = $request->file('post_photo')) {
+            $img_name = time() . rand(201, 1000) . "." . $file->getClientOriginalExtension();
+            Storage::putFileAs('public/images', $file, $img_name);
+            $input['post_photo'] = $img_name;
+        }
+
         Reporting::create($input);
 
         $order_detail = OrderDetail::where('id', $request['order_detail_id'])->first();
